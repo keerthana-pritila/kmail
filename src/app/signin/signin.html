@@ -1,0 +1,89 @@
+<h2>sign-in to K-Account!</h2>
+<form [formGroup]="signinForm" (ngSubmit)="signIn()">
+
+    <!-- EMAIL -->
+    <mat-form-field appearance="outline" class="material-field">
+        <mat-label>email</mat-label>
+        <input type="email" matInput formControlName="email" placeholder="Ex. pat@kmail.com" />
+
+        @if ( signinForm.controls.email.touched &&
+        signinForm.controls.email.hasError('required')
+        ) {
+        <mat-error>
+            *Email is required
+        </mat-error>
+        }
+
+        @if (signinForm.controls.email.touched &&
+        signinForm.controls.email.hasError('email')
+        ) {
+        <mat-error>
+            *Please enter a valid email address
+        </mat-error>
+        }
+        @if (signinForm.controls.email.touched &&
+        signinForm.controls.email.hasError('pattern')
+        ) {
+        <mat-error>
+            *Email must end with @kmail.com
+        </mat-error>
+        }
+    </mat-form-field>
+
+    <!-- PASSWORD -->
+    <mat-form-field appearance="outline" class="material-field">
+        <mat-label>Enter your password</mat-label>
+        <input matInput [type]="hide() ? 'password' : 'text'" formControlName="password" />
+        <button matIconButton matSuffix (click)="clickEvent($event)" [attr.aria-label]="'Hide password'"
+            [attr.aria-pressed]="hide()">
+            <mat-icon>{{hide() ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+        @if (signinForm.controls.password.touched &&
+        signinForm.controls.password.hasError('required')
+        ) {
+        <mat-error>
+            *Password is required
+        </mat-error>
+        }
+
+        @if (signinForm.controls.password.touched &&
+        signinForm.controls.password.hasError('minlength')
+        ) {
+        <mat-error>
+            *Password must be at least 6 characters
+        </mat-error>
+        }
+    </mat-form-field>
+
+    <!-- FORGOT PASSWORD & EMAIL-->
+
+    <div class="forgot-links">
+
+    <p class="forgot-email">
+        Forgot email?
+        <button
+            type="button"
+            mat-button
+            routerLink="/account-recovery">
+            Find your account
+        </button>
+    </p>
+
+    <p class="forgot-password">
+        Forgot password?
+        <button
+            type="button"
+            mat-button
+            routerLink="/forgot-password">
+            Reset password
+        </button>
+    </p>
+
+</div>
+
+    <div class="btns">
+        <button type="submit" [disabled]="signinForm.invalid" matButton="filled">Sign In</button>
+        <p>new user? <a href="#" routerLink="/create">create here </a></p>
+    </div>
+
+</form>

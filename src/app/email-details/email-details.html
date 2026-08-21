@@ -1,0 +1,64 @@
+<div class="email-details">
+
+    <!-- TOP SECTION -->
+    <div class="details-header">
+        <button matIconButton type="button" (click)="goBack()">
+            <mat-icon>arrow_back</mat-icon>
+        </button>
+        <h2>Email</h2>
+    </div>
+
+    <!-- EMAIL INFORMATION -->
+    <div class="email-information">
+
+        <!-- SUBJECT -->
+        <h1> {{ email().subject }} </h1>
+
+        <!-- FROM -->
+        <div class="email-info">
+           <label>From: </label>
+            <span>{{ email().senderEmail }}</span>
+        </div>
+
+
+        <!-- TO -->
+        <div class="email-info">
+            <label>To: </label>
+            <span> {{ email().to }}</span>
+        </div>
+
+
+        <!-- DATE -->
+        <div class="email-info">
+            <label>Date: </label>
+            <span> {{ email().date }}</span>
+        </div>
+
+
+        <!-- MESSAGE -->
+        <div class="email-message">
+            {{ email().message }}
+        </div>
+
+        <!-- ATTACHMENT -->
+
+ @if (email().attachmentName) {
+
+ <div class="attachment-section">
+     <h3>Attachment</h3>
+     <a
+         class="attachment"
+         [href]="email().attachmentUrl"
+         target="_blank"
+         rel="noopener">
+
+         <mat-icon>attach_file</mat-icon>
+         <span>  {{ email().attachmentName }} </span>
+         <mat-icon class="open-icon">  open_in_new </mat-icon>
+     </a>
+ </div>
+
+ }
+
+
+</div>

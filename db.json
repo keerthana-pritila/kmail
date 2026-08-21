@@ -1,0 +1,300 @@
+{
+  "accounts": [
+    {
+      "name": "keer",
+      "surname": "",
+      "dob": "2026-08-13T18:30:00.000Z",
+      "gender": "female",
+      "username": "keer@kmail.com",
+      "password": "123456",
+      "id": "ka5uOoOxLRY"
+    },
+    {
+      "name": "keer",
+      "surname": "",
+      "dob": "2003-06-10T18:30:00.000Z",
+      "gender": "male",
+      "username": "keerthana@kmail.com",
+      "password": "123456",
+      "id": "DinVe7M10Xs"
+    },
+    {
+      "name": "dummy",
+      "surname": "",
+      "dob": "2026-08-10T18:30:00.000Z",
+      "gender": "female",
+      "username": "dummy@kmail.com",
+      "password": "123456",
+      "id": "Zct8WZ_kc1s"
+    },
+    {
+      "name": "jack",
+      "surname": "",
+      "dob": "2026-08-06T18:30:00.000Z",
+      "gender": "male",
+      "username": "jack@kmail.com",
+      "password": "123456",
+      "id": "TkvQczsF0Jg"
+    },
+    {
+      "name": "nithin",
+      "surname": "",
+      "dob": "2026-08-05T18:30:00.000Z",
+      "gender": "male",
+      "username": "nithin@kmail.com",
+      "password": "123456",
+      "id": "vMTuLAMkKyw"
+    },
+    {
+      "name": "nithin",
+      "surname": "",
+      "dob": "2026-08-05T18:30:00.000Z",
+      "gender": "male",
+      "username": "nithin@kmail.com",
+      "password": "123456",
+      "id": "kJsQkqgmHwA"
+    },
+    {
+      "name": "nithin",
+      "surname": "",
+      "dob": "2026-08-05T18:30:00.000Z",
+      "gender": "male",
+      "username": "nithin@kmail.com",
+      "password": "123456",
+      "id": "i29dd4sQtqc"
+    },
+    {
+      "name": "henry",
+      "surname": "",
+      "dob": "2026-07-31T18:30:00.000Z",
+      "gender": "male",
+      "username": "henry@kmail.com",
+      "password": "123456",
+      "id": "8wEHdsXgDAY"
+    },
+    {
+      "name": "venry",
+      "surname": "",
+      "dob": "2026-07-31T18:30:00.000Z",
+      "gender": "male",
+      "username": "venry@kmail.com",
+      "password": "123456",
+      "id": "icT22Ch5XJg"
+    },
+    {
+      "name": "gimmy",
+      "surname": "",
+      "dob": "2026-07-31T18:30:00.000Z",
+      "gender": "male",
+      "username": "gimmy@kmail.com",
+      "password": "123456",
+      "id": "VGsx1TYnRC8"
+    },
+    {
+      "name": "kirr",
+      "surname": "",
+      "dob": "2008-08-07T18:30:00.000Z",
+      "gender": "female",
+      "username": "erds@kmail.com",
+      "password": "123456",
+      "id": "VavN0JvK0TM"
+    },
+    {
+      "name": "khgjgh",
+      "surname": "",
+      "dob": "2008-08-01T18:30:00.000Z",
+      "gender": "male",
+      "username": "tryth@kmail.com",
+      "password": "123456",
+      "id": "hHAEfHqYwDw"
+    },
+    {
+      "name": "ertert",
+      "surname": "",
+      "dob": "2008-08-14T18:30:00.000Z",
+      "gender": "male",
+      "username": "werer@kmail.com",
+      "password": "123456",
+      "id": "wHILBl8R614"
+    },
+    {
+      "name": "jimy",
+      "surname": "",
+      "dob": "2003-03-04T18:30:00.000Z",
+      "gender": "female",
+      "username": "jimy@kmail.com",
+      "password": "123456",
+      "id": "ur2GdnYt6hU"
+    },
+    {
+      "name": "vani",
+      "surname": "",
+      "dob": "1978-08-16T18:30:00.000Z",
+      "gender": "female",
+      "username": "vani@kmail.com",
+      "password": "111111",
+      "id": "lA4kuYn-z84"
+    },
+    {
+      "name": "JANU",
+      "surname": "",
+      "dob": "2008-08-19T18:30:00.000Z",
+      "gender": "female",
+      "username": "vani2026@kmail.com",
+      "password": "123456",
+      "id": "ZOLNxuvgJsk"
+    },
+    {
+      "name": "fghgfh",
+      "surname": "",
+      "dob": "2008-08-07T18:30:00.000Z",
+      "gender": "female",
+      "phone": "4555555555",
+      "username": "dummy123@kmail.com",
+      "password": "123456",
+      "id": "W1vFjSef6rc"
+    },
+    {
+      "name": "virat",
+      "surname": "",
+      "dob": "2008-07-31T18:30:00.000Z",
+      "gender": "male",
+      "phone": "1111111111",
+      "username": "virat@kmail.com",
+      "password": "111111",
+      "id": "hd1MHIBl_MM"
+    }
+  ],
+  "emails": [
+    {
+      "id": "1",
+      "sender": "Google",
+      "senderEmail": "google@kmail.com",
+      "subject": "Welcome to Kmail",
+      "message": "Welcome to your new Kmail account.",
+      "category": "primary",
+      "date": "2026-08-19",
+      "read": true,
+      "starred": true
+    },
+    {
+      "id": "2",
+      "sender": "Amazon",
+      "senderEmail": "amazon@kmail.com",
+      "subject": "Your order has shipped",
+      "message": "Your Amazon order is on the way.",
+      "category": "primary",
+      "date": "2026-08-19",
+      "read": true,
+      "starred": false
+    },
+    {
+      "id": "3",
+      "sender": "Kmail Offers",
+      "senderEmail": "offers@kmail.com",
+      "subject": "Special offers for you",
+      "message": "Check out our latest offers.",
+      "category": "promotions",
+      "date": "2026-08-18",
+      "read": false,
+      "starred": false
+    },
+    {
+      "id": "4",
+      "sender": "Kmail Social",
+      "senderEmail": "social@kmail.com",
+      "subject": "You have new notifications",
+      "message": "You have new social notifications.",
+      "category": "social",
+      "date": "2026-08-18",
+      "read": false,
+      "starred": true
+    },
+    {
+      "sender": "Me",
+      "senderEmail": "keer@kmail.com",
+      "subject": "wrewr",
+      "message": "wererre",
+      "category": "sent",
+      "date": "2026-08-19T07:41:20.587Z",
+      "read": true,
+      "starred": false,
+      "id": "7Q3X3KWvoWg"
+    },
+    {
+      "sender": "Me",
+      "senderEmail": "keer@kmail.com",
+      "to": "keer@kmail.com",
+      "subject": "checking sent",
+      "message": "ekljrewlkfnds,vm cx.,vj;lgjkdk",
+      "category": "sent",
+      "date": "2026-08-19T12:15:24.339Z",
+      "read": true,
+      "starred": false,
+      "id": "-EJWiq-gxLM"
+    },
+    {
+      "sender": "Me",
+      "senderEmail": "keer@kmail.com",
+      "to": "dummy@kmail.com",
+      "subject": "test",
+      "message": "lhlkjhnlj;",
+      "category": "sent",
+      "date": "2026-08-19T12:17:57.022Z",
+      "read": true,
+      "starred": false,
+      "id": "_KokFBrKiL8"
+    },
+    {
+      "sender": "Me",
+      "senderEmail": "keer@kmail.com",
+      "to": "vani@kmail.com",
+      "subject": "holiday",
+      "message": "hey mom!!!!!how are you?",
+      "category": "sent",
+      "date": "2026-08-20T02:56:49.872Z",
+      "read": true,
+      "starred": false,
+      "id": "Ctl2k9akYA8"
+    },
+    {
+      "sender": "Me",
+      "senderEmail": "keer@kmail.com",
+      "to": "vani@kmail.com",
+      "subject": "check snackbar",
+      "message": "dfhfgdfgdfgertfdgffdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+      "category": "sent",
+      "date": "2026-08-20T03:15:56.736Z",
+      "read": true,
+      "starred": false,
+      "id": "BaSy29H8Ew4"
+    },
+    {
+      "sender": "Me",
+      "senderEmail": "dummy@kmail.com",
+      "to": "vani@kmail.com",
+      "subject": "checking attachment file ",
+      "message": "checking attachment file,pin ,icon \nplease find the attached file .\n\n\nThank you",
+      "category": "sent",
+      "date": "2026-08-21T05:04:05.649Z",
+      "read": true,
+      "starred": false,
+      "id": "UF3B1rUG8yQ"
+    },
+    {
+      "sender": "Me",
+      "senderEmail": "dummy@kmail.com",
+      "to": "vani@kmail.com",
+      "subject": "check attach",
+      "message": "hey,\nhow are you ?\nplease find the file\n\n\n\nthank you.",
+      "category": "sent",
+      "date": "2026-08-21T05:50:09.567Z",
+      "read": true,
+      "starred": false,
+      "attachmentName": "boatheadphones.jpg",
+      "attachmentUrl": "blob:http://localhost:4200/ffd81fca-1fa3-4ecc-b732-89166af0ea93",
+      "id": "QdWnaf33d7g"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
+}

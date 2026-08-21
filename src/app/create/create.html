@@ -1,0 +1,238 @@
+<h2>Create your K Account!</h2>
+
+<form [formGroup]="createForm" (ngSubmit)="createAccount()">
+
+    @if (currentStep === 1) {
+    <!-- Name + surname -->
+
+    <!-- NAME -->
+    <mat-form-field appearance="outline" class="material-field">
+        <mat-label>Name</mat-label>
+        <input matInput type="text" formControlName="name" placeholder="enter your name"
+            (keypress)="allowOnlyLetters($event)" maxlength="10" />
+    </mat-form-field>
+
+    @if(createForm.controls.name.touched &&
+    createForm.controls.name.errors?.['required']){
+    <mat-error>
+        *Name is required
+    </mat-error>
+    }
+    @if(createForm.controls.name.errors?.['pattern']){
+    <mat-error>
+        *Only letters are allowed
+    </mat-error>
+    }
+
+    @if(createForm.controls.name.errors?.['minlength']){
+    <mat-error>
+        *Minimum 3 letters
+    </mat-error>
+    }
+    <!-- SURNAME OPTIONAL -->
+    <mat-form-field appearance="outline" class="material-field">
+        <mat-label>surame</mat-label>
+        <input matInput type="text" formControlName="surname" placeholder="surname(optional)" />
+    </mat-form-field>
+
+    }
+
+    @if (currentStep === 2) {
+    <!-- DOB + GENDER + PHONE-->
+
+    <!-- DATE OF BIRTH -->
+    <mat-form-field appearance="outline" class="material-field">
+        <mat-label>Choose DOB</mat-label>
+        <input matInput [matDatepicker]="picker" [max]="maxDob" formControlName="dob" />
+
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    @if (
+    createForm.controls.dob.touched &&
+    createForm.controls.dob.hasError('required')
+    ) {
+    <mat-error>
+        *Date of birth is required
+    </mat-error>
+    }
+    @if (createForm.controls.dob.touched && isUnder18()) {
+    <mat-error>
+        *Minimum required age is 18
+    </mat-error>
+    }
+    <!-- GENDER -->
+    <mat-form-field appearance="outline" class="material-field">
+        <mat-label>Select gender</mat-label>
+        <mat-select formControlName="gender">
+            <mat-option value="male">male </mat-option>
+            <mat-option value="female">female </mat-option>
+        </mat-select>
+    </mat-form-field>
+    @if (createForm.controls.gender.touched &&
+    createForm.controls.gender.hasError('required')
+    ) {
+    <mat-error>
+        *Please select your gender
+    </mat-error>
+    }
+
+    <!-- PHONE -->
+     <mat-form-field appearance="outline" class="material-field">
+        <mat-label>Phone number</mat-label>
+
+     <input
+      matInput
+      type="tel"
+      formControlName="phone"
+      maxlength="10"
+      placeholder="Enter 10 digit phone number"/>
+    </mat-form-field>
+
+@if (createForm.controls.phone.touched &&
+  createForm.controls.phone.hasError('required')
+) {
+  <mat-error>
+    *Phone number is required
+  </mat-error>
+}
+
+@if (createForm.controls.phone.touched &&
+  createForm.controls.phone.hasError('pattern')
+) {
+  <mat-error>
+    *Enter a valid 10 digit phone number
+  </mat-error>
+}
+    }
+
+    @if (currentStep === 3) {
+    <!-- USERNAME(EMAIL) -->
+    <mat-form-field appearance="outline" class="material-field">
+        <mat-label>Username</mat-label>
+        <input type="text"
+         matInput
+          formControlName="username"
+           placeholder="Enter username"
+            [matAutocomplete]="usernameAuto"/>
+
+        <span matTextSuffix>@kmail.com</span>
+        <mat-autocomplete #usernameAuto="matAutocomplete" (optionSelected)="onUsernameSelected($event)">
+            @for (suggestion of usernameSuggestions; track suggestion) {
+            <mat-option [value]="suggestion">
+                {{ suggestion }}@kmail.com
+            </mat-option>
+                }
+         </mat-autocomplete>
+
+        @if (createForm.controls.username.hasError('email') &&
+        !createForm.controls.username.hasError('required')) {
+        <mat-error>
+            Please enter a valid email address
+        </mat-error>
+        }
+        @if (createForm.controls.username.touched &&
+        createForm.controls.username.errors?.['required']) {
+        <mat-error>username is <strong>required</strong></mat-error>
+        }
+        @if (createForm.controls.username.touched &&
+        createForm.controls.username.hasError('pattern')
+        ) {
+        <mat-error>
+            *Only letters, numbers, . and _ are allowed
+        </mat-error>
+        }
+        <!-- Duplicate username -->
+        @if (createForm.controls.username.touched &&
+        createForm.controls.username.hasError('taken')
+        ) {
+        <mat-error>
+            *This username is taken. Try another.
+        </mat-error>
+        }
+        
+    </mat-form-field>
+    }
+
+    @if (currentStep === 4) {
+    <!-- PASSWORD -->
+    <mat-form-field appearance="outline" class="material-field">
+        <mat-label>Enter your password</mat-label>
+        <input matInput [type]="hide() ? 'password' : 'text'" formControlName="password" />
+        <button matIconButton matSuffix (click)="clickEvent($event)" [attr.aria-label]="'Hide password'"
+            [attr.aria-pressed]="hide()">
+            <mat-icon>{{hide() ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+    </mat-form-field>
+    @if ( createForm.controls.password.touched &&
+    createForm.controls.password.hasError('required')
+    ) {
+    <mat-error>
+        *Password is required
+    </mat-error>
+    }
+
+    @if (createForm.controls.password.touched &&
+    createForm.controls.password.hasError('minlength')
+    ) {
+    <mat-error>
+        *Password must be at least 6 characters
+    </mat-error>
+    }
+
+    <!--CONFIRM PASSWORD -->
+    <mat-form-field appearance="outline" class="material-field">
+        <mat-label>confirm your password</mat-label>
+        <input matInput [type]="hide() ? 'password' : 'text'" formControlName="confirmpassword" />
+        <button matIconButton matSuffix (click)="clickEvent($event)" [attr.aria-label]="'Hide password'"
+            [attr.aria-pressed]="hide()">
+            <mat-icon>{{hide() ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+    </mat-form-field>
+
+    @if (createForm.controls.confirmpassword.touched &&
+    createForm.controls.confirmpassword.hasError('required')
+    ) {
+    <mat-error>
+        *Confirm password is required
+    </mat-error>
+    }
+
+    @if (createForm.controls.confirmpassword.touched &&
+    createForm.controls.confirmpassword.value &&
+    !checkPasswordMatch()
+    ) {
+    <mat-error>
+        *Passwords do not match
+    </mat-error>
+    }
+
+    }
+    <!-- <button type="submit" [disabled]="createForm.invalid" matButton="filled">create</button> -->
+    <!-- buttons -->
+    <div class="form-buttons">
+
+        <!-- BACK BUTTON -->
+        <!-- @if (currentStep > 1) {
+        <button type="button" mat-button (click)="previousStep()">Back</button>
+    } -->
+
+        <!-- NEXT BUTTON -->
+        @if (currentStep < 4) { <button type="button" matButton="filled" (click)="nextStep()"> Next </button>
+            }
+
+            <!-- CREATE BUTTON - ONLY STEP 4 -->
+            @if (currentStep === 4) {
+            <!-- <button type="submit"
+         matButton="filled"
+          [disabled]="createForm.invalid || !checkPasswordMatch() || isUnder18()">
+            Create account
+        </button> -->
+            <button type="submit" matButton="filled">
+                Create account
+            </button>
+            }
+
+    </div>
+</form>

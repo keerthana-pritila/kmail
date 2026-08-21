@@ -1,0 +1,92 @@
+<div class="header">
+
+  <button matIconButton type="button" (click)="onMenuClick()">
+    <mat-icon>menu</mat-icon>
+  </button>
+
+  <h1 routerLink="/kmail-home">Kmail</h1>
+
+  <mat-form-field appearance="outline" class="search-field">
+    <mat-label>Search mail</mat-label>
+    <input matInput type="text" placeholder="Search mail" (input)="onSearch($event)" />
+    <mat-icon matSuffix> search </mat-icon>
+  </mat-form-field>
+
+  <div class="header-icons">
+
+    <!-- HELP ICON & DROPDOWN  -->
+    <button matIconButton type="button" [matMenuTriggerFor]="helpMenu">
+      <mat-icon>help_outline</mat-icon>
+    </button>
+    <mat-menu #helpMenu="matMenu">
+      <button mat-menu-item>
+        <mat-icon>help</mat-icon>
+        <span>Help</span>
+      </button>
+
+      <button mat-menu-item>
+        <mat-icon>school</mat-icon>
+        <span>Training</span>
+      </button>
+
+      <button mat-menu-item>
+        <mat-icon>feedback</mat-icon>
+        <span>Send feedback</span>
+      </button>
+    </mat-menu>
+
+    <!-- SETTINGS & DROPDOWN -->
+
+    <button matIconButton type="button" [matMenuTriggerFor]="settingsMenu">
+      <mat-icon>settings</mat-icon>
+    </button>
+
+    <mat-menu #settingsMenu="matMenu">
+
+      <button mat-menu-item>
+        <mat-icon>tune</mat-icon>
+        <span>Quick settings</span>
+      </button>
+
+      <button mat-menu-item>
+        <mat-icon>notifications</mat-icon>
+        <span>Notifications</span>
+      </button>
+
+      <button mat-menu-item>
+        <mat-icon>palette</mat-icon>
+        <span>Theme</span>
+      </button>
+
+      <button mat-menu-item>
+        <mat-icon>language</mat-icon>
+        <span>Language</span>
+      </button>
+
+    </mat-menu>
+
+    <!-- ACCOUNT -->
+    <div class="account-area">
+
+      <!-- USERNAME -->
+      @if (userName) {
+      <span class="username"> {{ userName }} </span>
+      }
+      <!-- Account icon + dropdown -->
+      <button matIconButton type="button" [matMenuTriggerFor]="accountMenu">
+        <mat-icon>account_circle</mat-icon>
+      </button>
+
+      <!-- dropdown menu -->
+      <mat-menu #accountMenu="matMenu">
+        <button mat-menu-item (click)="logout()">
+          <mat-icon>logout</mat-icon>
+          <span>Logout</span>
+        </button>
+      </mat-menu>
+      <!-- <span>welcome {{ userName }}!</span> -->
+    </div>
+
+  </div>
+
+</div>

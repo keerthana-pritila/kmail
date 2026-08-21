@@ -1,0 +1,104 @@
+<div class="compose-container">
+
+    <!-- HEADER -->
+    <div class="compose-header">
+        <h2>New Message</h2>
+        <button matIconButton type="button" (click)="closeDialog()">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+
+    <form [formGroup]="composeForm" (ngSubmit)="sendEmail()">
+
+        <!-- FROM -->
+        @if (showFrom) {
+        <mat-form-field appearance="outline" class="compose-field">
+            <mat-label>From</mat-label>
+            <input matInput type="email" formControlName="from" readonly />
+        </mat-form-field>
+        }
+
+        <!-- TO -->
+        <mat-form-field appearance="outline" class="compose-field">
+            <mat-label>To</mat-label>
+            <input 
+            matInput
+             type="email" 
+             formControlName="to"
+             placeholder="recipient@kmail.com"
+             (focus)="showFrom = true" />
+             
+            @if (composeForm.controls.to.touched &&
+            composeForm.controls.to.hasError('required')
+            ) {
+            <mat-error>
+                *Recipient email is required
+            </mat-error>
+            }
+
+            @if (composeForm.controls.to.touched &&
+            composeForm.controls.to.hasError('email')
+            ) {
+            <mat-error>
+                *Enter a valid email address
+            </mat-error>
+            }
+        </mat-form-field>
+
+        <!-- SUBJECT -->
+        <mat-form-field appearance="outline" class="compose-field">
+            <mat-label>Subject</mat-label>
+            <input matInput type="text" formControlName="subject" placeholder="Subject" />
+
+            @if ( composeForm.controls.subject.touched &&
+            composeForm.controls.subject.hasError('required')
+            ) {
+            <mat-error>
+                *Subject is required
+            </mat-error>
+            }
+        </mat-form-field>
+
+        <!-- MESSAGE -->
+        <mat-form-field appearance="outline" class="compose-field">
+            <mat-label>Message</mat-label>
+            <textarea matInput rows="8" formControlName="message" placeholder="Write your message...">
+       </textarea>
+
+            @if (composeForm.controls.message.touched &&
+            composeForm.controls.message.hasError('required')
+            ) {
+
+            <mat-error>
+                *Message is required
+            </mat-error>
+            }
+        </mat-form-field>
+
+        <!-- COMPOSE ACTIONS -->
+         
+        @if (selectedFile) {
+        <div class="selected-file">
+            <mat-icon>attach_file</mat-icon>
+            <span> {{ selectedFile.name }} </span>
+        </div>
+        
+        }
+        <div class="compose-actions">
+
+            <button matButton="filled" type="submit" [disabled]="composeForm.invalid">Send</button>
+             <!-- ATTACHMENT -->
+             <button
+                 matIconButton
+                 type="button"
+                 class="attach-button"
+                (click)="fileInput.click()">
+                 <mat-icon>attach_file</mat-icon>
+            </button>
+             <!--  HIDDEN FILE INPUT -->
+            <input #fileInput type="file" hidden (change)="onFileSelected($event)" />
+            <!-- why #fileInput ? gives the file input a temporary name -->
+        </div>
+
+    </form>
+</div>

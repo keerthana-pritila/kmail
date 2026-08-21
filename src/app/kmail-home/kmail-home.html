@@ -1,0 +1,144 @@
+<!-- Top part  Kmail header -->
+<app-header 
+(menuClicked)="sidenav.toggle()"
+(searchChanged)="searchEmails($event)">
+</app-header>
+
+<!-- Angular Material sidenav container -->
+<mat-sidenav-container class="kmail-container">
+
+  <!-- LEFT SIDEBAR -->
+  <mat-sidenav #sidenav mode="side" opened class="kmail-sidenav">
+
+    <!-- Compose button -->
+    <button matButton="filled" class="compose-button" (click)="openCompose()">
+      <mat-icon>edit</mat-icon>
+      Compose
+    </button>
+
+    <!-- Inbox -->
+    <button mat-button class="menu-item" (click)="openInbox()">
+      <mat-icon>inbox</mat-icon>
+      <span>Inbox</span>
+    </button>
+
+    <!-- star -->
+    <button mat-button class="menu-item" (click)="openStarred()">
+      <mat-icon>star</mat-icon>
+      <span>Starred</span>
+    </button>
+
+    <!-- snoozed-->
+    <button mat-button class="menu-item">
+      <mat-icon>schedule</mat-icon>
+      <span>Snoozed</span>
+    </button>
+
+    <!-- sent -->
+    <button mat-button class="menu-item" (click)="openSent()">
+      <mat-icon>send</mat-icon>
+      <span>Sent</span>
+    </button>
+
+    <!-- drafts -->
+    <button mat-button class="menu-item">
+      <mat-icon>drafts</mat-icon>
+      <span>Drafts</span>
+    </button>
+  </mat-sidenav>
+
+  <mat-sidenav-content class="sidenav-content">
+    <!-- TO OPEN SELECTED EMAIL -->
+     <!-- If an email is selected, show EmailDetails. Otherwise show the normal email list-->
+     @if (selectedEmail) {
+      <app-email-details
+         [email] = "selectedEmail"
+          (backClicked)="closeEmail()">
+      </app-email-details>
+      
+     } @else {
+
+       <!-- INBOX -->
+
+    @if (selectedFolder === 'inbox') {
+    <mat-tab-group class="tab-content">
+
+      <!-- PRIMARY EMAILS -->
+
+      <mat-tab label="Primary">
+        <div class="email-list">
+          @for(email of primaryEmails; track email.id) {
+            <app-email-row
+               [email]="email"
+                (starClicked)="toggleStar($event)"
+               (emailClicked)="openEmail($event)">
+          </app-email-row>
+          }
+        </div>
+      </mat-tab>
+
+       <!-- PROMOTIONS -->
+
+      <mat-tab label="Promotions">
+        <div class="email-list">
+          @for(email of promotionEmails; track email.id) {
+            <app-email-row
+                 [email]="email"
+                 (starClicked)="toggleStar($event)"
+                 (emailClicked)="openEmail($event)">
+            </app-email-row>
+          }
+        </div>
+      </mat-tab>
+
+      <!-- SOCIAL -->
+
+      <mat-tab label="Social">
+        <div class="email-list">
+          @for(email of socialEmails; track email.id) {
+             <app-email-row
+         [email]="email"
+         (starClicked)="toggleStar($event)"
+         (emailClicked)="openEmail($event)">
+       </app-email-row>
+          }
+
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+
+    }
+
+    <!-- SENT EMAILS -->
+    @if (selectedFolder === 'sent') {
+    <div class="email-list">
+      @for(email of sentEmails; track email.id) {
+         <app-email-row
+         [email]="email"
+         (starClicked)="toggleStar($event)"
+         (emailClicked)="openEmail($event)">
+       </app-email-row>
+      }
+
+    </div>
+
+    }
+
+    <!-- STARRED EMAILS -->
+    @if (selectedFolder === 'starred') {
+    <div class="email-list">
+      @for(email of starredEmails; track email.id) {
+         <app-email-row
+         [email]="email"
+         (starClicked)="toggleStar($event)"
+         (emailClicked)="openEmail($event)">
+       </app-email-row>
+      }
+    </div>
+    }
+
+   }
+
+  </mat-sidenav-content>
+
+</mat-sidenav-container>

@@ -1,0 +1,55 @@
+.header {
+  height: 70px;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  gap: 15px;
+  border-bottom: 1px solid #ddd;
+}
+
+.header h1 {
+  margin: 0;
+  color: #006a6a;
+  cursor: pointer;
+}
+
+
+.header button {
+  color: #006a6a;
+}
+
+.search-field {
+  flex: 1;
+  max-width: 700px;
+  margin-left: 30px;
+  margin-top: 18px;
+}
+
+
+.header-icons {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+  gap: 5px;
+}
+
+.account-area {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.account-area button {
+  color: #006a6a;
+}
+
+.account-area mat-icon {
+  font-size: 32px;
+  width: 32px;
+  height: 32px;
+}
+.username {
+  font-size: 17px;
+  font-weight: 500;
+  color: #418db9;
+}

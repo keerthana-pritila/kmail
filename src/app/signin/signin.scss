@@ -1,0 +1,76 @@
+h2 {
+  text-align: center;
+  margin-top: 30px;
+  margin-bottom: 25px;
+  color: #006a6a;
+  font-size: 24px;
+  font-weight: 500;
+}
+
+form {
+  width: 450px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background-color: #d3d3d345;
+  padding: 46px;
+  border-radius: 20px;
+}
+
+.material-field {
+  width: 100%;
+}
+
+mat-error {
+  font-size: 13px;
+  margin-top: -8px;
+  margin-bottom: 5px;
+}
+
+p {
+  margin: 0;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.btns {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.btns button {
+  width: 100%;
+  padding: 10px;
+}
+
+.btns p {
+  text-align: center;
+  cursor: pointer;
+}
+
+a {
+  text-decoration: none;
+  color: #006a6a;
+  
+}
+a:hover {
+  color: red;
+}
+.forgot-email {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 14px;
+}
+
+.forgot-email button {
+  color: #006a6a;
+  padding: 0;
+  min-width: auto;
+}
+
+.forgot-email button:hover {
+  color: red;
+}

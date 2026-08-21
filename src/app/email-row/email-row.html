@@ -1,0 +1,32 @@
+<div
+  class="email-row"
+  [class.unread]="!email().read"
+  (click)="onEmailClick()">
+
+  <!-- Checkbox -->
+  <mat-checkbox (click)="onCheckboxClick($event)"></mat-checkbox>
+
+  <!-- Star -->
+  <button
+    matIconButton
+    type="button"
+    (click)="onStarClick($event)">
+    <mat-icon>{{ email().starred ? 'star' : 'star_border' }}</mat-icon>
+  </button>
+
+  <!-- Sender -->
+  <span class="sender">{{ email().sender }}</span>
+
+  <!-- Subject + Message -->
+  <div class="email-content">
+    <span class="subject"> {{ email().subject }} </span>
+    <span class="message"> - {{ email().message }} </span>
+  </div>
+
+
+  <!-- Date -->
+  <span class="date">
+    {{ email().date }}
+  </span>
+
+</div>

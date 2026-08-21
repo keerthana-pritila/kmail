@@ -1,0 +1,67 @@
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0;
+    padding: 15px 40px;
+    list-style: none;
+    box-sizing: border-box;
+}
+
+
+.logo h1 {
+    margin: 0;
+    color: #006a6a;
+    font-size: 28px;
+    font-style: oblique;
+}
+
+.header-buttons {
+    display: flex;
+    gap: 10px;
+    list-style: none;
+}
+
+.header-buttons button {
+    padding: 9px 18px;
+    border: 1px solid #006a6a;
+    border-radius: 5px;
+    background-color: white;
+    color: #006a6a;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+
+// Button hover
+.header-buttons button:hover {
+    background-color: #006a6a;
+    color: white;
+}
+
+hr {
+    border: none;
+    border-top: 1px solid #ddd;
+    margin: 0;
+}
+
+h2 {
+    text-align: center;
+    color: #006a6a;
+    font-weight: 400;
+    font-size: 46px;
+    margin-top: 80px;
+    margin-bottom: 20px;
+}
+
+p {
+    max-width: 800px;
+    margin: 15px auto;
+    padding: 0 20px;
+    text-align: center;
+    font-size: 16px;
+    line-height: 1.7;
+    color: #555;
+    box-sizing: border-box;
+}

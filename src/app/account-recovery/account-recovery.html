@@ -1,0 +1,87 @@
+<h2>Account Recovery</h2>
+<h2>Find your K Account</h2>
+
+<p class="info">
+    Enter the phone number associated with your account.
+</p>
+
+<form
+    [formGroup]="recoveryForm"
+    (ngSubmit)="findAccount()">
+
+    <!-- PHONE -->
+    <mat-form-field appearance="outline" class="material-field">
+        <mat-label>Phone number</mat-label>
+        <input
+            matInput
+            type="tel"
+            formControlName="phone"
+            maxlength="10"
+            placeholder="Enter 10 digit phone number" />
+
+        @if (recoveryForm.controls.phone.touched &&
+            recoveryForm.controls.phone.hasError('required')
+        ) {
+            <mat-error>
+                *Phone number is required
+            </mat-error>
+        }
+
+        @if (recoveryForm.controls.phone.touched &&
+            recoveryForm.controls.phone.hasError('pattern')
+        ) {
+            <mat-error>
+                *Enter a valid 10 digit phone number
+            </mat-error>
+        }
+
+    </mat-form-field>
+
+
+    
+    <!-- ACCOUNT FOUND -->
+    @if (accountFound) {
+
+        <div class="account-result">
+            <mat-icon>check_circle</mat-icon>
+            <p>Your K Account email is:</p>
+            <strong>{{ foundEmail }}</strong>
+        </div>
+
+    }
+
+    <!-- ACCOUNT NOT FOUND -->
+    @if (accountNotFound) {
+
+        <div class="not-found">
+            <p>  *Couldn't find an account with this phone number. </p>
+
+            <button
+                type="button"
+                mat-button
+                routerLink="/create">
+                Create a new account
+            </button>
+        </div>
+
+    }
+
+    <!-- BUTTONS -->
+    <div class="buttons">
+        <button
+            type="submit"
+            matButton="filled"
+            [disabled]="recoveryForm.invalid">
+            Find account
+        </button>
+
+        <button
+            type="button"
+            mat-button
+            routerLink="/signin">
+            Back to Sign in
+        </button>
+
+    </div>
+
+</form>

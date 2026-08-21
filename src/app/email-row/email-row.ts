@@ -1,0 +1,46 @@
+import { Component , input , output} from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { EmailInterface } from '../email-interface';
+
+@Component({
+  selector: 'app-email-row',
+  imports: [
+     MatButtonModule,
+    MatIconModule,
+    MatCheckboxModule
+  ],
+  templateUrl: './email-row.html',
+  styleUrl: './email-row.scss',
+})
+export class EmailRow {
+  // Receive one email from KmailHome means
+  //KmailHome will give me one email
+  email = input.required<EmailInterface>();
+
+  // Send the email back to KmailHome when star is clicked
+  starClicked = output<EmailInterface>();
+
+  // Send the email back to KmailHome when row is clicked
+  emailClicked = output<EmailInterface>();
+
+
+  // Star button clicked
+  onStarClick(event: MouseEvent) {
+    event.stopPropagation(); //  on star click -- Don't open the email
+    this.starClicked.emit(this.email());
+  }
+
+
+  // Checkbox clicked
+  onCheckboxClick(event: MouseEvent) {
+    event.stopPropagation(); // Don't open the email
+  }
+
+
+  // Email row clicked
+  onEmailClick() {
+    this.emailClicked.emit(this.email());
+  }
+}
