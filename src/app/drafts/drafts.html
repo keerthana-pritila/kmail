@@ -1,0 +1,20 @@
+<h2>Drafts</h2>
+
+<div class="draft-list">
+    @for (draft of drafts; track draft.id) {
+        <div class="draft-row" (click)="openDraft(draft)">
+            <div class="draft-icon">
+                <mat-icon>drafts</mat-icon>
+            </div>
+
+            <div class="draft-content">
+                <strong> {{ draft.to || 'No recipient' }}</strong>
+                <span> {{ draft.subject || '(No subject)' }}</span>
+                <p> {{ draft.message }} </p>
+            </div>
+        </div>
+    } @empty {
+        <p class="empty">No drafts</p>
+    }
+
+</div>

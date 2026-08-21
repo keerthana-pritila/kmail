@@ -13,6 +13,7 @@ import { Compose } from '../compose/compose';
 import { Router } from '@angular/router';
 import { MatDialogModule } from '@angular/material/dialog';
 import { EmailDetails } from '../email-details/email-details';
+import { Drafts } from '../drafts/drafts';
 
 
 @Component({
@@ -26,7 +27,8 @@ import { EmailDetails } from '../email-details/email-details';
     MatCheckboxModule,
     MatDialogModule,
     EmailRow ,
-    EmailDetails
+    EmailDetails,
+    Drafts
   ],
   templateUrl: './kmail-home.html',
   styleUrl: './kmail-home.scss',
@@ -148,7 +150,8 @@ export class KmailHome {
           bottom: '25px'
         },
 
-        panelClass: 'compose-dialog'
+        panelClass: 'compose-dialog',
+        disableClose: true
       });
     dialogRef.afterClosed().subscribe({
       next: (result) => {
@@ -170,6 +173,10 @@ export class KmailHome {
   openStarred() {
     this.selectedFolder = 'starred';
   }
+
+  openDrafts() {
+  this.selectedFolder = 'drafts';
+}
 
   openEmail(email: EmailInterface) {
   this.selectedEmail = email;

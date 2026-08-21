@@ -41,9 +41,12 @@
     </button>
 
     <!-- drafts -->
-    <button mat-button class="menu-item">
+    <button
+    mat-button
+    class="menu-item"
+    (click)="openDrafts()">
       <mat-icon>drafts</mat-icon>
-      <span>Drafts</span>
+     <span>Drafts</span>
     </button>
   </mat-sidenav>
 
@@ -136,6 +139,11 @@
       }
     </div>
     }
+
+    <!-- DRAFTS -->
+    @if (selectedFolder === 'drafts') {
+    <app-drafts></app-drafts>
+}
 
    }
 

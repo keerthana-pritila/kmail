@@ -14,4 +14,5 @@ export const routes: Routes = [
     { path: 'kmail-home', component: KmailHome },
     { path : 'account-recovery', component: AccountRecovery},
     { path : 'forgot-password', component : ForgotPassword}
+
 ];

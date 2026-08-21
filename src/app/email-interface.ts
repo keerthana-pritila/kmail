@@ -5,7 +5,7 @@ export interface EmailInterface {
   to: string;
   subject: string;
   message: string;
-  category: 'primary' | 'promotions' | 'social' | 'sent';
+  category: 'primary' | 'promotions' | 'social' | 'sent' |'draft'  ;
   date: string;
 
   // true = email has been opened
