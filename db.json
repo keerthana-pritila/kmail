@@ -163,6 +163,17 @@
       "username": "virat@kmail.com",
       "password": "111111",
       "id": "hd1MHIBl_MM"
+    },
+    {
+      "name": "rohini",
+      "surname": "",
+      "dob": "2008-08-06T18:30:00.000Z",
+      "gender": "female",
+      "phone": "1111111111",
+      "username": "rosh@kmail.com",
+      "password": "123456",
+      "createdAt": "2026-08-22T11:04:09.458Z",
+      "id": "XghWZqMAN14"
     }
   ],
   "emails": [
@@ -175,7 +186,8 @@
       "category": "primary",
       "date": "2026-08-19",
       "read": true,
-      "starred": true
+      "starred": true,
+      "archived": false
     },
     {
       "id": "2",
@@ -186,7 +198,8 @@
       "category": "primary",
       "date": "2026-08-19",
       "read": true,
-      "starred": false
+      "starred": false,
+      "archived": true
     },
     {
       "id": "3",
@@ -197,7 +210,8 @@
       "category": "promotions",
       "date": "2026-08-18",
       "read": false,
-      "starred": false
+      "starred": false,
+      "archived": false
     },
     {
       "id": "4",
@@ -208,7 +222,8 @@
       "category": "social",
       "date": "2026-08-18",
       "read": false,
-      "starred": true
+      "starred": true,
+      "archived": false
     },
     {
       "sender": "Me",
@@ -219,7 +234,8 @@
       "date": "2026-08-19T07:41:20.587Z",
       "read": true,
       "starred": false,
-      "id": "7Q3X3KWvoWg"
+      "id": "7Q3X3KWvoWg",
+      "archived": true
     },
     {
       "sender": "Me",
@@ -231,6 +247,7 @@
       "date": "2026-08-19T12:15:24.339Z",
       "read": true,
       "starred": false,
+      "archived": false,
       "id": "-EJWiq-gxLM"
     },
     {
@@ -243,6 +260,7 @@
       "date": "2026-08-19T12:17:57.022Z",
       "read": true,
       "starred": false,
+      "archived": false,
       "id": "_KokFBrKiL8"
     },
     {
@@ -254,7 +272,8 @@
       "category": "sent",
       "date": "2026-08-20T02:56:49.872Z",
       "read": true,
-      "starred": false,
+      "starred": true,
+      "archived": false,
       "id": "Ctl2k9akYA8"
     },
     {
@@ -267,6 +286,7 @@
       "date": "2026-08-20T03:15:56.736Z",
       "read": true,
       "starred": false,
+      "archived": true,
       "id": "BaSy29H8Ew4"
     },
     {
@@ -279,6 +299,7 @@
       "date": "2026-08-21T05:04:05.649Z",
       "read": true,
       "starred": false,
+      "archived": false,
       "id": "UF3B1rUG8yQ"
     },
     {
@@ -291,37 +312,10 @@
       "date": "2026-08-21T05:50:09.567Z",
       "read": true,
       "starred": false,
+      "archived": false,
       "attachmentName": "boatheadphones.jpg",
       "attachmentUrl": "blob:http://localhost:4200/ffd81fca-1fa3-4ecc-b732-89166af0ea93",
       "id": "QdWnaf33d7g"
-    },
-    {
-      "sender": "Me",
-      "senderEmail": "dummy@kmail.com",
-      "to": "keer@kmail.com",
-      "subject": "343",
-      "message": "34342342342sdfffffff",
-      "category": "draft",
-      "date": "2026-08-21T11:12:01.311Z",
-      "read": true,
-      "starred": false,
-      "attachmentName": "",
-      "attachmentUrl": "",
-      "id": "8DmpO6c1eTI"
-    },
-    {
-      "sender": "Me",
-      "senderEmail": "dummy@kmail.com",
-      "to": "vani@kmail.com",
-      "subject": "sdrwet",
-      "message": "asfsdfd",
-      "category": "draft",
-      "date": "2026-08-21T11:28:57.082Z",
-      "read": true,
-      "starred": false,
-      "attachmentName": "",
-      "attachmentUrl": "",
-      "id": "ltryGkhIDtA"
     },
     {
       "sender": "Me",
@@ -333,23 +327,10 @@
       "date": "2026-08-21T11:33:12.285Z",
       "read": true,
       "starred": false,
+      "archived": false,
       "attachmentName": "",
       "attachmentUrl": "",
       "id": "KNhxIrbmoeE"
-    },
-    {
-      "sender": "Me",
-      "senderEmail": "dummy@kmail.com",
-      "to": "keer@kmail.com",
-      "subject": "343",
-      "message": "34342342342sdfffffff",
-      "category": "draft",
-      "date": "2026-08-21T11:33:31.407Z",
-      "read": true,
-      "starred": false,
-      "attachmentName": "",
-      "attachmentUrl": "",
-      "id": "yJzlHd0smdo"
     },
     {
       "sender": "Me",
@@ -361,6 +342,7 @@
       "date": "2026-08-21T11:33:45.336Z",
       "read": true,
       "starred": false,
+      "archived": false,
       "attachmentName": "",
       "attachmentUrl": "",
       "id": "iEZN3yEdkpY"
@@ -375,6 +357,7 @@
       "date": "2026-08-21T11:33:57.092Z",
       "read": true,
       "starred": false,
+      "archived": false,
       "attachmentName": "",
       "attachmentUrl": "",
       "id": "WQXInH_PCGc"
@@ -389,6 +372,7 @@
       "date": "2026-08-21T11:34:35.179Z",
       "read": true,
       "starred": false,
+      "archived": false,
       "attachmentName": "",
       "attachmentUrl": "",
       "id": "nuay7_sdcpc"
@@ -403,6 +387,7 @@
       "date": "2026-08-21T11:34:52.602Z",
       "read": true,
       "starred": false,
+      "archived": false,
       "attachmentName": "",
       "attachmentUrl": "",
       "id": "tSJ2zhNeL9E"
@@ -410,16 +395,77 @@
     {
       "sender": "Me",
       "senderEmail": "dummy@kmail.com",
+      "to": "noithin@kmail.com",
+      "subject": "meeting at 10 am",
+      "message": "adasfsdvxcv",
+      "category": "sent",
+      "date": "2026-08-22T06:51:34.777Z",
+      "read": true,
+      "starred": false,
+      "archived": false,
+      "attachmentName": "",
+      "attachmentUrl": "",
+      "id": "-Lf7ggmwtjY"
+    },
+    {
+      "sender": "Me",
+      "senderEmail": "dummy@kmail.com",
+      "to": "keer@kmail.com",
+      "subject": "10am",
+      "message": "34342342342sdfffffff",
+      "category": "sent",
+      "date": "2026-08-22T06:52:23.176Z",
+      "read": true,
+      "starred": false,
+      "archived": false,
+      "attachmentName": "",
+      "attachmentUrl": "",
+      "id": "Okv91KpF44o"
+    },
+    {
+      "sender": "Me",
+      "senderEmail": "dummy@kmail.com",
+      "to": "vani@kmail.com",
+      "subject": "meet me at 5pm",
+      "message": "asfsdfd",
+      "category": "sent",
+      "date": "2026-08-22T06:58:54.674Z",
+      "read": true,
+      "starred": false,
+      "archived": false,
+      "attachmentName": "",
+      "attachmentUrl": "",
+      "id": "kLlWVpf2FD8"
+    },
+    {
+      "sender": "Me",
+      "senderEmail": "dummy@kmail.com",
+      "to": "keer@kmail.com",
+      "subject": "343",
+      "message": "34342342342sdfffffff",
+      "category": "sent",
+      "date": "2026-08-22T06:59:03.725Z",
+      "read": true,
+      "starred": false,
+      "archived": false,
+      "attachmentName": "",
+      "attachmentUrl": "",
+      "id": "VY_GeP26s7g"
+    },
+    {
+      "sender": "Me",
+      "senderEmail": "dummy@kmail.com",
       "to": "harry@kmail.com",
       "subject": "xvxcv",
       "message": "hyyy",
-      "category": "draft",
-      "date": "2026-08-21T11:35:13.834Z",
+      "category": "sent",
+      "date": "2026-08-22T06:59:10.625Z",
       "read": true,
       "starred": false,
+      "archived": true,
       "attachmentName": "",
       "attachmentUrl": "",
-      "id": "naatRkvapdk"
+      "id": "rkRyHWxPPJY"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

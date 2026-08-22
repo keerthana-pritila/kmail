@@ -22,6 +22,12 @@
       <span>Inbox</span>
     </button>
 
+    <!-- All Mail -->
+      <button mat-button class="menu-item" (click)="openAllMail()">
+          <mat-icon>mail</mat-icon>
+           <span>All Mail</span>
+      </button>
+
     <!-- star -->
     <button mat-button class="menu-item" (click)="openStarred()">
       <mat-icon>star</mat-icon>
@@ -74,7 +80,8 @@
             <app-email-row
                [email]="email"
                 (starClicked)="toggleStar($event)"
-               (emailClicked)="openEmail($event)">
+               (emailClicked)="openEmail($event)"
+               (archiveClicked)="archiveEmail($event)">
           </app-email-row>
           }
         </div>
@@ -88,7 +95,8 @@
             <app-email-row
                  [email]="email"
                  (starClicked)="toggleStar($event)"
-                 (emailClicked)="openEmail($event)">
+                 (emailClicked)="openEmail($event)"
+                 (archiveClicked)="archiveEmail($event)">
             </app-email-row>
           }
         </div>
@@ -102,7 +110,8 @@
              <app-email-row
          [email]="email"
          (starClicked)="toggleStar($event)"
-         (emailClicked)="openEmail($event)">
+         (emailClicked)="openEmail($event)"
+         (archiveClicked)="archiveEmail($event)">
        </app-email-row>
           }
 
@@ -112,6 +121,26 @@
 
     }
 
+    
+    <!-- ALL MAILS -->
+
+@if (selectedFolder === 'all') {
+  <div class="email-list">
+    @for(email of allEmails; track email.id) {
+
+      <app-email-row
+        [email]="email"
+        (starClicked)="toggleStar($event)"
+        (emailClicked)="openEmail($event)"
+        (archiveClicked)="archiveEmail($event)">
+      </app-email-row>
+
+    } @empty {
+      <p class="empty">No emails</p>
+    }
+  </div>
+}
+
     <!-- SENT EMAILS -->
     @if (selectedFolder === 'sent') {
     <div class="email-list">
@@ -119,7 +148,8 @@
          <app-email-row
          [email]="email"
          (starClicked)="toggleStar($event)"
-         (emailClicked)="openEmail($event)">
+         (emailClicked)="openEmail($event)"
+         (archiveClicked)="archiveEmail($event)">
        </app-email-row>
       }
 
@@ -134,7 +164,8 @@
          <app-email-row
          [email]="email"
          (starClicked)="toggleStar($event)"
-         (emailClicked)="openEmail($event)">
+         (emailClicked)="openEmail($event)"
+         (archiveClicked)="archiveEmail($event)">
        </app-email-row>
       }
     </div>

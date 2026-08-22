@@ -37,7 +37,7 @@ export class Drafts {
     });
   }
   openDraft(draft: EmailInterface) {
-    this.dialog.open(Compose, {
+   const dialogRef =  this.dialog.open(Compose, {
       width: '500px',
       position: {
         right: '25px',
@@ -47,5 +47,10 @@ export class Drafts {
       data: draft
     });
     //data: draft --This sends the selected draft into the Compose component
+    
+    //after compose dialog closes - reload drafts
+    dialogRef.afterClosed().subscribe(() => {
+    this.loadDrafts();
+  });
   }
 }

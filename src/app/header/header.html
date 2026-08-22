@@ -79,6 +79,13 @@
 
       <!-- dropdown menu -->
       <mat-menu #accountMenu="matMenu">
+        <!-- edit -->
+         <button mat-menu-item (click)="openProfile()">
+           <mat-icon>person</mat-icon>
+          <span>Edit profile</span>
+        </button>
+        
+        <!-- logout -->
         <button mat-menu-item (click)="logout()">
           <mat-icon>logout</mat-icon>
           <span>Logout</span>
