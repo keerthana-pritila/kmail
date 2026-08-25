@@ -420,6 +420,20 @@
       "attachmentName": "",
       "attachmentUrl": "",
       "id": "naatRkvapdk"
+    },
+    {
+      "sender": "Me",
+      "senderEmail": "dummy@kmail.com",
+      "to": "vani@kmail.com",
+      "subject": "",
+      "message": "",
+      "category": "draft",
+      "date": "2026-08-21T11:46:32.329Z",
+      "read": true,
+      "starred": false,
+      "attachmentName": "",
+      "attachmentUrl": "",
+      "id": "VNFnB_mXCqA"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
