@@ -23,6 +23,7 @@ export class Drafts {
     this.loadDrafts();
   }
 
+  //get drafts from db.json
   loadDrafts() {
     this.emailService.getEmails().subscribe({
       next: (emails) => {

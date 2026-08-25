@@ -187,7 +187,8 @@
       "date": "2026-08-19",
       "read": true,
       "starred": true,
-      "archived": false
+      "archived": false,
+      "trashed": false
     },
     {
       "id": "2",
@@ -198,8 +199,9 @@
       "category": "primary",
       "date": "2026-08-19",
       "read": true,
-      "starred": false,
-      "archived": true
+      "starred": true,
+      "archived": true,
+      "trashed": false
     },
     {
       "id": "3",
@@ -209,9 +211,10 @@
       "message": "Check out our latest offers.",
       "category": "promotions",
       "date": "2026-08-18",
-      "read": false,
-      "starred": false,
-      "archived": false
+      "read": true,
+      "starred": true,
+      "archived": false,
+      "trashed": false
     },
     {
       "id": "4",
@@ -221,9 +224,23 @@
       "message": "You have new social notifications.",
       "category": "social",
       "date": "2026-08-18",
-      "read": false,
-      "starred": true,
-      "archived": false
+      "read": true,
+      "starred": false,
+      "archived": false,
+      "trashed": false
+    },
+    {
+      "id": "5",
+      "sender": "kmail",
+      "senderEmail": "google@kmail.com",
+      "subject": "Welcome to Kmail",
+      "message": "Welcome to your new Kmail account.",
+      "category": "primary",
+      "date": "2026-08-25",
+      "read": true,
+      "starred": false,
+      "archived": false,
+      "trashed": false
     },
     {
       "sender": "Me",
@@ -233,9 +250,10 @@
       "category": "sent",
       "date": "2026-08-19T07:41:20.587Z",
       "read": true,
-      "starred": false,
+      "starred": true,
       "id": "7Q3X3KWvoWg",
-      "archived": true
+      "archived": true,
+      "trashed": false
     },
     {
       "sender": "Me",
@@ -247,7 +265,8 @@
       "date": "2026-08-19T12:15:24.339Z",
       "read": true,
       "starred": false,
-      "archived": false,
+      "archived": true,
+      "trashed": false,
       "id": "-EJWiq-gxLM"
     },
     {
@@ -260,7 +279,8 @@
       "date": "2026-08-19T12:17:57.022Z",
       "read": true,
       "starred": false,
-      "archived": false,
+      "archived": true,
+      "trashed": false,
       "id": "_KokFBrKiL8"
     },
     {
@@ -274,6 +294,7 @@
       "read": true,
       "starred": true,
       "archived": false,
+      "trashed": false,
       "id": "Ctl2k9akYA8"
     },
     {
@@ -287,6 +308,7 @@
       "read": true,
       "starred": false,
       "archived": true,
+      "trashed": true,
       "id": "BaSy29H8Ew4"
     },
     {
@@ -300,6 +322,7 @@
       "read": true,
       "starred": false,
       "archived": false,
+      "trashed": false,
       "id": "UF3B1rUG8yQ"
     },
     {
@@ -311,8 +334,9 @@
       "category": "sent",
       "date": "2026-08-21T05:50:09.567Z",
       "read": true,
-      "starred": false,
+      "starred": true,
       "archived": false,
+      "trashed": false,
       "attachmentName": "boatheadphones.jpg",
       "attachmentUrl": "blob:http://localhost:4200/ffd81fca-1fa3-4ecc-b732-89166af0ea93",
       "id": "QdWnaf33d7g"
@@ -328,6 +352,7 @@
       "read": true,
       "starred": false,
       "archived": false,
+      "trashed": false,
       "attachmentName": "",
       "attachmentUrl": "",
       "id": "KNhxIrbmoeE"
@@ -342,25 +367,27 @@
       "date": "2026-08-21T11:33:45.336Z",
       "read": true,
       "starred": false,
-      "archived": false,
+      "archived": true,
+      "trashed": true,
       "attachmentName": "",
       "attachmentUrl": "",
       "id": "iEZN3yEdkpY"
     },
     {
+      "id": "WQXInH_PCGc",
       "sender": "Me",
       "senderEmail": "dummy@kmail.com",
       "to": "virat@kmail.com",
       "subject": "sadasd",
       "message": "asd",
       "category": "draft",
-      "date": "2026-08-21T11:33:57.092Z",
+      "date": "2026-08-25T06:51:42.169Z",
       "read": true,
       "starred": false,
       "archived": false,
+      "trashed": false,
       "attachmentName": "",
-      "attachmentUrl": "",
-      "id": "WQXInH_PCGc"
+      "attachmentUrl": ""
     },
     {
       "sender": "Me",
@@ -373,6 +400,7 @@
       "read": true,
       "starred": false,
       "archived": false,
+      "trashed": false,
       "attachmentName": "",
       "attachmentUrl": "",
       "id": "nuay7_sdcpc"
@@ -388,6 +416,7 @@
       "read": true,
       "starred": false,
       "archived": false,
+      "trashed": false,
       "attachmentName": "",
       "attachmentUrl": "",
       "id": "tSJ2zhNeL9E"
@@ -403,6 +432,7 @@
       "read": true,
       "starred": false,
       "archived": false,
+      "trashed": false,
       "attachmentName": "",
       "attachmentUrl": "",
       "id": "-Lf7ggmwtjY"
@@ -418,6 +448,7 @@
       "read": true,
       "starred": false,
       "archived": false,
+      "trashed": true,
       "attachmentName": "",
       "attachmentUrl": "",
       "id": "Okv91KpF44o"
@@ -433,6 +464,7 @@
       "read": true,
       "starred": false,
       "archived": false,
+      "trashed": true,
       "attachmentName": "",
       "attachmentUrl": "",
       "id": "kLlWVpf2FD8"
@@ -448,6 +480,7 @@
       "read": true,
       "starred": false,
       "archived": false,
+      "trashed": true,
       "attachmentName": "",
       "attachmentUrl": "",
       "id": "VY_GeP26s7g"
@@ -458,14 +491,227 @@
       "to": "harry@kmail.com",
       "subject": "xvxcv",
       "message": "hyyy",
-      "category": "sent",
+      "category": "primary",
       "date": "2026-08-22T06:59:10.625Z",
       "read": true,
       "starred": false,
       "archived": true,
+      "trashed": true,
       "attachmentName": "",
       "attachmentUrl": "",
       "id": "rkRyHWxPPJY"
+    },
+    {
+      "sender": "Me",
+      "senderEmail": "dummy@kmail.com",
+      "to": "vani@kmail.com",
+      "subject": "hello 2508",
+      "message": "hello everone!!!!\n\nthank you.",
+      "category": "sent",
+      "date": "2026-08-25T05:34:55.154Z",
+      "read": true,
+      "starred": false,
+      "archived": false,
+      "trashed": false,
+      "attachmentName": "",
+      "attachmentUrl": "",
+      "id": "FoSK5UHb_GI"
+    },
+    {
+      "sender": "Me",
+      "senderEmail": "dummy@kmail.com",
+      "to": "vani@kmail.com,keer@kmail.com",
+      "subject": "test multiple mails",
+      "message": "heyyy,whatsp?",
+      "category": "sent",
+      "date": "2026-08-25T05:35:56.558Z",
+      "read": true,
+      "starred": false,
+      "archived": false,
+      "trashed": false,
+      "attachmentName": "",
+      "attachmentUrl": "",
+      "id": "waJ5QKmpdmg"
+    },
+    {
+      "sender": "Me",
+      "senderEmail": "dummy@kmail.com",
+      "to": "dad@gmail.com",
+      "subject": "",
+      "message": "",
+      "category": "draft",
+      "date": "2026-08-25T05:39:45.987Z",
+      "read": true,
+      "starred": false,
+      "archived": false,
+      "trashed": false,
+      "attachmentName": "",
+      "attachmentUrl": "",
+      "id": "YPFAtFTAAEs"
+    },
+    {
+      "sender": "Me",
+      "senderEmail": "dummy@kmail.com",
+      "to": "keer@kmail.com, bittu@k.com",
+      "subject": "testing chips",
+      "message": "hello,\ntesting chips from angular material.\nthank you",
+      "category": "sent",
+      "date": "2026-08-25T06:49:07.134Z",
+      "read": true,
+      "starred": false,
+      "archived": false,
+      "trashed": false,
+      "attachmentName": "",
+      "attachmentUrl": "",
+      "id": "UFK6qSWUBP8"
+    },
+    {
+      "id": "mSrlqUj_328",
+      "sender": "Me",
+      "senderEmail": "dummy@kmail.com",
+      "to": "jacky@kmail.com",
+      "subject": "",
+      "message": "",
+      "category": "draft",
+      "date": "2026-08-25T06:50:51.050Z",
+      "read": true,
+      "starred": false,
+      "archived": false,
+      "trashed": false,
+      "attachmentName": "",
+      "attachmentUrl": ""
+    },
+    {
+      "sender": "Me",
+      "senderEmail": "dummy@kmail.com",
+      "to": "dummy@kmail.com",
+      "subject": "checking self mail",
+      "message": "hey ,\nself mail check ",
+      "category": "sent",
+      "date": "2026-08-25T07:00:57.242Z",
+      "read": true,
+      "starred": false,
+      "archived": false,
+      "trashed": false,
+      "attachmentName": "",
+      "attachmentUrl": "",
+      "id": "X-KyudVj_-c"
+    },
+    {
+      "sender": "Me",
+      "senderEmail": "dummy@kmail.com",
+      "to": "vani@kmail.com, rosh@kmail.com",
+      "subject": "sending images",
+      "message": "heyy vani,rosh\n\nplease find the image and revert.\nthank you",
+      "category": "sent",
+      "date": "2026-08-25T07:20:50.157Z",
+      "read": true,
+      "starred": false,
+      "archived": false,
+      "trashed": false,
+      "attachmentName": "boatheadphones.jpg",
+      "attachmentUrl": "blob:http://localhost:4200/f8251f46-e514-4ef8-bda7-0297a51e5bb4",
+      "id": "At0EJBCE2rc"
+    },
+    {
+      "sender": "Flipkart",
+      "senderEmail": "flipkart@kmail.com",
+      "to": "dummy@kmail.com",
+      "subject": "Special discount offer",
+      "message": "Get 50% discount on your shopping order",
+      "category": "promotions",
+      "date": "2026-08-25T09:45:37.238Z",
+      "read": true,
+      "starred": false,
+      "archived": false,
+      "trashed": false,
+      "id": "7wUuhsT3KxI"
+    },
+    {
+      "sender": "Flipkart",
+      "senderEmail": "flipkart@kmail.com",
+      "to": "dummy@kmail.com",
+      "subject": "Special discount offer",
+      "message": "Get 50% discount on your shopping order",
+      "category": "promotions",
+      "date": "2026-08-25T09:45:42.917Z",
+      "read": false,
+      "starred": false,
+      "archived": false,
+      "trashed": true,
+      "id": "MTF2rzjVPrc"
+    },
+    {
+      "sender": "Flipkart",
+      "senderEmail": "flipkart@kmail.com",
+      "to": "dummy@kmail.com",
+      "subject": "Special discount offer",
+      "message": "Get 50% discount on your shopping order",
+      "category": "promotions",
+      "date": "2026-08-25T10:06:03.660Z",
+      "read": false,
+      "starred": false,
+      "archived": false,
+      "trashed": true,
+      "id": "x7HSpJLajKo"
+    },
+    {
+      "sender": "Flipkart",
+      "senderEmail": "flipkart@kmail.com",
+      "to": "dummy@kmail.com",
+      "subject": "Special discount offer",
+      "message": "Get 50% discount on your shopping order",
+      "category": "promotions",
+      "date": "2026-08-25T10:06:06.428Z",
+      "read": false,
+      "starred": false,
+      "archived": false,
+      "trashed": true,
+      "id": "9AxjduI0J8E"
+    },
+    {
+      "sender": "Me",
+      "senderEmail": "dummy@kmail.com",
+      "to": "keer@kmail.com",
+      "subject": "ajio offer",
+      "message": "checking mail cate by using ajio sale ,offers,discounts",
+      "category": "sent",
+      "date": "2026-08-25T10:56:15.827Z",
+      "read": true,
+      "starred": false,
+      "archived": false,
+      "trashed": false,
+      "attachmentName": "",
+      "attachmentUrl": "",
+      "id": "Dhvz3_uDto8"
+    },
+    {
+      "sender": "Amazon",
+      "senderEmail": "amazon@example.com",
+      "to": "keerthana@kmail.com",
+      "subject": "Special Sale - 50% Discount",
+      "message": "Get an exclusive offer today. Buy now and get cashback!",
+      "category": "promotions",
+      "date": "2026-08-25T11:02:16.265Z",
+      "read": true,
+      "starred": false,
+      "archived": false,
+      "trashed": false,
+      "id": "aZdVwZec7II"
+    },
+    {
+      "sender": "Instagram",
+      "senderEmail": "instagram@example.com",
+      "to": "keerthana@kmail.com",
+      "subject": "Someone liked your post",
+      "message": "Your friend liked your post and mentioned you.",
+      "category": "social",
+      "date": "2026-08-25T11:03:55.680Z",
+      "read": false,
+      "starred": false,
+      "archived": false,
+      "trashed": false,
+      "id": "Nutu2mSF2JE"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

@@ -54,3 +54,18 @@
 .email-row.unread .email-date {
   font-weight: 700;
 }
+.email-actions {
+  display: flex;
+  align-items: center;
+  margin-left: 10px;
+}
+
+.email-actions button {
+  margin-right: 0;
+}
+.starBtn {
+  color: #999;
+}
+.starBtn.starred {
+  color: #f4b400;
+}

@@ -21,9 +21,9 @@
         <!-- TO -->
         <mat-form-field appearance="outline" class="compose-field">
             <mat-label>To</mat-label>
-            <input 
+            <!-- <input 
             matInput
-             type="email" 
+             type="text" 
              formControlName="to"
              placeholder="recipient@kmail.com"
              (focus)="showFrom = true" />
@@ -34,16 +34,37 @@
             <mat-error>
                 *Recipient email is required
             </mat-error>
-            }
+            } -->
 
-            @if (composeForm.controls.to.touched &&
-            composeForm.controls.to.hasError('email')
-            ) {
-            <mat-error>
-                *Enter a valid email address
-            </mat-error>
-            }
-        </mat-form-field>
+            <!-- email ids chips style material -->
+             <mat-chip-grid #chipGrid aria-label="Email recipients">
+                 @for (recipient of recipients; track recipient) {
+
+            <mat-chip-row (removed)="removeRecipient(recipient)">
+                {{ recipient }}
+                <button
+                    matChipRemove
+                    type="button"
+                    [attr.aria-label]="'Remove ' + recipient">
+                    <mat-icon>cancel</mat-icon>
+                </button>
+            </mat-chip-row>
+        }
+
+        <input
+            placeholder="recipient@kmail.com"
+            [matChipInputFor]="chipGrid"
+            (matChipInputTokenEnd)="addRecipient($event)"
+            (focus)="showFrom = true" />
+
+    </mat-chip-grid>
+
+    @if (recipients.length === 0 && composeForm.controls.to.touched) {
+        <mat-error>
+            *Recipient email is required
+        </mat-error>
+    }
+     </mat-form-field>
 
         <!-- SUBJECT -->
         <mat-form-field appearance="outline" class="compose-field">

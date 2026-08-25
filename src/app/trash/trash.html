@@ -1,0 +1,13 @@
+<div class="trash-container">
+  <h2>Trash</h2>
+  <div class="email-list">
+    @for(email of emails; track email.id) {
+      <app-email-row
+        [email]="email">
+      </app-email-row>
+
+    } @empty {
+      <p class="empty"> No emails in Trash </p>
+    }
+  </div>
+</div>

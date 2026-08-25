@@ -26,6 +26,7 @@ export class EmailRow {
   emailClicked = output<EmailInterface>();
 
   archiveClicked = output<EmailInterface>();
+  deleteClicked = output<EmailInterface>();
 
 
   // Star button clicked
@@ -50,5 +51,11 @@ export class EmailRow {
   // Email row clicked
   onEmailClick() {
     this.emailClicked.emit(this.email());
+  }
+
+  //delete is clicked
+  onDeleteClick(event: MouseEvent) {
+    event.stopPropagation();
+    this.deleteClicked.emit(this.email());
   }
 }

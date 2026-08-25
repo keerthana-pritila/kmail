@@ -10,17 +10,12 @@
   <button
     matIconButton
     type="button"
-    (click)="onStarClick($event)">
+    (click)="onStarClick($event)"
+    class="starBtn"
+    [class.starred]="email().starred">
     <mat-icon>{{ email().starred ? 'star' : 'star_border' }}</mat-icon>
   </button>
 
-<!-- Archive -->
-<button
-  matIconButton
-  type="button"
-  (click)="onArchiveClick($event)">
-  <mat-icon>archive</mat-icon>
-</button>
 
   <!-- Sender -->
   <span class="sender">{{ email().sender }}</span>
@@ -37,4 +32,24 @@
     {{ email().date }}
   </span>
 
+  <!-- Icon actions (arhieve,delete)-->
+<div class="email-actions">
+
+  <!-- Archive -->
+  <button 
+    matIconButton 
+    type="button" 
+    (click)="onArchiveClick($event)">
+    <mat-icon>archive</mat-icon>
+  </button>
+
+  <!-- Delete -->
+  <button 
+    matIconButton 
+    type="button" 
+    (click)="onDeleteClick($event)">
+    <mat-icon>delete</mat-icon>
+  </button>
+
+</div>
 </div>

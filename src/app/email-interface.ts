@@ -14,6 +14,7 @@ export interface EmailInterface {
 
   starred: boolean;
   archived: boolean;
+  trashed: boolean;
   attachmentName?: string;
   attachmentUrl?: string;
   

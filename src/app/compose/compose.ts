@@ -15,6 +15,7 @@ import { EmailInterface } from '../email-interface';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatIconModule } from '@angular/material/icon';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import {MatChipInputEvent, MatChipsModule} from '@angular/material/chips';
 
 @Component({
   selector: 'app-compose',
@@ -23,8 +24,8 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
-    MatIconModule
-
+    MatIconModule,
+    MatChipsModule
   ],
   templateUrl: './compose.html',
   styleUrl: './compose.scss',
@@ -43,8 +44,9 @@ export class Compose {
   // : File | null: This defines the type of data allowed inside this variable. 
   //  =null -- indicates when application loaded no file selected
 
+  recipients: string[] = [];  //stores the email IDs entered by the user
   selectedFileUrl: string | null = null;
-
+  
   // Compose form
   composeForm = new FormGroup({
 
@@ -55,8 +57,7 @@ export class Compose {
     to: new FormControl('', {
       nonNullable: true,
       validators: [
-        Validators.required,
-        Validators.email
+        Validators.required
       ]
     }),
 
@@ -82,7 +83,6 @@ export class Compose {
   this.composeForm.controls.from.setValue(username || '');
   
   // Check if this Compose window was opened from a draft
-
   if (this.data) {
 
     //patchValue() -- puts those values back into the form
@@ -93,7 +93,15 @@ export class Compose {
       subject: this.data.subject,
       message: this.data.message
     });
-    this.showFrom = true;
+   
+    //convert saved receipients into chips
+    if (this.data.to) {
+  this.recipients = this.data.to
+    .split(',')
+    .map((email: string) => email.trim())
+    .filter((email: string) => email);
+}
+ this.showFrom = true;
   }
 
    // Detect click outside the compose window
@@ -101,6 +109,82 @@ export class Compose {
     this.saveDraft();
     //backdropClick() detects that background click.
   });
+}
+
+//add receipient  in chips style
+addRecipient(event: MatChipInputEvent): void {
+  const value = (event.value || '').trim();
+  if (!value) {
+    return;
+  }
+
+  // Check whether email is valid
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailPattern.test(value)) {
+    this._snackBar.open(
+      'Please enter a valid email address',
+      'Dismiss',
+      {
+        duration: 3000
+      }
+    );
+    event.chipInput.clear();
+    return;
+  }
+
+  // Don't add the same email twice
+  if (this.recipients.includes(value)) {
+
+    this._snackBar.open(  'Email already added',
+      'Dismiss',
+      {
+        duration: 3000
+      }
+    );
+
+    event.chipInput.clear();
+    return;
+  }
+
+  this.recipients.push(value); // Add email to recipients
+  event.chipInput.clear(); // Clear the input
+
+  //and Store all recipients inside "to"
+  this.composeForm.controls.to.setValue( this.recipients.join(', ') );
+  this.composeForm.controls.to.markAsTouched();
+}
+
+//Remove receipient in chips style
+removeRecipient(recipient: string): void {
+  const index = this.recipients.indexOf(recipient);
+  if (index >= 0) {
+    this.recipients.splice(index, 1);
+  }
+
+  // Update "to" form control
+  this.composeForm.controls.to.setValue( this.recipients.join(', ') );
+}
+
+
+//to check multiple mail ids /mail ids valid or not (like proper mail format)
+isValidRecipients(): boolean {
+  const value = this.composeForm.controls.to.value;
+  const emails = value.split(',');      // Split emails using comma
+  // (if there are multiple mails ,separated by coma)
+
+  // Check every email
+  for (let email of emails) {
+    email = email.trim();             //removes extra space
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    // \s --space , @ at symbol -->should not be 
+    // +@ --  means it has more than 1 
+    // $ -- end of line
+
+    if (!emailPattern.test(email)) {
+      return false;
+    }
+  }
+  return true;
 }
 
 saveDraft() {
@@ -133,18 +217,14 @@ saveDraft() {
     read: true,
     starred: false,
     archived: false,
+    trashed:false,
     attachmentName: this.selectedFile ? this.selectedFile.name : '',
     attachmentUrl: this.selectedFileUrl ? this.selectedFileUrl : ''
   };
  // EXISTING DRAFT
   if (this.data?.id) {
-
     this.emailService.updateEmail(draft).subscribe({
-
       next: (response) => {
-
-        console.log('Draft updated successfully');
-
         this._snackBar.open(
           'Draft updated',
           'Dismiss',
@@ -152,22 +232,13 @@ saveDraft() {
             duration: this.durationInSeconds() * 1000
           }
         );
-
         this.dialogRef.close(response);
-
       },
 
       error: (error) => {
-
-        console.error(
-          'Error updating draft:',
-          error
-        );
-
+        console.error( 'Error updating draft:',  error );
       }
-
     });
-
   }
  // NEW DRAFT
   else {
@@ -210,6 +281,17 @@ saveDraft() {
     return;
   }
 
+  //check multiple mail addresses
+  if (!this.isValidRecipients()) {
+  this._snackBar.open(
+    'Please enter valid email addresses',
+    'Dismiss',
+    {
+      duration: 5000
+    }
+  );
+  return;
+}
 
   // Create sent email
   const email: EmailInterface = {
@@ -223,6 +305,7 @@ saveDraft() {
     read: true,
     starred: false,
     archived: false,
+    trashed:false,
     attachmentName: this.selectedFile  ? this.selectedFile.name  : '',
     attachmentUrl: this.selectedFileUrl  ? this.selectedFileUrl  : ''
 
