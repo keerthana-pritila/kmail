@@ -121,16 +121,18 @@ saveDraft() {
   }
 
   const draft: EmailInterface = {
+    id:this.data?.id,
+
     sender: 'Me',
     senderEmail: this.composeForm.controls.from.value,
     to: to,
     subject: subject,
     message: message,
     category: 'draft',
-
     date: new Date().toISOString(),
     read: true,
     starred: false,
+    archived: false,
     attachmentName: this.selectedFile ? this.selectedFile.name : '',
     attachmentUrl: this.selectedFileUrl ? this.selectedFileUrl : ''
   };
@@ -202,43 +204,71 @@ saveDraft() {
   // Send email
   sendEmail() {
 
-    // Check form
-    if (this.composeForm.invalid) {
-      this.composeForm.markAllAsTouched();
-      return;
-    }
-    // Create email object
-    const email: EmailInterface = {
-
-      sender: 'Me',
-      senderEmail: this.composeForm.controls.from.value!,
-      to: this.composeForm.controls.to.value!,
-      subject: this.composeForm.controls.subject.value!,
-      message: this.composeForm.controls.message.value!,
-      category: 'sent',
-      date: new Date().toISOString(),
-      read: true,
-      starred: false,
-       attachmentName: this.selectedFile ? this.selectedFile.name : '',
-      attachmentUrl: this.selectedFileUrl  ? this.selectedFileUrl : ''
-    };
-
-
-    // Save email to db.json
-    this.emailService.sendEmail(email).subscribe({
-      next: (response) => {
-        console.log('Email sent successfully');
-         this.emailSent = true;
-        this.openSnackBar(); // Show snackbar
-
-        // Close compose  dialog
-        this.dialogRef.close(response);
-      },
-      error: (error) => {
-        console.error('Error sending email', error);
-      }
-    });
+  // Check form
+  if (this.composeForm.invalid) {
+    this.composeForm.markAllAsTouched();
+    return;
   }
+
+
+  // Create sent email
+  const email: EmailInterface = {
+    sender: 'Me',
+    senderEmail: this.composeForm.controls.from.value,
+    to: this.composeForm.controls.to.value,
+    subject: this.composeForm.controls.subject.value,
+    message: this.composeForm.controls.message.value,
+    category: 'sent',
+    date: new Date().toISOString(),
+    read: true,
+    starred: false,
+    archived: false,
+    attachmentName: this.selectedFile  ? this.selectedFile.name  : '',
+    attachmentUrl: this.selectedFileUrl  ? this.selectedFileUrl  : ''
+
+  };
+
+
+  // First save the email as SENT
+  this.emailService.sendEmail(email).subscribe({
+    next: (response) => {
+      console.log('Email sent successfully');
+
+      // Check whether this email came from a draft
+      if (this.data?.id) {
+
+        // Delete the old draft
+        this.emailService.deleteEmail(this.data.id).subscribe({
+          next: () => {
+            console.log('Draft deleted after sending');
+            this.emailSent = true;
+            this.openSnackBar();
+            this.dialogRef.close(response);
+
+          },
+
+          error: (error) => {
+            console.error( 'Error deleting draft:',   error );
+          }
+
+        });
+
+      }
+
+      // Normal new email
+      else {
+        this.emailSent = true;
+        this.openSnackBar();
+        this.dialogRef.close(response);
+      }
+    },
+
+    error: (error) => {
+      console.error( 'Error sending email:', error );
+    }
+
+  });
+}
 
   // Cancel compose
   closeDialog() {

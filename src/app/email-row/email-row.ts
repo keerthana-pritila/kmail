@@ -25,6 +25,8 @@ export class EmailRow {
   // Send the email back to KmailHome when row is clicked
   emailClicked = output<EmailInterface>();
 
+  archiveClicked = output<EmailInterface>();
+
 
   // Star button clicked
   onStarClick(event: MouseEvent) {
@@ -38,6 +40,12 @@ export class EmailRow {
     event.stopPropagation(); // Don't open the email
   }
 
+  //archive clicked
+  onArchiveClick(event: MouseEvent) {
+  event.stopPropagation();
+  //bcz Without stopPropagation(), clicking Archive could also open the email
+  this.archiveClicked.emit(this.email());
+}
 
   // Email row clicked
   onEmailClick() {

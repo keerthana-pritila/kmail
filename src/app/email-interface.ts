@@ -13,6 +13,7 @@ export interface EmailInterface {
   read: boolean;
 
   starred: boolean;
+  archived: boolean;
   attachmentName?: string;
   attachmentUrl?: string;
   

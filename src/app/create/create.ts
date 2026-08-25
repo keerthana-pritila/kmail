@@ -147,7 +147,8 @@ export class Create {
       gender: this.createForm.controls.gender.value,
        phone: this.createForm.controls.phone.value,
       username: `${this.createForm.controls.username.value}@kmail.com`,
-      password: this.createForm.controls.password.value
+      password: this.createForm.controls.password.value,
+       createdAt: new Date().toISOString()
     };
 
     // Saving account to db.json

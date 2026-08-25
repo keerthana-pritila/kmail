@@ -7,4 +7,5 @@ export interface AccountInterface {
     phone: string;
     username: string;
     password: string;
+    createdAt: string; //tells us when the account was created
 }

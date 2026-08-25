@@ -5,6 +5,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
 import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { Profile } from '../profile/profile';
 
 @Component({
   selector: 'app-header',
@@ -20,6 +22,7 @@ import { Router } from '@angular/router';
 })
 export class Header {
   router = inject(Router);
+  dialog = inject(MatDialog);
    userName = '';
   menuClicked = output<void>();       // This event will notify KmailHome when menu button is clicked
   searchChanged = output<string>();
@@ -36,6 +39,13 @@ export class Header {
   onSearch(event: Event) {
   const input = event.target as HTMLInputElement;
   this.searchChanged.emit(input.value);
+}
+
+openProfile() {
+this.dialog.open(Profile, {
+    width: '450px'
+  });
+
 }
 
   logout() {

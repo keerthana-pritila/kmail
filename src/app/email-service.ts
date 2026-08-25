@@ -24,6 +24,13 @@ updateEmail(email: EmailInterface): Observable<EmailInterface> {
   );
 }
 
+//delete email
+deleteEmail(id: string) {
+  return this.http.delete(
+    `${this.apiUrl}/${id}`
+  );
+}
+
 //send email
 sendEmail(email: EmailInterface): Observable<EmailInterface> {
   return this.http.post<EmailInterface>( this.apiUrl, email );

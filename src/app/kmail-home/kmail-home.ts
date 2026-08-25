@@ -14,6 +14,7 @@ import { Router } from '@angular/router';
 import { MatDialogModule } from '@angular/material/dialog';
 import { EmailDetails } from '../email-details/email-details';
 import { Drafts } from '../drafts/drafts';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -39,8 +40,10 @@ export class KmailHome {
   emails: EmailInterface[] = [];   // Store all emails here
   dialog = inject(MatDialog);  //inject MatDialog
   router = inject(Router);
+  toastr = inject(ToastrService);
 
-  selectedFolder = 'inbox';
+  // selectedFolder = 'inbox';
+selectedFolder = 'all';
   searchText = '';
   selectedEmail: EmailInterface | null = null;
   // EmailInterface | null -- hold properties  one of 2 things . interface or null .
@@ -50,23 +53,30 @@ export class KmailHome {
   // Get only Primary emails
   get primaryEmails(): EmailInterface[] {
     return this.filteredEmails.filter(
-      email => email.category === 'primary'
+      email => email.category === 'primary' &&  !email.archived
     );
   }
 
   // Get only promotion emails
   get promotionEmails(): EmailInterface[] {
     return this.filteredEmails.filter(
-      email => email.category === 'promotions'
+      email => email.category === 'promotions' &&  !email.archived
     );
   }
 
   // Get only Social emails
   get socialEmails(): EmailInterface[] {
     return this.filteredEmails.filter(
-      email => email.category === 'social'
+      email => email.category === 'social' &&  !email.archived
     );
   }
+
+  // Get all emails except drafts
+get allEmails(): EmailInterface[] {
+  return this.filteredEmails.filter(
+    email => email.category !== 'draft'
+  );
+}
 
   // Get only sent emails
   get sentEmails(): EmailInterface[] {
@@ -120,6 +130,23 @@ export class KmailHome {
     });
 
   }
+
+  archiveEmail(email: EmailInterface) {
+  // Change archived from false to true
+  email.archived = true;
+  // Save the change to db.json
+  this.emailService.updateEmail(email).subscribe({
+    next: (response) => {
+      console.log('Email archived successfully');
+      this.toastr.success("Email archived successfully");
+      this.loadEmails();  // Reload emails
+    },
+
+    error: (error) => {
+      console.error('Error archiving email:', error);
+    }
+  });
+}
   //user searches 
   searchEmails(text: string) {
     this.searchText = text.toLowerCase(); //converts all its letters to lowercase
@@ -165,6 +192,10 @@ export class KmailHome {
   openInbox() {
     this.selectedFolder = 'inbox';
   }
+
+  openAllMail() {
+  this.selectedFolder = 'all';
+}
 
   openSent() {
     this.selectedFolder = 'sent';

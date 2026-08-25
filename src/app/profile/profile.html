@@ -1,0 +1,113 @@
+<h2 mat-dialog-title>Edit profile</h2>
+
+<mat-dialog-content>
+    @if (canEditEmail) {
+
+    <p class="info">
+        You can change your Kmail address within 60 minutes
+        of creating your account.
+    </p>
+
+} @else {
+
+    <p class="expired-message">
+        The 60-minute email change period has expired.
+    </p>
+
+}
+
+    <!-- CURRENT EMAIL -->
+
+    <mat-form-field appearance="outline">
+        <mat-label>Current email</mat-label>
+        <input
+            matInput
+            [value]="currentEmail"
+            readonly/>
+    </mat-form-field>
+    @if (!canEditEmail) {
+    <p class="expired-message">
+        Email editing is no longer available.
+        You can change your email only within 60 minutes
+        of creating your account.
+    </p>
+
+}
+
+    <!-- NEW EMAIL -->
+    <mat-form-field appearance="outline">
+        <mat-label>New email</mat-label>
+        <input
+            matInput
+            type="email"
+            [formControl]="newEmail"
+             [disabled]="!canEditEmail" />
+
+        @if ( newEmail.touched && newEmail.hasError('required')) {
+            <mat-error>
+                *Email is required
+            </mat-error>
+        }
+
+        @if ( newEmail.touched && newEmail.hasError('email')) {
+            <mat-error>
+                *Enter a valid email
+            </mat-error>
+        }
+
+        @if ( newEmail.touched && newEmail.hasError('pattern')) {
+            <mat-error>
+                *Email must end with @kmail.com
+            </mat-error>
+        }
+    </mat-form-field>
+
+    <!-- PASSWORD -->
+
+    <mat-form-field appearance="outline">
+
+        <mat-label>Current password</mat-label>
+
+        <input
+            matInput
+            type="password"
+            [formControl]="password"
+        />
+
+        @if ( password.touched &&  password.hasError('required')) {
+            <mat-error>
+                *Password is required
+            </mat-error>
+        }
+        @if ( password.touched && password.hasError('incorrect')) {
+    <mat-error>
+        *Incorrect password
+    </mat-error>
+}
+
+    </mat-form-field>
+
+</mat-dialog-content>
+
+
+<mat-dialog-actions align="end">
+
+    <button
+        mat-button
+        type="button"
+        (click)="closeDialog()">
+
+        Cancel
+
+    </button>
+
+
+    <button
+        matButton="filled"
+        type="button"
+        (click)="updateEmail()"
+         [disabled]="!canEditEmail">
+        Save changes
+    </button>
+
+</mat-dialog-actions>
