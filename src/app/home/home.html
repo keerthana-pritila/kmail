@@ -3,8 +3,19 @@
         <h1>Kmail</h1>
     </li>
     <div class="header-buttons">
+
+         <!-- SHOW SIGN IN IF USER IS NOT LOGGED IN -->
+    @if (!isLoggedIn) {
         <li><button routerLink="/signin"> Sign in </button></li>
-        <!-- <li><button routerLink="/create"> Create account</button></li> -->
+    }
+    
+    <!-- SHOW USERNAME IF USER IS LOGGED IN -->
+    @if (isLoggedIn) {
+        <li>
+            <span class="username">  {{ userName }} </span>
+        </li>
+    }
+    
         <li><button (click)="createAccount()"> Create account </button></li>
     </div>
 </ul>

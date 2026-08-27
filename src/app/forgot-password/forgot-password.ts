@@ -1,4 +1,4 @@
-import { Component, inject} from '@angular/core';
+import { Component, inject,signal} from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -31,12 +31,19 @@ export class ForgotPassword {
   accountService = inject(AccountService);
   router = inject(Router);
   toastr = inject(ToastrService);
-  dialog = inject(MatDialogRef<ForgotPassword>); 
+  dialogRef = inject(MatDialogRef<ForgotPassword>, { optional: true });
+    hidePassword = signal(true);
+  hideConfirmPassword = signal(true);
 
   currentStep = 1;
   accountFound = false;
   accountNotFound = false;
   selectedAccount: any = null;
+  isDialog = false;
+
+  ngOnInit() {
+  this.isDialog = !!this.dialogRef;
+}
 
   forgotForm = new FormGroup({
 
@@ -113,13 +120,23 @@ export class ForgotPassword {
   }
 
  checkConfirmPassword() {
-  const confirmPassword =
-    this.forgotForm.controls.confirmPassword;
+  const confirmPassword = this.forgotForm.controls.confirmPassword;
   if (confirmPassword.value) {
     confirmPassword.markAsTouched();
   }
 
 }
+
+clickPassword(event: MouseEvent) {
+  event.preventDefault();
+  this.hidePassword.set(!this.hidePassword());
+}
+
+clickConfirmPassword(event: MouseEvent) {
+  event.preventDefault();
+  this.hideConfirmPassword.set(!this.hideConfirmPassword());
+}
+
   resetPassword() {
     const password = this.forgotForm.controls.password;
     const confirmPassword = this.forgotForm.controls.confirmPassword;
@@ -150,7 +167,15 @@ export class ForgotPassword {
     ).subscribe({
       next: () => {
         this.toastr.success( 'Password reset successfully','Success');
-        this.router.navigate(['/signin']);
+        if (this.isDialog) {
+
+    // Opened from Kmail Home
+    this.dialogRef?.close(); //Close the dialog if a dialog exists.
+
+  } else {
+    // Opened normally from Sign in page
+    this.router.navigate(['/signin']);
+  }
       },
       error: (error) => {
         console.error('Error resetting password:',error);
@@ -160,6 +185,19 @@ export class ForgotPassword {
     });
 
   }
+
+  backToSignIn() {
+  if (this.isDialog) {
+    this.dialogRef?.close();
+  } else {
+    this.router.navigate(['/signin']);
+  }
+}
  
+  closeDialog() {
+  if (this.dialogRef) {
+    this.dialogRef.close();
+  }
+}
 
 }
