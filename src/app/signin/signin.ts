@@ -9,6 +9,7 @@ import { AccountService } from '../account-service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { RouterModule } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-signin',
@@ -29,7 +30,10 @@ export class Signin {
 
   accountService = inject(AccountService);
   router = inject(Router);
+  route = inject(ActivatedRoute);
   toastr = inject(ToastrService); //Inject Toastr
+
+  isAddAccount = false;
 
   signinForm = new FormGroup({
 
@@ -48,14 +52,24 @@ export class Signin {
     })
   });
 
-   ngOnInit() {
-  const isLoggedIn = localStorage.getItem('isLoggedIn');
-  if (isLoggedIn === 'true') {
-    this.router.navigate(['/kmail-home']);
+  ngOnInit() {
+    const isLoggedIn = localStorage.getItem('isLoggedIn');
+    const addAccount = this.route.snapshot.queryParamMap.get('addAccount');
+    //overall it checks the URL for a parameter named addAccount and grabs its value
+    //this.route.snapshot:   Looks at the exact state of the current page URL right now.
+    // queryParamMap.get('addAccount'):   Searches the URL for the word 
+
+    if (addAccount === 'true') {
+      this.isAddAccount = true;
+    }
+
+    if (isLoggedIn === 'true' && addAccount !== 'true') {
+      this.router.navigate(['/kmail-home']);
+    }
   }
-}
-// So here if the user is already logged in and  reaches /signin through left arrow, 
-// Angular immediately sends them back to KmailHome
+
+  // So here if the user is already logged in and  reaches /signin through left arrow, 
+  // Angular immediately sends them back to KmailHome
 
   hide = signal(true);
   clickEvent(event: MouseEvent) {
@@ -82,25 +96,38 @@ export class Signin {
         );
 
         if (account) {
-          // Save logged-in user's name
-          localStorage.setItem('loggedInUserName', account.name);
-          
-          localStorage.setItem('isLoggedIn', 'true');
-          localStorage.setItem('username', account.username);
 
-          this.toastr.success('Sign in successful', 'Success'); // Show success toast
+          if (this.isAddAccount) {
+
+            // New tab gets its own session storage
+            sessionStorage.setItem('loggedInUserName', account.name);
+            sessionStorage.setItem('username', account.username);
+            sessionStorage.setItem('isLoggedIn', 'true');
+
+            this.toastr.success('Account added successfully','Success');
+
+          } 
+          else {
+            //normal login
+            // Save logged-in user's name
+            localStorage.setItem('loggedInUserName', account.name);
+            localStorage.setItem('isLoggedIn', 'true');
+            localStorage.setItem('username', account.username);
+
+            this.toastr.success('Sign in successful', 'Success'); // Show success toast
+          }
           this.router.navigate(['/kmail-home']);
 
-        } else {
+        } 
+        else {
           this.toastr.error('Invalid email or password', 'Sign in failed');
         }
 
-      },
+      },   
 
-      error: (error) => {
-        console.error('Error while signing in', error);
-
-      }
+      // error: (error) => {
+      //   console.error('Error while signing in', error);
+      // }
 
     });
 

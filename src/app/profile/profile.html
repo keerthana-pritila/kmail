@@ -2,14 +2,12 @@
 
 <mat-dialog-content>
     @if (canEditEmail) {
-
     <p class="info">
         You can change your Kmail address within 60 minutes
         of creating your account.
     </p>
 
 } @else {
-
     <p class="expired-message">
         The 60-minute email change period has expired.
     </p>
@@ -17,7 +15,6 @@
 }
 
     <!-- CURRENT EMAIL -->
-
     <mat-form-field appearance="outline">
         <mat-label>Current email</mat-label>
         <input
@@ -25,13 +22,13 @@
             [value]="currentEmail"
             readonly/>
     </mat-form-field>
+
     @if (!canEditEmail) {
     <p class="expired-message">
         Email editing is no longer available.
         You can change your email only within 60 minutes
         of creating your account.
     </p>
-
 }
 
     <!-- NEW EMAIL -->
@@ -65,14 +62,11 @@
     <!-- PASSWORD -->
 
     <mat-form-field appearance="outline">
-
         <mat-label>Current password</mat-label>
-
         <input
             matInput
             type="password"
-            [formControl]="password"
-        />
+            [formControl]="password"/>
 
         @if ( password.touched &&  password.hasError('required')) {
             <mat-error>
@@ -86,21 +80,16 @@
 }
 
     </mat-form-field>
-
 </mat-dialog-content>
 
 
 <mat-dialog-actions align="end">
-
     <button
         mat-button
         type="button"
         (click)="closeDialog()">
-
         Cancel
-
     </button>
-
 
     <button
         matButton="filled"

@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
 import { AccountInterface } from '../account-interface';
 import { ToastrService } from 'ngx-toastr';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-
+import { debounceTime } from 'rxjs';
 
 @Component({
   selector: 'app-create',
@@ -36,18 +36,27 @@ export class Create {
 
   currentStep = 1;
   usernameSuggestions: string[] = [];
+  usernameAvailable = false;
+  checkingUsername = false;    //to check the username.so it won't allow another click(next btn).
 
   accountService = inject(AccountService);
   router = inject(Router);
   toastr = inject(ToastrService); //Inject Toastr
 
   today = new Date();
+  //min age required is 18 
   maxDob = new Date(
     this.today.getFullYear() - 18,
     this.today.getMonth(),
     this.today.getDate()
   );
 
+  //max age  is 100
+  minDob = new Date(
+  this.today.getFullYear() - 100,
+  this.today.getMonth(),
+  this.today.getDate()
+);
 
   createForm = new FormGroup({
     name: new FormControl('', {
@@ -87,9 +96,13 @@ export class Create {
       nonNullable: true,
       validators: [
         Validators.required,
-        Validators.pattern(/^[a-zA-Z0-9._]+$/)
+        Validators.minLength(4),
+        Validators.pattern(/^[a-zA-Z][a-zA-Z0-9._]*$/)
       ]
     }),
+    //[a-zA-Z] This says:The first character must be a letter.
+    //[a-zA-Z0-9._]* says:After the first character, letters, numbers, . and _ are allowed.
+
     password: new FormControl('', {
       nonNullable: true,
       validators: [
@@ -187,73 +200,75 @@ export class Create {
       }
 
       // surname is optional, so we don't need to validate it
-
       this.currentStep++;
       return;
     }
 
     if (this.currentStep === 2) {
-      const dob = this.createForm.controls.dob;
-      const gender = this.createForm.controls.gender;
-      const phone = this.createForm.controls.phone;
 
-      if (dob.invalid || gender.invalid || phone.invalid || this.isUnder18()) {
-        dob.markAsTouched();
-        gender.markAsTouched();
+  const dob = this.createForm.controls.dob;
+  const gender = this.createForm.controls.gender;
+  const phone = this.createForm.controls.phone;
+
+  // Show validation errors
+  dob.markAsTouched();
+  gender.markAsTouched();
+  phone.markAsTouched();
+
+  // Check normal validation
+  if (  dob.invalid ||  gender.invalid ||  phone.invalid ||  this.isUnder18() ||  this.isOver100()) {
+    return;
+  }
+
+      // Now the phone has passed normal validation
+      // So we can remove the old "phoneTaken" error
+      phone.setErrors(null);
+
+  // Get all existing accounts
+  this.accountService.getAccounts().subscribe({
+
+    next: (accounts) => {
+
+      // Check whether phone number already exists
+      const alreadyExists = accounts.some(account =>
+        account.phone === phone.value
+      );
+
+      // Phone number already registered
+      if (alreadyExists) {
+        phone.setErrors({ phoneTaken: true });
+        //The form gets an error called:phoneTaken
         return;
       }
-      //    // User is below 18
-      // if (this.isUnder18()) {
-      //   dob.markAsTouched();
-      //   return;
-      // }
+
+      // Phone number is available
       this.currentStep++;
-      return;
+    },
+
+    error: (error) => {
+      this.toastr.error('Unable to check phone number',  'Error');
     }
 
-    if (this.currentStep === 3) {
+  });
+  return;
+}
 
+    if (this.currentStep === 3) {
       const username = this.createForm.controls.username;
 
-      // Check required and pattern validation
-      if (username.hasError('required') || username.hasError('pattern')) {
-        username.markAsTouched();
+      // Show validation only after user clicks Next
+      username.markAsTouched();
+
+      // Stop if username is empty or invalid
+      if (username.invalid) {
         return;
       }
 
-      //  Remove previous taken error
-      username.setErrors(null);
-
-      // Create complete email
-      const email = `${username.value}@kmail.com`;
-
-      //check accounts
-      this.accountService.getAccounts().subscribe({
-        next: (accounts) => {
-          const alreadyExists = accounts.some(account =>
-            account.username.toLowerCase() === email.toLowerCase()
-          );
-
-          // Username already exists
-          if (alreadyExists) {
-            username.setErrors({ taken: true });
-            username.markAsTouched();
-            this.generateUsernameSuggestions(username.value, accounts);
-            return;
-          }
-
-          //when  Username is available clear suggestions
-          username.setErrors(null); // Username is available
-          this.usernameSuggestions = [];
-          this.currentStep++;
-        },
-
-        error: (error) => {
-          console.error('Error checking username:', error);
-          this.toastr.error('Unable to check username', 'Error');
-        }
-
-      });
+      // Stop if username is already taken
+      if (!this.usernameAvailable) {
+        return; 
+      }
+      this.currentStep++;
 
       return;
     }
@@ -284,13 +299,28 @@ export class Create {
     }
   }
 
+//to check if age of user is under 18 
   isUnder18(): boolean {
+
+    //Retrieves the current value of the dob field 
     const dob = this.createForm.controls.dob.value;
+
+    //if user did not enter dob ,then return false
     if (!dob) {
       return false;
     }
+    // If user's DOB is greater than maxDob, they are too young, so it returns true
     return new Date(dob) > this.maxDob;
   }
+
+  //to check if age of user is older than 100
+  isOver100(): boolean {
+  const dob = this.createForm.controls.dob.value;
+  if (!dob) {
+    return false;
+  }
+  return new Date(dob) < this.minDob;
+}
 
   //for username suggestions
   generateUsernameSuggestions(username: string, accounts: AccountInterface[]) {
@@ -317,5 +347,72 @@ onUsernameSelected(event: MatAutocompleteSelectedEvent) {
   const selectedUsername = event.option.value;
   this.createForm.controls.username.setValue(selectedUsername);
   this.usernameSuggestions = []; // Clear suggestions
+}
+
+//new tab for addaccount -- uses session storage 
+//normal -- local storage 
+ngOnInit() {
+const isLoggedIn =  sessionStorage.getItem('isLoggedIn') ||  localStorage.getItem('isLoggedIn');
+if (isLoggedIn === 'true') {
+  this.toastr.warning( 'You are already logged in',);
+  this.router.navigate(['/kmail-home']);
+  return;
+}
+ // Watch username changes
+  this.createForm.controls.username.valueChanges.pipe(debounceTime(500))
+  .subscribe(username => {
+    //username.valueChanges -->Every time the user types something, this runs.
+
+    //.pipe() --> method is a built-in RxJS function that allows you to plug in operators
+    //  (like debounceTime, map, or filter) to modify that data stream before it reaches your .subscribe() block
+    //in simple words --->.pipe() is a connector that lets you clean up or change your data before using it.
+
+    // Reset status whenever user changes username
+    this.usernameAvailable = false;
+
+    // Don't check empty username
+    if (!username) {
+      return;
+    }
+
+    // Don't check invalid username
+    if (this.createForm.controls.username.invalid) {
+      return;
+    }
+
+    this.checkUsername(username);
+
+  });
+}
+
+//check username
+checkUsername(username: string) {
+  const email = `${username}@kmail.com`;
+  this.accountService.getAccounts().subscribe({
+    next: (accounts) => {
+
+      const alreadyExists = accounts.some(account =>
+        account.username.toLowerCase() === email.toLowerCase()
+      );
+
+      if (alreadyExists) {
+        // Username is already taken
+        this.usernameAvailable = false;
+        this.createForm.controls.username.setErrors({
+          taken: true
+        });
+
+        this.generateUsernameSuggestions( username,  accounts );
+      } else {
+        this.usernameAvailable = true;  // Username is available
+        this.createForm.controls.username.setErrors(null); // Remove taken error
+        this.usernameSuggestions = [];
+      }
+    },
+
+    error: (error) => {
+      console.error('Error checking username:', error);
+    }
+  });
 }
 }

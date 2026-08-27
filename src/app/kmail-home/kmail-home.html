@@ -90,7 +90,7 @@
           }
           @empty {
           <p class="empty">No primary emails</p>
-          }
+          } 
 
         </div>
       </mat-tab>
@@ -172,12 +172,14 @@
 
     <!-- DRAFTS -->
     @if (selectedFolder === 'drafts') {
-    <app-drafts></app-drafts>
+    <app-drafts [drafts]="draftEmails" (draftChanged)="draftSent($event)">
+      <!-- $event is the draft that was sent -->
+    </app-drafts>
     }
     <!-- TRASH -->
 
     @if (selectedFolder === 'trash') {
-    <app-trash></app-trash>
+    <app-trash [emails]="trashedEmails"></app-trash>
     }
 
     }

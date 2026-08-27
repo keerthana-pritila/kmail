@@ -29,6 +29,30 @@ form {
 
 mat-error {
   font-size: 13px;
-  margin-top: -8px;
+ //margin-top: -8px;
   margin-bottom: 5px;
+}
+.phoneError{
+  font-size: 13px;
+ margin-top: -20px;
+}
+
+//=====
+.form-buttons {
+ // position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+}
+// .nextBtn {
+//   position: absolute;
+//   right: 0;
+// }
+.username-success {
+ // bottom: -35px;
+    position: absolute;
+    color: forestgreen;
+    font-size: 11px;
+    top: 36px;
 }

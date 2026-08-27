@@ -18,13 +18,15 @@
         *Name is required
     </mat-error>
     }
-    @if(createForm.controls.name.errors?.['pattern']){
+    @if(createForm.controls.name.touched &&
+     createForm.controls.name.errors?.['pattern']){
     <mat-error>
         *Only letters are allowed
     </mat-error>
     }
 
-    @if(createForm.controls.name.errors?.['minlength']){
+    @if(createForm.controls.name.touched && 
+    createForm.controls.name.errors?.['minlength']){
     <mat-error>
         *Minimum 3 letters
     </mat-error>
@@ -43,7 +45,11 @@
     <!-- DATE OF BIRTH -->
     <mat-form-field appearance="outline" class="material-field">
         <mat-label>Choose DOB</mat-label>
-        <input matInput [matDatepicker]="picker" [max]="maxDob" formControlName="dob" />
+        <input matInput 
+        [matDatepicker]="picker"
+        [min]="minDob" 
+        [max]="maxDob" 
+        formControlName="dob"/>
 
         <mat-hint>MM/DD/YYYY</mat-hint>
         <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
@@ -62,12 +68,19 @@
         *Minimum required age is 18
     </mat-error>
     }
+    @if (createForm.controls.dob.touched && isOver100()) {
+  <mat-error>
+    *Maximum allowed age is 100
+  </mat-error>
+    }
+
     <!-- GENDER -->
     <mat-form-field appearance="outline" class="material-field">
         <mat-label>Select gender</mat-label>
         <mat-select formControlName="gender">
             <mat-option value="male">male </mat-option>
             <mat-option value="female">female </mat-option>
+            <mat-option value="other">other </mat-option>
         </mat-select>
     </mat-form-field>
     @if (createForm.controls.gender.touched &&
@@ -93,7 +106,7 @@
 @if (createForm.controls.phone.touched &&
   createForm.controls.phone.hasError('required')
 ) {
-  <mat-error>
+  <mat-error class="phoneError">
     *Phone number is required
   </mat-error>
 }
@@ -101,8 +114,15 @@
 @if (createForm.controls.phone.touched &&
   createForm.controls.phone.hasError('pattern')
 ) {
-  <mat-error>
+  <mat-error class="phoneError">
     *Enter a valid 10 digit phone number
+  </mat-error>
+}
+@if (createForm.controls.phone.touched &&
+    createForm.controls.phone.hasError('phoneTaken')
+) {
+  <mat-error class="phoneError">
+    *This phone number is already registered. Try another number.
   </mat-error>
 }
     }
@@ -126,23 +146,32 @@
                 }
          </mat-autocomplete>
 
-        @if (createForm.controls.username.hasError('email') &&
+        <!-- @if (createForm.controls.username.hasError('email') &&
         !createForm.controls.username.hasError('required')) {
         <mat-error>
             Please enter a valid email address
         </mat-error>
-        }
+        } -->
+
         @if (createForm.controls.username.touched &&
         createForm.controls.username.errors?.['required']) {
-        <mat-error>username is <strong>required</strong></mat-error>
+        <mat-error>*username is required</mat-error>
         }
         @if (createForm.controls.username.touched &&
         createForm.controls.username.hasError('pattern')
         ) {
         <mat-error>
-            *Only letters, numbers, . and _ are allowed
+          *Username must start with a letter
         </mat-error>
         }
+
+        @if (createForm.controls.username.touched &&
+        createForm.controls.username.hasError('minlength')) {
+        <mat-error>
+            *Username must be at least 4 characters
+        </mat-error>
+        }
+
         <!-- Duplicate username -->
         @if (createForm.controls.username.touched &&
         createForm.controls.username.hasError('taken')
@@ -151,7 +180,11 @@
             *This username is taken. Try another.
         </mat-error>
         }
-        
+        @if (createForm.controls.username.touched && usernameAvailable) {
+        <div class="username-success">
+            ✓ Username is available
+        </div>
+        }
     </mat-form-field>
     }
 
@@ -160,11 +193,17 @@
     <mat-form-field appearance="outline" class="material-field">
         <mat-label>Enter your password</mat-label>
         <input matInput [type]="hide() ? 'password' : 'text'" formControlName="password" />
-        <button matIconButton matSuffix (click)="clickEvent($event)" [attr.aria-label]="'Hide password'"
+        <button 
+         type="button" 
+         matIconButton 
+         matSuffix
+          (click)="clickEvent($event)"
+           [attr.aria-label]="'Hide password'"
             [attr.aria-pressed]="hide()">
             <mat-icon>{{hide() ? 'visibility_off' : 'visibility'}}</mat-icon>
         </button>
     </mat-form-field>
+
     @if ( createForm.controls.password.touched &&
     createForm.controls.password.hasError('required')
     ) {
@@ -185,8 +224,13 @@
     <mat-form-field appearance="outline" class="material-field">
         <mat-label>confirm your password</mat-label>
         <input matInput [type]="hide() ? 'password' : 'text'" formControlName="confirmpassword" />
-        <button matIconButton matSuffix (click)="clickEvent($event)" [attr.aria-label]="'Hide password'"
-            [attr.aria-pressed]="hide()">
+        <button
+         type="button"
+        matIconButton
+        matSuffix
+        (click)="clickEvent($event)"
+        [attr.aria-label]="'Hide password'"
+        [attr.aria-pressed]="hide()">
             <mat-icon>{{hide() ? 'visibility_off' : 'visibility'}}</mat-icon>
         </button>
     </mat-form-field>
@@ -209,17 +253,29 @@
     }
 
     }
-    <!-- <button type="submit" [disabled]="createForm.invalid" matButton="filled">create</button> -->
+   
     <!-- buttons -->
     <div class="form-buttons">
 
         <!-- BACK BUTTON -->
-        <!-- @if (currentStep > 1) {
-        <button type="button" mat-button (click)="previousStep()">Back</button>
-    } -->
+        @if (currentStep > 1) {
+        <button type="button" matButton = "filled" (click)="previousStep()">Back</button>
+    }
 
         <!-- NEXT BUTTON -->
-        @if (currentStep < 4) { <button type="button" matButton="filled" (click)="nextStep()"> Next </button>
+        @if (currentStep < 4) {
+             <button 
+             type="button" 
+             matButton="filled" 
+             (click)="nextStep()" 
+             class="nextBtn"
+              [disabled]="checkingUsername">
+              @if (checkingUsername) {
+                checking...
+              } @else {
+                Next
+              }
+                </button>
             }
 
             <!-- CREATE BUTTON - ONLY STEP 4 -->

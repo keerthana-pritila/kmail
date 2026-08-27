@@ -39,15 +39,15 @@ export class KmailHome {
 
   private _snackBar = inject(MatSnackBar);
   durationInSeconds = signal(5);
-
   emailService = inject(EmailService);  // Inject EmailService
   emails: EmailInterface[] = [];   // Store all emails here
+  draftEmails: EmailInterface[] = [];   // Store draft emails
+  currentUserEmail = '';
   dialog = inject(MatDialog);  //inject MatDialog
   router = inject(Router);
 
-
-   selectedFolder = 'inbox';
- // selectedFolder = 'all';
+  selectedFolder = 'inbox';
+  // selectedFolder = 'all';
   searchText = '';
   selectedEmail: EmailInterface | null = null;
   // EmailInterface | null -- hold properties  one of 2 things . interface or null .
@@ -63,7 +63,7 @@ export class KmailHome {
 
   // Get only promotion emails
   get promotionEmails(): EmailInterface[] {
-     return this.emails.filter(
+    return this.emails.filter(
       email => email.category === 'promotions' && !email.archived && !email.trashed
     );
   }
@@ -85,7 +85,7 @@ export class KmailHome {
   // Get only sent emails
   get sentEmails(): EmailInterface[] {
     return this.filteredEmails.filter(
-      email => email.category === 'sent' && !email.trashed
+      email => email.category === 'sent' &&  email.senderEmail === this.currentUserEmail && !email.trashed
     );
   }
 
@@ -97,43 +97,83 @@ export class KmailHome {
   }
 
   // Get only trashed emails
-get trashedEmails(): EmailInterface[] {
-  return this.filteredEmails.filter(
-    email => email.trashed === true
-  );
-}
+  get trashedEmails(): EmailInterface[] {
+    return this.filteredEmails.filter(
+      email => email.trashed === true
+    );
+  }
+
+//runs right after a draft is successfully sent
+  draftSent(sentDraft: EmailInterface) {
+    console.log('Removing sent draft:', sentDraft.id);
+
+    // Remove the sent draft from the screen immediately
+    //means  --  // Look through all drafts and keep only the ones that were NOT just sent
+    this.draftEmails = this.draftEmails.filter(
+      draft => draft.id !== sentDraft.id
+    );
+
+  }
 
   //if user is not logged in -- goes to sign page , if logged in --  load mails
+  //for add account tab -- storing in session storage, normal tab -- local storage
   ngOnInit() {
-    const isLoggedIn = localStorage.getItem('isLoggedIn');
+    const isLoggedIn = sessionStorage.getItem('isLoggedIn') || localStorage.getItem('isLoggedIn');
+
     if (isLoggedIn !== 'true') {
       this.router.navigate(['/signin']);
       return;
     }
+
+    // Get current logged-in user's email
+  this.currentUserEmail = sessionStorage.getItem('username') || localStorage.getItem('username') || '';
+    console.log('Current user:', this.currentUserEmail);
+  
     this.loadEmails();
   }
 
+//to check if the email belongs to the current user (either as a recipient or the sender)
+  isMyEmail(email: EmailInterface): boolean {
+  const receivedByMe = (email.to || '')
+    .split(',')
+    .map(value => value.trim())
+    .includes(this.currentUserEmail);
+
+    // Compares the sender's email directly with the current user's email
+  const sentByMe = email.senderEmail === this.currentUserEmail;
+  
+  // Returns true --if the user either received it OR sent it
+  return receivedByMe || sentByMe;
+}
 
   // Get emails from the db.json
- loadEmails() {
+ loadEmails() { 
   this.emailService.getEmails().subscribe({
     next: (response) => {
-      this.emails = response;
-      console.log('Emails loaded:', this.emails);
-      console.log( 'Promotion emails:',
-        this.emails.filter(email =>
-          email.category === 'promotions'
-        )
+
+      // Store emails belonging to current user
+      this.emails = response.filter(email =>
+        this.isMyEmail(email)
       );
 
+      // Get drafts separately
+      this.draftEmails = this.emails.filter(
+        email =>
+          email.category === 'draft' &&
+          email.senderEmail === this.currentUserEmail &&
+          !email.trashed
+      );
+
+      console.log('Emails for:', this.currentUserEmail);
+      console.log(this.emails);
+
+      console.log('Drafts:', this.draftEmails);
     },
 
     error: (error) => {
       console.error('Error loading emails:', error);
     }
-
   });
-
 }
 
   toggleStar(email: EmailInterface) {
@@ -156,7 +196,7 @@ get trashedEmails(): EmailInterface[] {
       next: (response) => {
         console.log('Email archived successfully');
         // this.toastr.success("Email archived successfully");
-        
+
         //show snackbar
         this._snackBar.open('Email archived', 'Dismiss',
           {
@@ -244,60 +284,66 @@ get trashedEmails(): EmailInterface[] {
   }
 
   openInbox() {
+    this.selectedEmail = null;
     this.selectedFolder = 'inbox';
   }
 
   openAllMail() {
+    this.selectedEmail = null;
     this.selectedFolder = 'all';
   }
 
   openSent() {
+    this.selectedEmail = null;
     this.selectedFolder = 'sent';
   }
 
   //test method for incoming mails
   testIncomingEmails() {
-  const email: EmailInterface = {
-    sender: 'Instagram',
-    senderEmail: 'instagram@example.com',
-    to: 'keerthana@kmail.com',
-    subject: 'Someone liked your post',
-    message: 'Your friend liked your post and mentioned you.',
-    category: 'primary', //i know its 'social' but to test given as 'primary'
-    date: new Date().toISOString(),
-    read: false,
-    starred: false,
-    archived: false,
-    trashed: false
+    const email: EmailInterface = {
+      sender: 'Instagram',
+      senderEmail: 'instagram@example.com',
+      to: this.currentUserEmail,
+      subject: 'Someone liked your post',
+      message: 'Your friend liked your post and mentioned you.',
+      category: 'primary', //i know its 'social' but to test given as 'primary'
+      date: new Date().toISOString(),
+      read: false,
+      starred: false,
+      archived: false,
+      trashed: false
 
-  };
+    };
 
-  this.emailService.addIncomingEmail(email).subscribe({
-    next: (response) => {
-      console.log('Incoming email added:', response);
-      console.log('Category:', response.category);
-      this.loadEmails();
+    this.emailService.addIncomingEmail(email).subscribe({
+      next: (response) => {
+        console.log('Incoming email added:', response);
+        console.log('Category:', response.category);
+        this.loadEmails();
 
-    },
+      },
 
-    error: (error) => {
-      console.error(  'Error adding incoming email:',  error );
-    }
-  });
+      error: (error) => {
+        console.error('Error adding incoming email:', error);
+      }
+    });
 
-}
+  }
 
   openStarred() {
-    this.selectedFolder = 'starred';
+    this.selectedEmail = null;   //closes the email
+    this.selectedFolder = 'starred'; //chooses the folder
   }
 
   openDrafts() {
+    this.selectedEmail = null;
     this.selectedFolder = 'drafts';
   }
 
   openTrash() {
-  this.selectedFolder = 'trash';
-}
+    this.selectedEmail = null;
+    this.selectedFolder = 'trash';
+  }
 
   openEmail(email: EmailInterface) {
     this.selectedEmail = email;

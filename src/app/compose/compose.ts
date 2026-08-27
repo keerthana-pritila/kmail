@@ -16,6 +16,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatIconModule } from '@angular/material/icon';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import {MatChipInputEvent, MatChipsModule} from '@angular/material/chips';
+import { AccountService } from '../account-service';
 
 @Component({
   selector: 'app-compose',
@@ -35,6 +36,7 @@ export class Compose {
   private _snackBar = inject(MatSnackBar);
   durationInSeconds = signal(5);
   emailService = inject(EmailService);  // Email service
+  accountService = inject(AccountService); //Account service
   dialogRef = inject(MatDialogRef<Compose>);  // Reference to the currently opened dialog
   data = inject(MAT_DIALOG_DATA, { optional: true });
   showFrom = false;      //initially 'From' is hidden
@@ -79,7 +81,7 @@ export class Compose {
 
   //get logged-in user's email
   ngOnInit() {
-  const username = localStorage.getItem('username') ;
+  const username =   sessionStorage.getItem('username') || localStorage.getItem('username') || '' ;
   this.composeForm.controls.from.setValue(username || '');
   
   // Check if this Compose window was opened from a draft
@@ -292,66 +294,124 @@ saveDraft() {
   );
   return;
 }
+  // Check whether users actually exist
+  this.checkRecipientsExist();
+}
 
-  // Create sent email
-  const email: EmailInterface = {
-    sender: 'Me',
-    senderEmail: this.composeForm.controls.from.value,
-    to: this.composeForm.controls.to.value,
-    subject: this.composeForm.controls.subject.value,
-    message: this.composeForm.controls.message.value,
-    category: 'sent',
-    date: new Date().toISOString(),
-    read: true,
-    starred: false,
-    archived: false,
-    trashed:false,
-    attachmentName: this.selectedFile  ? this.selectedFile.name  : '',
-    attachmentUrl: this.selectedFileUrl  ? this.selectedFileUrl  : ''
+//to check receipients exist in kmail 
+checkRecipientsExist(): void {
+  const recipientEmails = this.recipients;
 
-  };
+  this.accountService.getAccounts().subscribe({
+    next: (accounts) => {
+      const invalidEmails = recipientEmails.filter(recipient =>
+        !accounts.some(account =>
+          account.username.toLowerCase() === recipient.toLowerCase()
+        )
+      );
 
+      if (invalidEmails.length > 0) {
 
-  // First save the email as SENT
-  this.emailService.sendEmail(email).subscribe({
-    next: (response) => {
-      console.log('Email sent successfully');
-
-      // Check whether this email came from a draft
-      if (this.data?.id) {
-
-        // Delete the old draft
-        this.emailService.deleteEmail(this.data.id).subscribe({
-          next: () => {
-            console.log('Draft deleted after sending');
-            this.emailSent = true;
-            this.openSnackBar();
-            this.dialogRef.close(response);
-
-          },
-
-          error: (error) => {
-            console.error( 'Error deleting draft:',   error );
+        this._snackBar.open(
+          `Address not found: ${invalidEmails.join(', ')}      X`,
+          'Dismiss',
+          {
+            duration: 5000,
+            panelClass: ['address-not-found']
           }
-
-        });
-
+        );
+        //panelClass: ['address-not-found'] -->This gives this snackbar a custom CSS class.
+        return;
       }
 
-      // Normal new email
-      else {
-        this.emailSent = true;
-        this.openSnackBar();
-        this.dialogRef.close(response);
-      }
+      // All recipients exist
+      this.sendEmailToExistingUsers();
     },
 
     error: (error) => {
-      console.error( 'Error sending email:', error );
+      console.error('Error checking accounts:', error);
+      this._snackBar.open(
+        'Unable to check recipient address',
+        'Dismiss',
+        {
+          duration: 5000
+        }
+      );
+
     }
 
   });
 }
+
+  sendEmailToExistingUsers() {
+
+    // Create sent email
+    const email: EmailInterface = {
+      // If this is a draft, keep the same id
+      id: this.data?.id,
+      sender: 'Me',
+      senderEmail: this.composeForm.controls.from.value,
+      to: this.composeForm.controls.to.value,
+      subject: this.composeForm.controls.subject.value,
+      message: this.composeForm.controls.message.value,
+      category: 'sent',
+      date: new Date().toISOString(),
+      read: true,
+      starred: false,
+      archived: false,
+      trashed: false,
+      attachmentName: this.selectedFile ? this.selectedFile.name : '',
+      attachmentUrl: this.selectedFileUrl ? this.selectedFileUrl : ''
+
+    };
+
+    // Check whether this email came from a draft
+      if (this.data?.id) {
+         console.log('Sending existing draft:', this.data.id);
+
+        // UPDATE the existing draft
+        // Instead of POST + DELETE
+    this.emailService.updateEmail(email).subscribe({
+
+      next: (response) => {
+
+        console.log('Draft converted to sent email:', response);
+        this.emailSent = true;
+        this.openSnackBar();
+
+        // Tell Drafts/KmailHome that draft was sent
+        this.dialogRef.close('sent');
+      },
+
+      error: (error) => {
+        console.error(  'Error converting draft to sent email:',  error  );
+      }
+
+    });
+
+  }
+
+  // NEW MAIL
+  else {
+
+    //new mail does not have  an id yet
+  this.emailService.sendEmail(email).subscribe({
+
+      next: (response) => {
+        console.log('New email sent:', response);
+        this.emailSent = true;
+        this.openSnackBar();
+        this.dialogRef.close(response);
+      },
+
+      error: (error) => {
+        console.error(  'Error sending email:',  error );
+      }
+
+    });
+  }
+ }
+
 
   // Cancel compose
   closeDialog() {
@@ -371,4 +431,6 @@ saveDraft() {
     console.log('Selected file:', this.selectedFile.name);
   }
 }
+
+
 }

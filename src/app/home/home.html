@@ -1,8 +1,11 @@
 <ul class="header">
-    <li class="logo"><h1>Kmail</h1></li>
+    <li class="logo">
+        <h1>Kmail</h1>
+    </li>
     <div class="header-buttons">
         <li><button routerLink="/signin"> Sign in </button></li>
-        <li><button routerLink="/create"> Create account</button></li>
+        <!-- <li><button routerLink="/create"> Create account</button></li> -->
+        <li><button (click)="createAccount()"> Create account </button></li>
     </div>
 </ul>
 

@@ -1,7 +1,7 @@
 <h2>Drafts</h2>
 
 <div class="draft-list">
-    @for (draft of drafts; track draft.id) {
+    @for (draft of drafts(); track draft.id) {
         <div class="draft-row" (click)="openDraft(draft)">
             <div class="draft-icon">
                 <mat-icon>drafts</mat-icon>

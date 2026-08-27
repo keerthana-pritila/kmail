@@ -7,6 +7,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { Profile } from '../profile/profile';
+import { ForgotPassword } from '../forgot-password/forgot-password';
 
 @Component({
   selector: 'app-header',
@@ -15,7 +16,7 @@ import { Profile } from '../profile/profile';
     MatIconModule,
     MatFormFieldModule,
     MatInputModule,
-    MatMenuModule
+    MatMenuModule 
   ],
   templateUrl: './header.html',
   styleUrl: './header.scss',
@@ -27,9 +28,12 @@ export class Header {
   menuClicked = output<void>();       // This event will notify KmailHome when menu button is clicked
   searchChanged = output<string>();
 
+  //for add account -- storing in session storage
+  //If Add Account opened the tab, it will contain the new account otherwise local storage
   ngOnInit() {
-    this.userName = localStorage.getItem('loggedInUserName') || '';
-  }
+  this.userName =
+    sessionStorage.getItem('loggedInUserName') ||localStorage.getItem('loggedInUserName') || '';
+}
 
   // Called when the side 3 lines button is clicked
   onMenuClick() {
@@ -45,13 +49,39 @@ openProfile() {
 this.dialog.open(Profile, {
     width: '450px'
   });
-
 }
 
-  logout() {
-  localStorage.removeItem('isLoggedIn');
-  localStorage.removeItem('username');
-  localStorage.removeItem('loggedInUserName');
+openForgotPassword() {
+  this.dialog.open(ForgotPassword, {
+    width: '500px'
+  });
+}
+
+//when add account clicked,opens in new tab 
+addAccount() {
+  window.open('/signin?addAccount=true', '_blank');
+//'_blank': A parameter that forces the browser to open the link in a new tab rather than the current one.
+}
+
+logout() {
+  const isAddAccount = sessionStorage.getItem('isLoggedIn') === 'true';
+
+  if (isAddAccount) {
+
+    // Logout only this tab
+    sessionStorage.removeItem('isLoggedIn');
+    sessionStorage.removeItem('username');
+    sessionStorage.removeItem('loggedInUserName');
+
+  } else {
+
+    // Logout normal account
+    localStorage.removeItem('isLoggedIn');
+    localStorage.removeItem('username');
+    localStorage.removeItem('loggedInUserName');
+
+  }
   this.router.navigate(['/signin']);
 }
+
 }

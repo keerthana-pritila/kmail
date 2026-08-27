@@ -1,6 +1,6 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject,input,output } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import { EmailService } from '../email-service';
+//import { EmailService } from '../email-service';
 import { EmailInterface } from '../email-interface';
 import { MatDialog } from '@angular/material/dialog';
 import { Compose } from '../compose/compose';
@@ -15,29 +15,20 @@ import { Compose } from '../compose/compose';
   styleUrl: './drafts.scss',
 })
 export class Drafts {
-  emailService = inject(EmailService);
+  //emailService = inject(EmailService);
    dialog = inject(MatDialog);
-  drafts: EmailInterface[] = [];
+  // currentUserEmail = '';
+ // drafts: EmailInterface[] = [];
+ 
+  // Receive drafts from KmailHome
+  drafts = input.required<EmailInterface[]>();
 
-  ngOnInit() {
-    this.loadDrafts();
-  }
+  // Tell KmailHome that something changed(like refresh)
+ draftChanged = output<EmailInterface>();
 
-  //get drafts from db.json
-  loadDrafts() {
-    this.emailService.getEmails().subscribe({
-      next: (emails) => {
-        this.drafts = emails.filter(
-          email => email.category === 'draft'
-        );
-      },
-
-      error: (error) => {
-        console.error('Error loading drafts:', error);
-      }
-    });
-  }
+  
   openDraft(draft: EmailInterface) {
+
    const dialogRef =  this.dialog.open(Compose, {
       width: '500px',
       position: {
@@ -50,8 +41,14 @@ export class Drafts {
     //data: draft --This sends the selected draft into the Compose component
     
     //after compose dialog closes - reload drafts
-    dialogRef.afterClosed().subscribe(() => {
-    this.loadDrafts();
+    dialogRef.afterClosed().subscribe((result) => {
+   
+      // If draft was sent or changed
+      if (result === 'sent') {
+        console.log('Draft was sent');
+
+          this.draftChanged.emit(draft);
+      }
   });
   }
 }

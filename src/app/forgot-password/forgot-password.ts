@@ -12,6 +12,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { RouterModule, Router } from '@angular/router';
 import { AccountService } from '../account-service';
 import { ToastrService } from 'ngx-toastr';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-forgot-password',
@@ -30,6 +31,7 @@ export class ForgotPassword {
   accountService = inject(AccountService);
   router = inject(Router);
   toastr = inject(ToastrService);
+  dialog = inject(MatDialogRef<ForgotPassword>); 
 
   currentStep = 1;
   accountFound = false;
