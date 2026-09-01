@@ -20,16 +20,23 @@ export class Home {
   // Stores whether user is logged in
   isLoggedIn = false;
 
+  //FYI -- session storage is for another tab i.e,add account click
   ngOnInit() {
+     // Check whether user is logged in
+  const localLogin = localStorage.getItem('isLoggedIn');
+  const sessionLogin = sessionStorage.getItem('isLoggedIn');
 
-    // Check whether user is logged in
-    const loggedIn = localStorage.getItem('isLoggedIn');
-    if (loggedIn === 'true') {
-      this.isLoggedIn = true;
-      // Get user's name
-      this.userName = localStorage.getItem('loggedInUserName') || '';
-    }
+  if (localLogin === 'true' || sessionLogin === 'true') {
+    this.isLoggedIn = true;
+     // Get user's name
+    this.userName = sessionStorage.getItem('loggedInUserName') ||  localStorage.getItem('loggedInUserName') || '';
   }
+}
+
+  //when user clicks on the username button, navigate to the Kmail home page
+  openKmailHome() {
+  this.router.navigate(['/kmail-home']);
+} 
 
   createAccount() {
     const isLoggedIn = localStorage.getItem('isLoggedIn');

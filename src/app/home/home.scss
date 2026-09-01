@@ -65,9 +65,16 @@ p {
     color: #555;
     box-sizing: border-box;
 }
+
 .username {
-  font-weight: 500;
+//   background-color: green;
+ // border: none;
   font-size: 16px;
-  padding: 10px 15px;
+  font-weight: 500;
   cursor: pointer;
+  padding: 10px 15px;
+}
+
+.username:hover {
+  text-decoration: underline;
 }

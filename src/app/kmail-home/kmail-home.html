@@ -73,9 +73,63 @@
 
     } @else {
 
-    <!-- INBOX -->
+        @if (selectedEmails.length > 0) {
 
-    @if (selectedFolder === 'inbox') {
+         <div class="selection-toolbar">
+
+      <!-- select all -->
+      <mat-checkbox
+           [checked]="allEmailsSelected()"
+           (change)="selectAllEmails($event)">
+      </mat-checkbox>
+
+      <!-- archive selected-->
+        @if (selectedFolder !== 'trash') {
+      <button
+        matIconButton
+        type="button"
+        (click)="archiveSelected()"
+         matTooltip="Archive">
+        <mat-icon>archive</mat-icon>
+      </button>
+    }
+
+       <!-- Delete selected -->
+          @if (selectedFolder === 'trash') {
+
+              <!-- DELETE FOREVER btn -->
+      <button
+        matIconButton
+        type="button"
+        (click)="deleteForeverSelected()"
+        matTooltip="Delete forever">
+        <mat-icon>delete_forever</mat-icon>
+      </button>
+
+    } @else {
+       <!-- MOVE TO TRASH -->
+      <button
+        matIconButton
+        type="button"
+        (click)="deleteSelected()"
+        matTooltip="Delete">
+        <mat-icon>delete</mat-icon>
+      </button>
+    }
+
+    </div>
+  }
+       <!-- Star selected -->
+      <!-- <button
+        matIconButton
+        type="button"
+        (click)="starSelected()">
+        <mat-icon>star</mat-icon>
+      </button> -->
+
+  <!-- INBOX -->
+
+@if (selectedFolder === 'inbox') {
 
     <mat-tab-group class="tab-content">
 
@@ -83,9 +137,14 @@
 
       <mat-tab label="Primary">
         <div class="email-list">
-          @for(email of primaryEmails; track email.id) {
-          <app-email-row [email]="email" (starClicked)="toggleStar($event)" (emailClicked)="openEmail($event)"
-            (archiveClicked)="archiveEmail($event)" (deleteClicked)="deleteEmail($event)">
+          @for(email of primaryEmailList; track email.id) {
+          <app-email-row 
+          [email]="email" 
+          (starClicked)="toggleStar($event)" 
+          (emailClicked)="openEmail($event)"
+          (archiveClicked)="archiveEmail($event)" 
+          (deleteClicked)="deleteEmail($event)"
+          (checkboxChanged)="checkboxChanged($event)">
           </app-email-row>
           }
           @empty {
@@ -100,8 +159,13 @@
       <mat-tab label="Promotions">
         <div class="email-list">
           @for(email of promotionEmails; track email.id) {
-          <app-email-row [email]="email" (starClicked)="toggleStar($event)" (emailClicked)="openEmail($event)"
-            (archiveClicked)="archiveEmail($event)" (deleteClicked)="deleteEmail($event)">
+          <app-email-row 
+          [email]="email" 
+          (starClicked)="toggleStar($event)" 
+          (emailClicked)="openEmail($event)"
+          (archiveClicked)="archiveEmail($event)"
+          (deleteClicked)="deleteEmail($event)"
+          (checkboxChanged)="checkboxChanged($event)">
           </app-email-row>
           }
           @empty {
@@ -115,8 +179,13 @@
       <mat-tab label="Social">
         <div class="email-list">
           @for(email of socialEmails; track email.id) {
-          <app-email-row [email]="email" (starClicked)="toggleStar($event)" (emailClicked)="openEmail($event)"
-            (archiveClicked)="archiveEmail($event)" (deleteClicked)="deleteEmail($event)">
+          <app-email-row 
+          [email]="email"
+           (starClicked)="toggleStar($event)"
+            (emailClicked)="openEmail($event)"
+            (archiveClicked)="archiveEmail($event)"
+            (deleteClicked)="deleteEmail($event)"
+            (checkboxChanged)="checkboxChanged($event)">
           </app-email-row>
           }
           @empty {
@@ -136,8 +205,13 @@
     <div class="email-list">
       @for(email of allEmails; track email.id) {
 
-      <app-email-row [email]="email" (starClicked)="toggleStar($event)" (emailClicked)="openEmail($event)"
-        (archiveClicked)="archiveEmail($event)" (deleteClicked)="deleteEmail($event)">
+      <app-email-row
+       [email]="email"
+        (starClicked)="toggleStar($event)"
+        (emailClicked)="openEmail($event)"
+        (archiveClicked)="archiveEmail($event)"
+        (deleteClicked)="deleteEmail($event)"
+        (checkboxChanged)="checkboxChanged($event)">
       </app-email-row>
 
       } @empty {
@@ -150,8 +224,13 @@
     @if (selectedFolder === 'sent') {
     <div class="email-list">
       @for(email of sentEmails; track email.id) {
-      <app-email-row [email]="email" (starClicked)="toggleStar($event)" (emailClicked)="openEmail($event)"
-        (archiveClicked)="archiveEmail($event)" (deleteClicked)="deleteEmail($event)">
+      <app-email-row
+       [email]="email"
+        (starClicked)="toggleStar($event)"
+        (emailClicked)="openEmail($event)"
+        (archiveClicked)="archiveEmail($event)"
+        (deleteClicked)="deleteEmail($event)"
+        (checkboxChanged)="checkboxChanged($event)">
       </app-email-row>
       }
 
@@ -163,8 +242,13 @@
     @if (selectedFolder === 'starred') {
     <div class="email-list">
       @for(email of starredEmails; track email.id) {
-      <app-email-row [email]="email" (starClicked)="toggleStar($event)" (emailClicked)="openEmail($event)"
-        (archiveClicked)="archiveEmail($event)" (deleteClicked)="deleteEmail($event)">
+      <app-email-row
+       [email]="email"
+        (starClicked)="toggleStar($event)"
+        (emailClicked)="openEmail($event)"
+        (archiveClicked)="archiveEmail($event)"
+        (deleteClicked)="deleteEmail($event)"
+        (checkboxChanged)="checkboxChanged($event)">
       </app-email-row>
       }
     </div>
@@ -179,7 +263,10 @@
     <!-- TRASH -->
 
     @if (selectedFolder === 'trash') {
-    <app-trash [emails]="trashedEmails"></app-trash>
+    <app-trash 
+    [emails]="trashedEmails"
+    (checkboxChanged)="checkboxChanged($event)">
+    </app-trash>
     }
 
     }

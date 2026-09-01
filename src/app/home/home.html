@@ -11,9 +11,17 @@
     
     <!-- SHOW USERNAME IF USER IS LOGGED IN -->
     @if (isLoggedIn) {
+        <!-- <li>
+            <span class="username">  {{ userName }} signed In</span>
+        </li> -->
         <li>
-            <span class="username">  {{ userName }} </span>
-        </li>
+    <button
+        type="button"
+        class="username"
+        (click)="openKmailHome()">
+        {{ userName }}'s Account
+    </button>
+</li>
     }
     
         <li><button (click)="createAccount()"> Create account </button></li>

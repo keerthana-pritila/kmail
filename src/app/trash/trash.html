@@ -1,10 +1,18 @@
 <div class="trash-container">
   <h2>Trash</h2>
   <div class="email-list">
+
     @for(email of emails(); track email.id) {
+
       <app-email-row
-        [email]="email">
+        [email]="email"
+         [showStar]="false"
+          [showArchive]="false"
+          [showDelete]="false"
+         (checkboxChanged)="checkboxChanged.emit($event)">
       </app-email-row>
+      
+ <!-- in trash star does not appear -->
 
     } @empty {
       <p class="empty"> No emails in Trash </p>

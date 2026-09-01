@@ -266,7 +266,8 @@
       "read": true,
       "starred": true,
       "archived": false,
-      "trashed": false
+      "trashed": true,
+      "selected": false
     },
     {
       "id": "2",
@@ -279,8 +280,9 @@
       "date": "2026-08-19",
       "read": true,
       "starred": true,
-      "archived": true,
-      "trashed": false
+      "archived": false,
+      "trashed": false,
+      "selected": false
     },
     {
       "id": "3",
@@ -294,7 +296,8 @@
       "read": true,
       "starred": true,
       "archived": false,
-      "trashed": false
+      "trashed": false,
+      "selected": false
     },
     {
       "id": "4",
@@ -308,7 +311,8 @@
       "read": true,
       "starred": false,
       "archived": true,
-      "trashed": false
+      "trashed": false,
+      "selected": false
     },
     {
       "id": "5",
@@ -320,9 +324,10 @@
       "category": "primary",
       "date": "2026-08-25",
       "read": true,
-      "starred": false,
+      "starred": true,
       "archived": false,
-      "trashed": false
+      "trashed": true,
+      "selected": false
     },
     {
       "sender": "Me",
@@ -333,10 +338,11 @@
       "category": "sent",
       "date": "2026-08-19T07:41:20.587Z",
       "read": true,
-      "starred": false,
+      "starred": true,
       "id": "7Q3X3KWvoWg",
       "archived": true,
-      "trashed": false
+      "trashed": false,
+      "selected": false
     },
     {
       "sender": "Me",
@@ -364,7 +370,8 @@
       "starred": false,
       "archived": true,
       "trashed": false,
-      "id": "_KokFBrKiL8"
+      "id": "_KokFBrKiL8",
+      "selected": false
     },
     {
       "sender": "Me",
@@ -422,7 +429,8 @@
       "trashed": false,
       "attachmentName": "boatheadphones.jpg",
       "attachmentUrl": "blob:http://localhost:4200/ffd81fca-1fa3-4ecc-b732-89166af0ea93",
-      "id": "QdWnaf33d7g"
+      "id": "QdWnaf33d7g",
+      "selected": false
     },
     {
       "sender": "Me",
@@ -438,7 +446,8 @@
       "trashed": true,
       "attachmentName": "",
       "attachmentUrl": "",
-      "id": "iEZN3yEdkpY"
+      "id": "iEZN3yEdkpY",
+      "selected": false
     },
     {
       "sender": "Me",
@@ -470,7 +479,8 @@
       "trashed": true,
       "attachmentName": "",
       "attachmentUrl": "",
-      "id": "Okv91KpF44o"
+      "id": "Okv91KpF44o",
+      "selected": false
     },
     {
       "sender": "Me",
@@ -486,7 +496,8 @@
       "trashed": true,
       "attachmentName": "",
       "attachmentUrl": "",
-      "id": "kLlWVpf2FD8"
+      "id": "kLlWVpf2FD8",
+      "selected": false
     },
     {
       "sender": "Me",
@@ -1136,9 +1147,10 @@
       "date": "2026-08-26T06:03:48.433Z",
       "read": false,
       "starred": true,
-      "archived": false,
+      "archived": true,
       "trashed": false,
-      "id": "3PqzbwLuY6E"
+      "id": "3PqzbwLuY6E",
+      "selected": false
     },
     {
       "sender": "Instagram",
@@ -1212,9 +1224,10 @@
       "date": "2026-08-26T07:07:37.643Z",
       "read": false,
       "starred": false,
-      "archived": false,
+      "archived": true,
       "trashed": false,
-      "id": "mDwa5G12lzI"
+      "id": "mDwa5G12lzI",
+      "selected": false
     },
     {
       "sender": "Instagram",
@@ -1227,8 +1240,9 @@
       "read": false,
       "starred": false,
       "archived": false,
-      "trashed": false,
-      "id": "dUpuCZXr_WU"
+      "trashed": true,
+      "id": "dUpuCZXr_WU",
+      "selected": false
     },
     {
       "sender": "Instagram",
@@ -1287,8 +1301,9 @@
       "read": false,
       "starred": false,
       "archived": false,
-      "trashed": false,
-      "id": "6_YN4wlNUxE"
+      "trashed": true,
+      "id": "6_YN4wlNUxE",
+      "selected": false
     },
     {
       "sender": "Me",
@@ -1560,7 +1575,8 @@
       "archived": false,
       "trashed": false,
       "attachmentName": "",
-      "attachmentUrl": ""
+      "attachmentUrl": "",
+      "selected": false
     },
     {
       "sender": "Me",
@@ -1572,11 +1588,12 @@
       "date": "2026-08-27T09:29:42.719Z",
       "read": true,
       "starred": false,
-      "archived": false,
+      "archived": true,
       "trashed": false,
       "attachmentName": "",
       "attachmentUrl": "",
-      "id": "25nN0c6iUI0"
+      "id": "25nN0c6iUI0",
+      "selected": false
     },
     {
       "sender": "Me",
@@ -1609,6 +1626,160 @@
       "attachmentName": "",
       "attachmentUrl": "",
       "id": "0p2jLu_bzno"
+    },
+    {
+      "sender": "Me",
+      "senderEmail": "dummy@kmail.com",
+      "to": "virat@kmail.com",
+      "subject": "jhvjh",
+      "message": "jhgujgbjgb",
+      "category": "sent",
+      "date": "2026-08-27T12:26:50.724Z",
+      "read": true,
+      "starred": false,
+      "archived": false,
+      "trashed": false,
+      "attachmentName": "",
+      "attachmentUrl": "",
+      "id": "1lEJ4KUUw9A",
+      "selected": false
+    },
+    {
+      "sender": "Me",
+      "senderEmail": "dummy@kmail.com",
+      "to": "virat@kmail.com",
+      "subject": "gfhgv",
+      "message": "ghfvhygfvjyh",
+      "category": "sent",
+      "date": "2026-08-27T12:27:30.826Z",
+      "read": true,
+      "starred": false,
+      "archived": false,
+      "trashed": false,
+      "attachmentName": "",
+      "attachmentUrl": "",
+      "id": "NsfABemmBjw"
+    },
+    {
+      "sender": "Instagram",
+      "senderEmail": "instagram@example.com",
+      "to": "virat@kmail.com",
+      "subject": "Someone liked your post",
+      "message": "Your friend liked your post and mentioned you.",
+      "category": "social",
+      "date": "2026-09-01T01:53:59.619Z",
+      "read": false,
+      "starred": false,
+      "archived": false,
+      "trashed": false,
+      "id": "pA_iO8mkGhw"
+    },
+    {
+      "sender": "Instagram",
+      "senderEmail": "instagram@example.com",
+      "to": "dummy@kmail.com",
+      "subject": "Someone liked your post",
+      "message": "Your friend liked your post and mentioned you.",
+      "category": "social",
+      "date": "2026-09-01T03:34:03.687Z",
+      "read": true,
+      "starred": false,
+      "archived": true,
+      "trashed": false,
+      "id": "-44rrnJrvr4",
+      "selected": false
+    },
+    {
+      "sender": "Me",
+      "senderEmail": "dummy@kmail.com",
+      "to": "dummy@kmail.com, virat@kmail.com",
+      "subject": "testing date format ",
+      "message": "Dtael;km;l   nnklk ggt rt yfugjhghb",
+      "category": "sent",
+      "date": "2026-09-01T04:35:35.339Z",
+      "read": true,
+      "starred": true,
+      "archived": true,
+      "trashed": false,
+      "attachmentName": "",
+      "attachmentUrl": "",
+      "id": "3TgIG2yd__k",
+      "selected": false
+    },
+    {
+      "sender": "Instagram",
+      "senderEmail": "instagram@example.com",
+      "to": "dummy@kmail.com",
+      "subject": "Someone liked your post",
+      "message": "Your friend liked your post and mentioned you.",
+      "category": "social",
+      "date": "2026-09-01T05:25:23.226Z",
+      "read": true,
+      "starred": false,
+      "archived": true,
+      "trashed": false,
+      "id": "8pQAtIrSSkI",
+      "selected": false
+    },
+    {
+      "sender": "Instagram",
+      "senderEmail": "instagram@example.com",
+      "to": "dummy@kmail.com",
+      "subject": "Someone liked your post",
+      "message": "Your friend liked your post and mentioned you.",
+      "category": "social",
+      "date": "2026-09-01T07:01:08.026Z",
+      "read": false,
+      "starred": false,
+      "archived": false,
+      "trashed": false,
+      "id": "aIMjv9W6jMY",
+      "selected": false
+    },
+    {
+      "sender": "Instagram",
+      "senderEmail": "instagram@example.com",
+      "to": "dummy@kmail.com",
+      "subject": "Someone liked your post",
+      "message": "Your friend liked your post and mentioned you.",
+      "category": "social",
+      "date": "2026-09-01T09:52:27.827Z",
+      "read": false,
+      "starred": false,
+      "archived": false,
+      "trashed": false,
+      "id": "veQu4ZDCVVA"
+    },
+    {
+      "sender": "Instagram",
+      "senderEmail": "instagram@example.com",
+      "to": "dummy@kmail.com",
+      "subject": "Someone liked your post",
+      "message": "Your friend liked your post and mentioned you.",
+      "category": "social",
+      "date": "2026-09-01T10:15:59.978Z",
+      "read": false,
+      "starred": false,
+      "archived": false,
+      "trashed": false,
+      "id": "SL5694VH8ek"
+    },
+    {
+      "sender": "Me",
+      "senderEmail": "dummy@kmail.com",
+      "to": "dummy@kmail.com, virat@kmail.com",
+      "subject": "testing date format ",
+      "message": "Dtael;km;l   nnklk ggt rt yfugjhghb",
+      "category": "primary",
+      "date": "2026-09-01T04:35:35.339Z",
+      "read": true,
+      "starred": false,
+      "archived": false,
+      "trashed": false,
+      "attachmentName": "",
+      "attachmentUrl": "",
+      "id": "3TgIG2yd__k",
+      "selected": false
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

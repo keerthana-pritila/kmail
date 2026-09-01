@@ -4,9 +4,16 @@
   (click)="onEmailClick()">
 
   <!-- Checkbox -->
-  <mat-checkbox (click)="onCheckboxClick($event)"></mat-checkbox>
+  <!-- <mat-checkbox (click)="onCheckboxClick($event)"></mat-checkbox> -->
+   <mat-checkbox
+    [checked]="email().selected"
+    (click)="onCheckboxClick($event)"
+    (change)="onCheckboxChange($event)">
+</mat-checkbox>
 
   <!-- Star -->
+   @if(showStar()) {
+
   <button
     matIconButton
     type="button"
@@ -16,6 +23,7 @@
     <mat-icon>{{ email().starred ? 'star' : 'star_border' }}</mat-icon>
   </button>
 
+   }
 
   <!-- Sender -->
   <span class="sender">{{ email().sender }}</span>
@@ -27,29 +35,33 @@
   </div>
 
 
-  <!-- Date -->
-  <span class="date">
-    {{ email().date }}
-  </span>
+ <!-- Date -->
+<span class="date">
+  {{ displayDate(email().date) }}
+</span>
 
   <!-- Icon actions (arhieve,delete)-->
 <div class="email-actions">
 
   <!-- Archive -->
+   @if (showArchive()) {
   <button 
     matIconButton 
     type="button" 
     (click)="onArchiveClick($event)">
     <mat-icon>archive</mat-icon>
   </button>
+  }
 
   <!-- Delete -->
+   @if (showDelete()) {
   <button 
     matIconButton 
     type="button" 
     (click)="onDeleteClick($event)">
     <mat-icon>delete</mat-icon>
   </button>
+}
 
 </div>
 </div>

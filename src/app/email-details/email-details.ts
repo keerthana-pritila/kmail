@@ -2,12 +2,14 @@ import { Component, input, output } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { EmailInterface } from '../email-interface';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-email-details',
   imports: [
     MatButtonModule,
-    MatIconModule
+    MatIconModule,
+    DatePipe
   ],
   templateUrl: './email-details.html',
   styleUrl: './email-details.scss',

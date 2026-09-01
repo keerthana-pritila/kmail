@@ -31,7 +31,8 @@
         <!-- DATE -->
         <div class="email-info">
             <label>Date: </label>
-            <span> {{ email().date }}</span>
+            <!-- <span> {{ email().date }}</span> -->
+             <span>{{ email().date | date:'yyyy-MM-dd, h:mm a' }}</span>
         </div>
 
 

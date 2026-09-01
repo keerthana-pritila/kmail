@@ -18,17 +18,16 @@ export class EmailService {
 
   //update email
   updateEmail(email: EmailInterface): Observable<EmailInterface> {
-    return this.http.put<EmailInterface>(
+    return this.http.patch<EmailInterface>(
       `${this.apiUrl}/${email.id}`,
       email
     );
   }
+//patch -- used Only send the fields you want to change
 
   //delete email
   deleteEmail(id: string) {
-    return this.http.delete(
-      `${this.apiUrl}/${id}`
-    );
+    return this.http.delete( `${this.apiUrl}/${id}`);
   }
 
   //emails categorise into primary,socail & promotions

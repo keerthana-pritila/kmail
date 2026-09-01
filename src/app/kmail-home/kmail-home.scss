@@ -1,6 +1,7 @@
 .kmail-container {
-  height: calc(100vh - 70px);
+  height: calc(100vh - 76px);
   cursor: pointer;
+  overflow: hidden;
 }
 
 .kmail-sidenav {
@@ -27,6 +28,9 @@
 }
 .sidenav-content {
   padding: 0;
+   height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .tab-content {
@@ -35,5 +39,19 @@
 
 .email-list {
   width: 100%;
+}
+
+.selection-toolbar {
+  height: 60px;
+  display: flex;
+  align-items: center;
+  padding: 0 15px;
+  border-bottom: 1px solid #ddd;
+  background-color: white;
+  gap: 10px;
+} 
+
+.selection-toolbar button {
+  margin: 0 5px;
 }
 
