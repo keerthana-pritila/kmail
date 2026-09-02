@@ -1,5 +1,8 @@
 <!-- Top part  Kmail header -->
-<app-header (menuClicked)="sidenav.toggle()" (searchChanged)="searchEmails($event)">
+<app-header 
+(menuClicked)="sidenav.toggle()" 
+(searchChanged)="searchEmails($event)"
+(goToInboxClicked)="openInbox()">
 </app-header>
 
 <!-- Angular Material sidenav container -->
@@ -39,7 +42,7 @@
     </button>
 
     <!-- snoozed-->
-    <button mat-button class="menu-item">
+    <button mat-button class="menu-item" (click)="openSnoozed()">
       <mat-icon>schedule</mat-icon>
       <span>Snoozed</span>
     </button>
@@ -67,10 +70,17 @@
   <mat-sidenav-content class="sidenav-content">
     <!-- TO OPEN SELECTED EMAIL -->
     <!-- If an email is selected, show EmailDetails. Otherwise show the normal email list-->
-    @if (selectedEmail) {
-    <app-email-details [email]="selectedEmail" (backClicked)="closeEmail()">
-    </app-email-details>
 
+    @if (selectedEmail) {
+
+    <app-email-details 
+        [email]="selectedEmail"
+        (backClicked)="closeEmail()"
+        (replyClicked) = "replyEmail($event)"
+        (forwardClicked)="forwardEmail($event)">
+    </app-email-details>
+    <!-- $event holds the data sent from the child component -->
+     
     } @else {
 
         @if (selectedEmails.length > 0) {
@@ -93,6 +103,20 @@
         <mat-icon>archive</mat-icon>
       </button>
     }
+
+    <!-- mark as read icon -->
+     
+    @if (selectedFolder !== 'trash') {
+
+  <button
+    matIconButton
+    type="button"
+    (click)="markSelectedAsRead()"
+    matTooltip="Mark as read">
+    <mat-icon>mark_email_read</mat-icon>
+  </button>
+
+}
 
        <!-- Delete selected -->
           @if (selectedFolder === 'trash') {
@@ -135,7 +159,12 @@
 
       <!-- PRIMARY EMAILS -->
 
-      <mat-tab label="Primary">
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon>inbox</mat-icon>
+          <span>Primary</span>
+        </ng-template>
+        
         <div class="email-list">
           @for(email of primaryEmailList; track email.id) {
           <app-email-row 
@@ -144,6 +173,7 @@
           (emailClicked)="openEmail($event)"
           (archiveClicked)="archiveEmail($event)" 
           (deleteClicked)="deleteEmail($event)"
+          (snoozeClicked)="snoozeEmail($event)"
           (checkboxChanged)="checkboxChanged($event)">
           </app-email-row>
           }
@@ -156,15 +186,21 @@
 
       <!-- PROMOTIONS -->
 
-      <mat-tab label="Promotions">
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon>local_offer</mat-icon>
+          <span>Promotions</span>
+        </ng-template>
+
         <div class="email-list">
-          @for(email of promotionEmails; track email.id) {
+          @for(email of promotionEmailList; track email.id) {
           <app-email-row 
           [email]="email" 
           (starClicked)="toggleStar($event)" 
           (emailClicked)="openEmail($event)"
           (archiveClicked)="archiveEmail($event)"
           (deleteClicked)="deleteEmail($event)"
+          (snoozeClicked)="snoozeEmail($event)"
           (checkboxChanged)="checkboxChanged($event)">
           </app-email-row>
           }
@@ -176,15 +212,21 @@
 
       <!-- SOCIAL -->
 
-      <mat-tab label="Social">
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon>people</mat-icon>
+          <span>Social</span>
+        </ng-template>
+
         <div class="email-list">
-          @for(email of socialEmails; track email.id) {
+          @for(email of socialEmailList; track email.id) {
           <app-email-row 
           [email]="email"
            (starClicked)="toggleStar($event)"
             (emailClicked)="openEmail($event)"
             (archiveClicked)="archiveEmail($event)"
             (deleteClicked)="deleteEmail($event)"
+            (snoozeClicked)="snoozeEmail($event)"
             (checkboxChanged)="checkboxChanged($event)">
           </app-email-row>
           }
@@ -211,6 +253,7 @@
         (emailClicked)="openEmail($event)"
         (archiveClicked)="archiveEmail($event)"
         (deleteClicked)="deleteEmail($event)"
+        (snoozeClicked)="snoozeEmail($event)"
         (checkboxChanged)="checkboxChanged($event)">
       </app-email-row>
 
@@ -230,6 +273,7 @@
         (emailClicked)="openEmail($event)"
         (archiveClicked)="archiveEmail($event)"
         (deleteClicked)="deleteEmail($event)"
+        (snoozeClicked)="snoozeEmail($event)"
         (checkboxChanged)="checkboxChanged($event)">
       </app-email-row>
       }
@@ -248,6 +292,7 @@
         (emailClicked)="openEmail($event)"
         (archiveClicked)="archiveEmail($event)"
         (deleteClicked)="deleteEmail($event)"
+        (snoozeClicked)="snoozeEmail($event)"
         (checkboxChanged)="checkboxChanged($event)">
       </app-email-row>
       }
@@ -260,6 +305,33 @@
       <!-- $event is the draft that was sent -->
     </app-drafts>
     }
+
+    <!-- SNOOZED -->
+
+    @if(selectedFolder === 'snoozed') {
+      <div class="email-list">
+
+    @for(email of snoozedEmails; track email.id) {
+
+      <app-email-row
+        [email]="email"
+        (starClicked)="toggleStar($event)"
+        (emailClicked)="openEmail($event)"
+        (archiveClicked)="archiveEmail($event)"
+        (deleteClicked)="deleteEmail($event)"
+        (snoozeClicked)="snoozeEmail($event)"
+        (checkboxChanged)="checkboxChanged($event)">
+      </app-email-row>
+
+    }
+
+    @empty {
+      <p class="empty">No snoozed emails</p>
+    }
+
+  </div>
+    }
+
     <!-- TRASH -->
 
     @if (selectedFolder === 'trash') {

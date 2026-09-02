@@ -79,7 +79,16 @@
   position: relative;
 }
 
-/* Selected email */
 .email-row:has(mat-checkbox.mat-mdc-checkbox-checked) {
   background-color: #e8f0fe;
+}
+
+.email-row.unread .sender,
+.email-row.unread .subject,
+.email-row.unread .message,
+.email-row.unread .date {
+  font-weight: 600;
+}
+.email-row.unread {
+  background-color: #f2f6fc;
 }

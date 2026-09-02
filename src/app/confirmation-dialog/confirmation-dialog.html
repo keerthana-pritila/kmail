@@ -1,0 +1,28 @@
+<h2 mat-dialog-title>
+  Delete emails forever?
+</h2>
+
+<div mat-dialog-content>
+
+  <p> These emails will be permanently deleted and cannot be recovered.</p>
+  <p> Are you sure you want to continue?</p>
+
+</div>
+
+<div mat-dialog-actions align="end">
+
+  <button
+    mat-button
+    type="button"
+    (click)="cancel()">
+    Cancel
+  </button>
+
+  <button
+    matButton="filled"
+    type="button"
+    (click)="confirm()">
+    Delete forever
+  </button>
+
+</div>

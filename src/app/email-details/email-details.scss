@@ -67,6 +67,20 @@
  // white-space: pre-wrap;
 }
 
+.email-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 25px;
+    padding-top: 15px;
+    border-top: 1px solid #ddd;
+}
+
+.email-actions button {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
 .attachment-section {
   margin-top: 35px;
 }

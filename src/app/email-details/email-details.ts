@@ -22,6 +22,9 @@ export class EmailDetails {
   //why void ? this event does not pass any data when it is triggered
   backClicked = output<void>();
 
+  replyClicked = output<EmailInterface>();  // Tell KmailHome when Reply is clicked
+  forwardClicked = output<EmailInterface>(); // Tell KmailHome when Forward is clicked
+
   // Back button
   goBack() {
     this.backClicked.emit();
@@ -29,4 +32,14 @@ export class EmailDetails {
     // It fires the event and sends the signal upward to the parent component. 
     // Because it is <void>, the parentheses () are  empty.
   }
+
+  // Reply button
+  replyEmail() {
+  this.replyClicked.emit(this.email());
+}
+
+// Forward button
+forwardEmail() {
+  this.forwardClicked.emit(this.email());
+}
 }

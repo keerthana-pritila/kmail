@@ -1,0 +1,15 @@
+h2 {
+  margin-bottom: 10px;
+}
+
+p {
+  margin: 8px 0;
+}
+
+mat-dialog-actions {
+  gap: 8px;
+}
+.mat-mdc-dialog-actions.mat-mdc-dialog-actions-align-end, .mat-mdc-dialog-actions[align=end] {
+    justify-content: space-between;
+}
+

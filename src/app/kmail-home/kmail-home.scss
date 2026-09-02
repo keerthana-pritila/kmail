@@ -55,3 +55,21 @@
   margin: 0 5px;
 }
 
+//::ng-deep To modify styles of child components or third-party UI libraries
+
+::ng-deep .mat-mdc-tab {
+  min-width: 130px;
+}
+
+::ng-deep .mdc-tab__content {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+::ng-deep .mdc-tab__content mat-icon {
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+}
+

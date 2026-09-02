@@ -2,7 +2,18 @@
 
     <!-- HEADER -->
     <div class="compose-header">
-        <h2>New Message</h2>
+        <!-- <h2>New Message</h2> -->
+
+        <h2>
+            @if (data?.mode === 'reply') {
+            Reply
+            } @else if (data?.mode === 'forward') {
+            Forward
+            } @else {
+            New Message
+            }
+        </h2>
+        
         <button matIconButton type="button" (click)="closeDialog()">
             <mat-icon>close</mat-icon>
         </button>

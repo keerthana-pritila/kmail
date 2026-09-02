@@ -64,7 +64,9 @@ export class Signin {
     }
 
     if (isLoggedIn === 'true' && addAccount !== 'true') {
-      this.router.navigate(['/kmail-home']);
+      this.router.navigate(['/kmail-home'],{
+         replaceUrl: true
+      });
     }
   }
 
@@ -116,7 +118,10 @@ export class Signin {
 
             this.toastr.success('Sign in successful', 'Success'); // Show success toast
           }
-          this.router.navigate(['/kmail-home']);
+          this.router.navigate(['/kmail-home'],{
+             replaceUrl: true
+          });
+          //means Go to Kmail Home and replace the current Sign In history entry
 
         } 
         else {

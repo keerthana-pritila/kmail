@@ -41,6 +41,30 @@
             {{ email().message }}
         </div>
 
+<!-- REPLY AND FORWARD BUTTONS -->
+
+<div class="email-actions">
+
+    <!-- Reply -->
+    <button
+        mat-button
+        type="button"
+        (click)="replyEmail()">
+        <mat-icon>reply</mat-icon>
+        Reply
+    </button>
+
+    <!-- Forward -->
+    <button
+        mat-button
+        type="button"
+        (click)="forwardEmail()">
+        <mat-icon>forward</mat-icon>
+        Forward
+    </button>
+
+</div>
+
         <!-- ATTACHMENT -->
 
  @if (email().attachmentName) {

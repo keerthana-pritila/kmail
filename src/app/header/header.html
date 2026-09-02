@@ -4,15 +4,17 @@
     <mat-icon>menu</mat-icon>
   </button>
   
-  <mat-icon style="font-size: 36px; width: 36px; height: 36px; color: #006a6a;">email</mat-icon>
+  <mat-icon
+   (click) = "goToInbox()"
+    style="font-size: 36px; width: 36px; height: 36px; color: #006a6a;">email</mat-icon>
 
-  <h1 routerLink="/kmail-home">Kmail</h1>
-   <!-- <h1 routerLink = '/'>Kmail</h1> -->
+  <h1 (click)="goToInbox()">Kmail</h1>
 
   <mat-form-field appearance="outline" class="search-field">
     <mat-label>Search mail</mat-label>
     <input matInput type="text" placeholder="Search mail" (input)="onSearch($event)" />
-    <mat-icon matSuffix> search </mat-icon>
+    <mat-icon matPrefix> search </mat-icon>
+    <!-- matPrefix -- icon appears to left side  -->
   </mat-form-field>
 
   <div class="header-icons">
@@ -27,12 +29,12 @@
         <span>Help</span>
       </button>
 
-      <button mat-menu-item>
+      <button mat-menu-item (click)="openTraining()">
         <mat-icon>school</mat-icon>
         <span>Training</span>
       </button>
 
-      <button mat-menu-item>
+      <button mat-menu-item (click)="openFeedback()">
         <mat-icon>feedback</mat-icon>
         <span>Send feedback</span>
       </button>

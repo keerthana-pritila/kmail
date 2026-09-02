@@ -4,6 +4,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatCheckboxModule,MatCheckboxChange  } from '@angular/material/checkbox';
 import { EmailInterface } from '../email-interface';
 import { DatePipe } from '@angular/common';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-email-row',
@@ -11,7 +12,8 @@ import { DatePipe } from '@angular/common';
      MatButtonModule,
     MatIconModule,
     MatCheckboxModule,
-    DatePipe
+    DatePipe,
+    MatTooltipModule
   ],
   templateUrl: './email-row.html',
   styleUrl: './email-row.scss',
@@ -35,15 +37,14 @@ export class EmailRow {
 
   archiveClicked = output<EmailInterface>();
   deleteClicked = output<EmailInterface>();
+  snoozeClicked = output<EmailInterface>();
   checkboxChanged = output<EmailInterface>();
   
-
   // Star button clicked
   onStarClick(event: MouseEvent) {
     event.stopPropagation(); //  on star click -- Don't open the email
     this.starClicked.emit(this.email());
   }
-
 
   // Checkbox clicked
   onCheckboxClick(event: MouseEvent) {
@@ -57,9 +58,17 @@ export class EmailRow {
   this.archiveClicked.emit(this.email());
 }
 
+//snooze clicked
+onSnoozeClick(event: MouseEvent) {
+  event.stopPropagation();              //click event stops
+  this.snoozeClicked.emit(this.email()); // Sends the current email data to the parent component
+}
+
   // Email row clicked
   onEmailClick() {
     this.emailClicked.emit(this.email());
+    //'.emit()' --  sends an event/data up to the parent component
+      // 'this.email()'-- calls a Signal to get the current value of the email object
   }
 
   //delete is clicked

@@ -87,6 +87,9 @@ export class Compose {
   // Check if this Compose window was opened from a draft
   if (this.data) {
 
+    //REPLY 
+    if (this.data.mode === 'reply') {
+
     //patchValue() -- puts those values back into the form
     //So when you click the draft, Compose opens with the previous information.
 
@@ -98,7 +101,7 @@ export class Compose {
    
     //convert saved receipients into chips
     if (this.data.to) {
-  this.recipients = this.data.to
+     this.recipients = this.data.to
     .split(',')
     .map((email: string) => email.trim())
     .filter((email: string) => email);
@@ -106,14 +109,57 @@ export class Compose {
  this.showFrom = true;
   }
 
+  //FORWARD
+  else if (this.data.mode === 'forward') { 
+    this.composeForm.patchValue({
+       to: '', 
+       subject: this.data.subject,
+        message: this.data.message
+       }); 
+       // No recipient for Forward
+         this.recipients = [];
+          this.showFrom = true;
+         }
+
+  //DRAFT
+    else {
+
+       this.composeForm.patchValue({
+         to: this.data.to,
+          subject: this.data.subject,
+           message: this.data.message 
+          }); 
+
+          // Convert saved recipients into chips
+            if (this.data.to) {
+
+               this.recipients = this.data.to
+                .split(',')
+                .map((email: string) => email.trim())
+                .filter((email: string) => email);
+
+                 } 
+                 this.showFrom = true; 
+
+          }
+        }
+
    // Detect click outside the compose window
   this.dialogRef.backdropClick().subscribe(() => {
+
+      // Do not save Reply/Forward as draft
+  if (this.isReplyOrForward()) {
+    this.dialogRef.close();
+    return;
+  }
+  
+   // Normal compose / draft
     this.saveDraft();
     //backdropClick() detects that background click.
   });
 }
 
-//add receipient  in chips style
+//add receipient using material chips style
 addRecipient(event: MatChipInputEvent): void {
   const value = (event.value || '').trim();
   if (!value) {
@@ -122,6 +168,7 @@ addRecipient(event: MatChipInputEvent): void {
 
   // Check whether email is valid
   const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  
   if (!emailPattern.test(value)) {
     this._snackBar.open(
       'Please enter a valid email address',
@@ -135,7 +182,10 @@ addRecipient(event: MatChipInputEvent): void {
   }
 
   // Don't add the same email twice
-  if (this.recipients.includes(value)) {
+  if (this.recipients.some(
+    recipient => recipient.toLowerCase() === value.toLowerCase()
+  )
+) {
 
     this._snackBar.open(  'Email already added',
       'Dismiss',
@@ -153,7 +203,7 @@ addRecipient(event: MatChipInputEvent): void {
 
   //and Store all recipients inside "to"
   this.composeForm.controls.to.setValue( this.recipients.join(', ') );
-  this.composeForm.controls.to.markAsTouched();
+  this.composeForm.controls.to.markAsTouched();  // Mark To as touched
 }
 
 //Remove receipient in chips style
@@ -412,13 +462,30 @@ checkRecipientsExist(): void {
   }
  }
 
+ //reply or fwd mode condition
+isReplyOrForward(): boolean {
+  return (
+    this.data?.mode === 'reply' ||
+    this.data?.mode === 'forward'
+  );
+}
 
   // Cancel compose
   closeDialog() {
+
+     // Email was already sent
     if (this.emailSent) {
     this.dialogRef.close();
     return;
   }
+
+   // Reply or Forward (dialog closes ,will not save as draft )
+  if (this.isReplyOrForward()) {
+    this.dialogRef.close();
+    return;
+  }
+
+   // Normal compose / draft
   this.saveDraft(); 
   }
 

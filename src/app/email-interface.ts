@@ -18,5 +18,9 @@ export interface EmailInterface {
   selected?: boolean;
   attachmentName?: string;
   attachmentUrl?: string;
+
+  //snooze
+  snoozed?: boolean;
+snoozedUntil?: string;  //stores when the email should come back
   
 }

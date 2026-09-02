@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { Profile } from '../profile/profile';
 import { ForgotPassword } from '../forgot-password/forgot-password';
+import { Feedback } from '../feedback/feedback';
 
 @Component({
   selector: 'app-header',
@@ -27,6 +28,7 @@ export class Header {
    userName = '';
   menuClicked = output<void>();       // This event will notify KmailHome when menu button is clicked
   searchChanged = output<string>();
+  goToInboxClicked = output<void>(); //event from Header to KmailHome.
 
   //for add account -- storing in session storage
   //If Add Account opened the tab, it will contain the new account otherwise local storage
@@ -50,6 +52,20 @@ this.dialog.open(Profile, {
     width: '450px'
   });
 }
+
+openFeedback() {
+this.dialog.open(Feedback, {
+width: '500px'
+});
+}
+
+openTraining() {
+  window.open(
+    'https://support.google.com/a/users/answer/9259748?visit_id=639239464862273953-2441922567&p=gmail_training&rd=1',
+    '_blank'
+  );
+}
+
 
 openForgotPassword() {
   this.dialog.open(ForgotPassword, {
@@ -82,6 +98,12 @@ logout() {
 
   }
   this.router.navigate(['/signin']);
+}
+
+//when clicked on logo kmail -- navigates to inbox 
+goToInbox() {
+  this.router.navigate(['/kmail-home']);
+  this.goToInboxClicked.emit();
 }
 
 }

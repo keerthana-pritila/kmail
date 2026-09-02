@@ -53,6 +53,15 @@
   </button>
   }
 
+  <!-- Snooze -->
+   <button 
+    matIconButton 
+    type="button"
+    (click)="onSnoozeClick($event)"
+    matTooltip="Snooze">
+    <mat-icon>schedule</mat-icon>
+  </button>
+
   <!-- Delete -->
    @if (showDelete()) {
   <button 

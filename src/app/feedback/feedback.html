@@ -1,0 +1,34 @@
+<h2 mat-dialog-title>Send feedback</h2>
+
+<mat-dialog-content>
+  <p>Tell us what you think about Kmail.</p>
+  <mat-form-field appearance="outline" class="feedback-field">
+
+ <mat-label>Your feedback</mat-label>
+
+ <textarea
+  matInput
+  rows="5"
+  placeholder="Write your feedback here..."
+  [(ngModel)]="feedbackText">
+ </textarea>
+
+  </mat-form-field>
+
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+
+<button
+mat-button
+type="button"
+(click)="cancel()">
+Cancel </button>
+
+<button
+matButton="filled"
+type="button"
+(click)="sendFeedback()">
+Send </button>
+
+</mat-dialog-actions>

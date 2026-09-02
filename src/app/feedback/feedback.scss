@@ -1,0 +1,19 @@
+h2 {
+margin-bottom: 10px;
+}
+
+mat-dialog-content {
+width: 400px;
+}
+
+.feedback-field {
+width: 100%;
+}
+
+mat-dialog-actions {
+padding-bottom: 10px;
+
+}
+.mat-mdc-dialog-actions.mat-mdc-dialog-actions-align-end, .mat-mdc-dialog-actions[align=end] {
+    justify-content: flex-end;
+}
