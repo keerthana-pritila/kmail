@@ -1,25 +1,55 @@
-<div class="compose-container">
+<div class="compose-container"
+    [class.minimized]="isMinimized"
+    [class.maximized]="isMaximized">
 
     <!-- HEADER -->
     <div class="compose-header">
-        <!-- <h2>New Message</h2> -->
 
-        <h2>
-            @if (data?.mode === 'reply') {
-            Reply
-            } @else if (data?.mode === 'forward') {
-            Forward
-            } @else {
-            New Message
-            }
-        </h2>
-        
-        <button matIconButton type="button" (click)="closeDialog()">
+    <h2>
+        @if (data?.mode === 'reply') {
+        Reply
+        } @else if (data?.mode === 'forward') {
+        Forward
+        } @else {
+        New Message
+        }
+    </h2>
+
+    <div class="header-buttons">
+
+        <!-- MINIMIZE -->
+        <button
+            mat-icon-button
+            type="button"
+            (click)="minimizeCompose()">
+            <mat-icon>remove</mat-icon>
+        </button>
+
+        <!-- MAXIMIZE -->
+        <button
+            mat-icon-button
+            type="button"
+            (click)="maximizeCompose()">
+            <mat-icon>
+                {{ isMaximized ? 'fullscreen_exit' : 'fullscreen' }}
+            </mat-icon>
+        </button>
+
+        <!-- CLOSE -->
+        <button
+            mat-icon-button
+            type="button"
+            (click)="closeDialog()">
             <mat-icon>close</mat-icon>
         </button>
+
     </div>
 
-    <form [formGroup]="composeForm" (ngSubmit)="sendEmail()">
+</div>
+
+    <form 
+    [formGroup]="composeForm" 
+    (ngSubmit)="sendEmail()">
 
         <!-- FROM -->
         @if (showFrom) {
@@ -32,20 +62,6 @@
         <!-- TO -->
         <mat-form-field appearance="outline" class="compose-field">
             <mat-label>To</mat-label>
-            <!-- <input 
-            matInput
-             type="text" 
-             formControlName="to"
-             placeholder="recipient@kmail.com"
-             (focus)="showFrom = true" />
-             
-            @if (composeForm.controls.to.touched &&
-            composeForm.controls.to.hasError('required')
-            ) {
-            <mat-error>
-                *Recipient email is required
-            </mat-error>
-            } -->
 
             <!-- email ids chips style material -->
              <mat-chip-grid #chipGrid aria-label="Email recipients">
@@ -109,13 +125,29 @@
 
         <!-- COMPOSE ACTIONS -->
          
-        @if (selectedFile) {
-        <div class="selected-file">
-            <mat-icon>attach_file</mat-icon>
-            <span> {{ selectedFile.name }} </span>
-        </div>
-        
+      @if (selectedFiles.length > 0) {
+
+    <div class="selected-files">
+        @for (file of selectedFiles; track file.name; let i = $index) {
+
+            <div class="selected-file">
+                <mat-icon>attach_file</mat-icon>
+                <span>{{ file.name }}</span>
+
+                <button
+                    mat-icon-button
+                    type="button"
+                    (click)="removeFile(i)">
+                    <mat-icon>close</mat-icon>
+                </button>
+
+            </div>
+
         }
+
+    </div>
+}
+
         <div class="compose-actions">
 
             <button matButton="filled" type="submit" [disabled]="composeForm.invalid">Send</button>
@@ -128,7 +160,12 @@
                  <mat-icon>attach_file</mat-icon>
             </button>
              <!--  HIDDEN FILE INPUT -->
-            <input #fileInput type="file" hidden (change)="onFileSelected($event)" />
+            <input 
+            #fileInput 
+            type="file"
+             hidden 
+             multiple
+             (change)="onFileSelected($event)" />
             <!-- why #fileInput ? gives the file input a temporary name -->
         </div>
 

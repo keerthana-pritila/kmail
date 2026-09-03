@@ -9,6 +9,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Profile } from '../profile/profile';
 import { ForgotPassword } from '../forgot-password/forgot-password';
 import { Feedback } from '../feedback/feedback';
+import { QuickTips } from '../quick-tips/quick-tips';
 
 @Component({
   selector: 'app-header',
@@ -104,6 +105,13 @@ logout() {
 goToInbox() {
   this.router.navigate(['/kmail-home']);
   this.goToInboxClicked.emit();
+}
+
+//when Tips  clicked --from dropdown
+openQuickTips() {
+  this.dialog.open(QuickTips, {
+    width: '500px'
+  });
 }
 
 }

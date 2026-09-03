@@ -92,3 +92,56 @@
 .email-row.unread {
   background-color: #f2f6fc;
 }
+
+//snooze styling
+
+// Snoozed email indicator
+.snoozed-label {
+  display: flex;
+  align-items: center;
+  margin-left: 10px;
+  color: #e67e22;
+  font-size: 13px;
+  font-weight: 500;
+  white-space: nowrap;  // prevents text from wrapping to a new line, 
+  //forcing it to stay on a single continuous line even if it overflows its container.
+  //cursor: default;
+}
+
+// Snoozed icon + text
+.snoozed-text {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 7px;
+  border-radius: 6px;
+}
+
+.snoozed-text mat-icon {
+  font-size: 17px;
+  width: 17px;
+  height: 17px;
+}
+
+// Hide snooze time normally
+.snoozed-time {
+  display: none;
+  margin-left: 5px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  background-color: #fff3e0;
+  color: #d66a00;
+  font-size: 12px;
+}
+
+// Show time when hovering
+.snoozed-label:hover .snoozed-time {
+  display: inline-block;
+}
+
+.snooze-title {
+  padding: 12px 16px 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #555;
+}

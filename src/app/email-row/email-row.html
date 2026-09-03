@@ -40,6 +40,22 @@
   {{ displayDate(email().date) }}
 </span>
 
+<!-- show snooze right side of email -->
+@if (email().snoozed) {
+  <span class="snoozed-label">
+
+    <span class="snoozed-text">
+      <mat-icon>schedule</mat-icon>
+      <span>Snoozed</span>
+    </span>
+
+    <span class="snoozed-time">
+      until {{ getSnoozeTime(email().snoozedUntil) }}
+    </span>
+
+  </span>
+}
+
   <!-- Icon actions (arhieve,delete)-->
 <div class="email-actions">
 
@@ -54,13 +70,52 @@
   }
 
   <!-- Snooze -->
-   <button 
-    matIconButton 
-    type="button"
-    (click)="onSnoozeClick($event)"
-    matTooltip="Snooze">
+  <button
+  matIconButton
+  type="button"
+  [matMenuTriggerFor]="snoozeMenu"
+  matTooltip="Snooze"
+  (click)="$event.stopPropagation()">
+  <mat-icon>schedule</mat-icon>
+</button>
+
+<!-- SNOOZE dropdown -->
+
+<mat-menu #snoozeMenu="matMenu">
+
+  <div class="snooze-title">
+    Snooze until
+  </div>
+
+  <button
+    mat-menu-item
+    (click)="selectSnoozeTime(1)">
     <mat-icon>schedule</mat-icon>
+    <span>1 hour from now</span>
   </button>
+
+  <button
+    mat-menu-item
+    (click)="selectSnoozeTime(4)">
+    <mat-icon>schedule</mat-icon>
+    <span>4 hours from now</span>
+  </button>
+
+  <button
+    mat-menu-item
+    (click)="snoozeTomorrow()">
+    <mat-icon>event</mat-icon>
+    <span>Tomorrow at 8:00 AM</span>
+  </button>
+
+  <button
+    mat-menu-item
+    (click)="snoozeNextWeek()">
+    <mat-icon>date_range</mat-icon>
+    <span>Next Monday at 8:00 AM</span>
+  </button>
+
+</mat-menu>
 
   <!-- Delete -->
    @if (showDelete()) {

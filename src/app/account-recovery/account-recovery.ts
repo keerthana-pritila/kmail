@@ -1,4 +1,4 @@
-import { Component,inject } from '@angular/core';
+import { Component,inject,signal} from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -40,9 +40,9 @@ export class AccountRecovery {
     })
   });
 
-   accountFound = false;
-  accountNotFound = false;
-  foundEmail = '';
+   accountFound = signal(false);
+  accountNotFound = signal(false);
+  foundEmail = signal('');
 
   findAccount () {
     if (this.recoveryForm.invalid) {
@@ -52,7 +52,7 @@ export class AccountRecovery {
 
 
     // Get entered phone number
-    const phone = this.recoveryForm.controls.phone.value;
+    const phone = this.recoveryForm.controls.phone.value.trim();
 
     // Get accounts from json-server
     this.accountService.getAccounts().subscribe({
@@ -60,23 +60,23 @@ export class AccountRecovery {
 
         // Search for matching phone number
         const account = accounts.find(
-          user => user.phone === phone
+          user => String(user.phone).trim() === phone
         );
 
 
         // Account found
         if (account) {
-          this.accountFound = true;
-          this.accountNotFound = false;
-          this.foundEmail = account.username;
+          this.accountFound.set(true) ;
+          this.accountNotFound.set(false);
+          this.foundEmail.set(account.username);
         }
 
 
         // Account not found
         else {
-          this.accountFound = false;
-          this.accountNotFound = true;
-          this.foundEmail = '';
+          this.accountFound.set(false);
+          this.accountNotFound.set(true) ;
+          this.foundEmail.set('');
         }
 
       },

@@ -23,10 +23,22 @@
       <span>Inbox</span>
     </button>
 
-    <!-- test button -->
-    <button mat-button class="menu-item" (click)="testIncomingEmails()">
-      <!-- <mat-icon>bug_report</mat-icon> -->
-      <span>Test Incoming mails</span>
+    <!-- test Primary mail button -->
+    <button mat-button class="menu-item test-mail-button" (click)="testPrimaryEmail()">
+       <mat-icon>inbox</mat-icon>
+      <span>Test Primary mails</span>
+    </button>
+
+    <!-- test Promotions mail button -->
+     <button mat-button class="menu-item test-mail-button" (click)="testPromotionEmail()">
+        <mat-icon>local_offer</mat-icon>
+        <span>Test Promotions Mail</span>
+    </button>
+
+    <!-- test Social mail button -->
+    <button mat-button class="menu-item test-mail-button" (click)="testSocialEmail()">
+      <mat-icon>people</mat-icon>
+      <span>Test Social Mail</span>
     </button>
 
     <!-- All Mail -->
@@ -296,6 +308,10 @@
         (checkboxChanged)="checkboxChanged($event)">
       </app-email-row>
       }
+      
+      @empty {
+      <p class="empty">No starred emails</p>
+    }
     </div>
     }
 
@@ -307,8 +323,9 @@
     }
 
     <!-- SNOOZED -->
-
+    
     @if(selectedFolder === 'snoozed') {
+
       <div class="email-list">
 
     @for(email of snoozedEmails; track email.id) {

@@ -24,9 +24,10 @@
       <mat-icon>help_outline</mat-icon>
     </button>
     <mat-menu #helpMenu="matMenu">
-      <button mat-menu-item>
+      <button mat-menu-item (click)="openQuickTips()">
         <mat-icon>help</mat-icon>
-        <span>Help</span>
+        <!-- <span>Help</span> -->
+         <span>Quick tips</span>
       </button>
 
       <button mat-menu-item (click)="openTraining()">

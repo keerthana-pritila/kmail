@@ -14,6 +14,7 @@ import { AccountService } from '../account-service';
 import { ToastrService } from 'ngx-toastr';
 import { MatDialogRef } from '@angular/material/dialog';
 
+
 @Component({
   selector: 'app-forgot-password',
   imports: [
@@ -32,12 +33,13 @@ export class ForgotPassword {
   router = inject(Router);
   toastr = inject(ToastrService);
   dialogRef = inject(MatDialogRef<ForgotPassword>, { optional: true });
-    hidePassword = signal(true);
+  hidePassword = signal(true);
   hideConfirmPassword = signal(true);
+ 
 
-  currentStep = 1;
-  accountFound = false;
-  accountNotFound = false;
+  currentStep = signal(1);
+  accountFound = signal(false) ;
+  accountNotFound = signal(false);
   selectedAccount: any = null;
   isDialog = false;
 
@@ -75,29 +77,37 @@ export class ForgotPassword {
 
 
   findAccount() {
+    const emailControl = this.forgotForm.controls.email;
 
-    if (this.forgotForm.controls.email.invalid) {
-      this.forgotForm.controls.email.markAsTouched();
+
+  // Check email validation
+    if(emailControl.invalid) {
+      emailControl.markAsTouched();
+      emailControl.updateValueAndValidity();
       return;
     }
 
-    const email = this.forgotForm.controls.email.value;
+    // const email = this.forgotForm.controls.email.value;
+     const email = emailControl.value.trim().toLowerCase();
+
     this.accountService.getAccounts().subscribe({
       next: (accounts) => {
         const account = accounts.find(
-          user => user.username.toLowerCase() === email.toLowerCase()
+          user => user.username.toLowerCase() === email
         );
 
         if (account) {
 
-          this.accountFound = true;
-          this.accountNotFound = false;
+          this.accountFound.set(true);
+          this.accountNotFound.set(false);
           this.selectedAccount = account;
-          this.currentStep = 2;
+          this.currentStep.set(2); //Change the signal's value to 2.
+          
 
+           // Account not found
         } else {
-          this.accountFound = false;
-          this.accountNotFound = true;
+          this.accountFound.set(false);
+          this.accountNotFound.set(true);
           this.selectedAccount = null;
         }
 

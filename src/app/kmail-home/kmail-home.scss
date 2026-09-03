@@ -55,6 +55,12 @@
   margin: 0 5px;
 }
 
+.empty {
+  text-align: center;
+  margin-top: 40px;
+  color: #777;
+}
+
 //::ng-deep To modify styles of child components or third-party UI libraries
 
 ::ng-deep .mat-mdc-tab {
@@ -72,4 +78,21 @@
   width: 20px;
   height: 20px;
 }
+
+// TEST MAIL BUTTONS 
+.test-mail-button {
+  background-color: #f7f7f7;
+  border: 1px dashed #c9c9c9;
+  color: #666;
+  font-size: 12px;
+}
+
+.test-mail-button mat-icon {
+  color: #888;
+}
+
+.test-mail-button:hover {
+  background-color: #eeeeee;
+}
+
 

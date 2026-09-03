@@ -5,15 +5,17 @@ import { MatCheckboxModule,MatCheckboxChange  } from '@angular/material/checkbox
 import { EmailInterface } from '../email-interface';
 import { DatePipe } from '@angular/common';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatMenuModule } from '@angular/material/menu';
 
 @Component({
   selector: 'app-email-row',
   imports: [
-     MatButtonModule,
+    MatButtonModule,
     MatIconModule,
     MatCheckboxModule,
     DatePipe,
-    MatTooltipModule
+    MatTooltipModule,
+    MatMenuModule
   ],
   templateUrl: './email-row.html',
   styleUrl: './email-row.scss',
@@ -37,7 +39,14 @@ export class EmailRow {
 
   archiveClicked = output<EmailInterface>();
   deleteClicked = output<EmailInterface>();
-  snoozeClicked = output<EmailInterface>();
+  snoozeClicked = output<
+  {
+    email : EmailInterface;
+    snoozeUntil: string;
+  }
+  >();
+  //snoozeClicked -- >so it sends email + selected  snooze time
+
   checkboxChanged = output<EmailInterface>();
   
   // Star button clicked
@@ -59,10 +68,10 @@ export class EmailRow {
 }
 
 //snooze clicked
-onSnoozeClick(event: MouseEvent) {
-  event.stopPropagation();              //click event stops
-  this.snoozeClicked.emit(this.email()); // Sends the current email data to the parent component
-}
+// onSnoozeClick(event: MouseEvent) {
+//   event.stopPropagation();              //click event stops
+//   this.snoozeClicked.emit(this.email()); // Sends the current email data to the parent component
+// }
 
   // Email row clicked
   onEmailClick() {
@@ -108,5 +117,76 @@ displayDate(date: string): string {
     month: 'short',
     day: 'numeric'
   });
+}
+
+//to show snooze in email row
+getSnoozeTime(snoozedUntil: string | undefined): string {
+if(!snoozedUntil) {
+  return '';
+}
+const snoozeDate = new Date(snoozedUntil);
+return  snoozeDate.toLocaleTimeString([], {
+  hour:'numeric',
+  minute:'2-digit'
+});
+}
+
+//select snooze time 
+selectSnoozeTime(hours: number) {
+
+  const snoozeTime = new Date(); //Get the current date and time
+
+  // Add selected number of hours
+  snoozeTime.setHours( snoozeTime.getHours() + hours );
+
+  // Send email + selected snooze time to parent
+  this.snoozeClicked.emit({
+    email: this.email(),
+    snoozeUntil: snoozeTime.toISOString()
+  });
+
+}
+
+//snooze Tomorrow
+snoozeTomorrow() {
+  const tomorrow = new Date();  //Get the current date and time
+
+  tomorrow.setDate(tomorrow.getDate() + 1); //Add exactly 1 day to move the calendar to tomorrow
+
+  // Set tomorrow to 8:00 AM(hours, minutes, seconds, milliseconds)
+  tomorrow.setHours(8, 0, 0, 0);
+
+  //Send  the snooze event with the email and the tomorrow date formatted as text
+  this.snoozeClicked.emit({
+    email: this.email(),
+    snoozeUntil: tomorrow.toISOString()
+  });
+
+}
+
+//SNOOZE NEXT WEEK
+snoozeNextWeek() {
+
+  const nextMonday = new Date(); //get the current date & time
+  const day = nextMonday.getDay(); //get today's day of week
+  const daysUntilMonday = day === 0 ? 1 : 8 - day;
+  //day === 0  It checks if today is Sunday.
+
+  //? 1 -->If today is Sunday, it sets daysUntilMonday to 1
+  // If today is Sunday, we only need 1 day to reach Monday
+
+  //: 8 - day -->If today is not Sunday, it subtracts the current day number from 8
+
+  //Advance the date calendar forward to next Monday
+  nextMonday.setDate( nextMonday.getDate() + daysUntilMonday );
+
+  nextMonday.setHours(8, 0, 0, 0);  //Set the time to exactly 8:00 AM 
+
+  //Send  the snooze event with the email and the target date formatted as text
+  this.snoozeClicked.emit({
+    email: this.email(),
+    snoozeUntil: nextMonday.toISOString()
+  });
+
 }
 }

@@ -40,14 +40,13 @@ export class Compose {
   dialogRef = inject(MatDialogRef<Compose>);  // Reference to the currently opened dialog
   data = inject(MAT_DIALOG_DATA, { optional: true });
   showFrom = false;      //initially 'From' is hidden
-  emailSent = false;  
-
-  selectedFile: File | null = null;
-  // : File | null: This defines the type of data allowed inside this variable. 
-  //  =null -- indicates when application loaded no file selected
+  emailSent = false;
+  isMinimized = false;
+  isMaximized = false;
 
   recipients: string[] = [];  //stores the email IDs entered by the user
-  selectedFileUrl: string | null = null;
+  selectedFiles: File[] = [];  //stores multiple attached files
+  selectedFileUrls: string[] = [];
   
   // Compose form
   composeForm = new FormGroup({
@@ -250,7 +249,7 @@ saveDraft() {
     !to &&
     !subject &&
     !message &&
-    !this.selectedFile
+    this.selectedFiles.length === 0
   ) {
     this.dialogRef.close();
     return;
@@ -270,8 +269,8 @@ saveDraft() {
     starred: false,
     archived: false,
     trashed:false,
-    attachmentName: this.selectedFile ? this.selectedFile.name : '',
-    attachmentUrl: this.selectedFileUrl ? this.selectedFileUrl : ''
+    attachmentName: this.selectedFiles.map(file => file.name).join(', ') ,
+    attachmentUrl: this.selectedFileUrls.join(', ')
   };
  // EXISTING DRAFT
   if (this.data?.id) {
@@ -410,8 +409,8 @@ checkRecipientsExist(): void {
       starred: false,
       archived: false,
       trashed: false,
-      attachmentName: this.selectedFile ? this.selectedFile.name : '',
-      attachmentUrl: this.selectedFileUrl ? this.selectedFileUrl : ''
+      attachmentName: this.selectedFiles.map(file => file.name).join(', '),
+      attachmentUrl: this.selectedFileUrls.join(', ')
 
     };
 
@@ -489,15 +488,48 @@ isReplyOrForward(): boolean {
   this.saveDraft(); 
   }
 
+  //select files to attach in compose
   onFileSelected(event: Event) {
+
   const input = event.target as HTMLInputElement;
 
   if (input.files && input.files.length > 0) {
-    this.selectedFile = input.files[0]; //stores selected file
-    this.selectedFileUrl = URL.createObjectURL(this.selectedFile);  // Create a temporary URL for the selected file
-    console.log('Selected file:', this.selectedFile.name);
+
+    // Add new files to existing files
+    for (let file of Array.from(input.files)) {
+
+      this.selectedFiles.push(file);
+      const fileUrl = URL.createObjectURL(file);
+      this.selectedFileUrls.push(fileUrl);
+
+    }
   }
+  input.value = ''; // Allow selecting the same file again
 }
 
+//remove file from compose 
+removeFile(index: number) {
+  URL.revokeObjectURL(this.selectedFileUrls[index]); // Free up memory by releasing the temporary preview URL
+  this.selectedFiles.splice(index, 1); // Remove exactly 1 file object from the array at the given index
+  this.selectedFileUrls.splice(index, 1); //Remove exactly 1 preview URL from the array at the matching index
+}
 
+//minimize Compose
+minimizeCompose() {
+  this.isMinimized = !this.isMinimized;
+}
+
+//maximize Compose
+maximizeCompose() {
+  this.isMaximized = !this.isMaximized;
+
+  if (this.isMaximized) {
+    this.dialogRef.updateSize('85vw', '85vh');  // Make the compose window large
+    this.dialogRef.addPanelClass('compose-maximized');  // Add special class
+
+  } else {
+    this.dialogRef.updateSize('500px', 'auto');  // Restore normal compose size
+    this.dialogRef.removePanelClass('compose-maximized'); // Remove special class
+  }
+}
 }

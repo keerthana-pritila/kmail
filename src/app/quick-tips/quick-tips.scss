@@ -1,0 +1,37 @@
+.tip {
+  display: flex;
+  gap: 15px;
+  padding: 15px 5px;
+  border-bottom: 1px solid #eeeeee;
+}
+
+.tip:last-child {
+  border-bottom: none;
+}
+
+.tip mat-icon {
+  margin-top: 3px;
+  font-size: 24px;
+  width: 24px;
+  height: 24px;
+}
+
+.tip h3 {
+  margin: 0 0 5px;
+  font-size: 16px;
+}
+
+.tip p {
+  margin: 0;
+  color: #666;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+mat-dialog-content {
+  min-width: 450px;
+}
+
+mat-dialog-actions {
+  padding-top: 10px;
+}

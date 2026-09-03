@@ -40,18 +40,18 @@
 
     
     <!-- ACCOUNT FOUND -->
-    @if (accountFound) {
+    @if (accountFound()) {
 
         <div class="account-result">
             <mat-icon>check_circle</mat-icon>
             <p>Your K Account email is:</p>
-            <strong>{{ foundEmail }}</strong>
+            <strong>{{ foundEmail()}}</strong>
         </div>
 
     }
 
     <!-- ACCOUNT NOT FOUND -->
-    @if (accountNotFound) {
+    @if (accountNotFound()) {
 
         <div class="not-found">
             <p>  *Couldn't find an account with this phone number. </p>
@@ -68,10 +68,15 @@
 
     <!-- BUTTONS -->
     <div class="buttons">
-        <button
+        <!-- <button
             type="submit"
             matButton="filled"
             [disabled]="recoveryForm.invalid">
+            Find account
+        </button> -->
+        <button
+            type="submit"
+            matButton="filled">
             Find account
         </button>
 

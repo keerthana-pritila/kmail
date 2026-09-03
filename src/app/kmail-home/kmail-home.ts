@@ -105,6 +105,7 @@ export class KmailHome {
     );
   }
 
+
   // Get only sent emails
   get sentEmails(): EmailInterface[] {
     return this.filteredEmails.filter(
@@ -271,40 +272,106 @@ export class KmailHome {
   }
 
   //snooze email
-  snoozeEmail(email: EmailInterface) {
+  snoozeEmail(event :
+    {
+      email: EmailInterface;
+       snoozeUntil: string;
+    }
+    ) {
+    const email = event.email;  //selected email
+    const snoozeUntil = event.snoozeUntil;   // Time selected from snooze menu
+    const originalEmail = { ...email }; // Remember original email
 
-    const originalEmail = { ...email };  // Remember the original email
-    const snoozeTime = new Date();  // Snooze for 1 hour
-
-    snoozeTime.setHours(snoozeTime.getHours() + 1); //gets the current time and adds 1 hour
-
+    //Create updated snoozed email
     const snoozedEmail: EmailInterface = {
       ...email,
       snoozed: true,
-      snoozedUntil: snoozeTime.toISOString(),
+      snoozedUntil: snoozeUntil,
       selected: false
     };
 
-    // Immediately remove it from the current list
+    //Remove email from Inbox immediately
     this.replaceEmail(snoozedEmail);
 
-    // Save the change in db.json
+    // Save the snoozed email in db.json
     this.emailService.updateEmail(snoozedEmail).subscribe({
 
       next: () => {
 
-        this._snackBar.open(
-          'Email snoozed for 1 hour',
+           // Format selected time for snackbar
+        const displayTime = new Date (
+          snoozeUntil
+        ).toLocaleString([],{
+          month: 'short',
+          day: 'numeric',
+          hour: 'numeric',
+          minute: '2-digit'
+        });
+
+        //show snackBar
+        const snackBarRef = this._snackBar.open(
+          `Email snoozed until ${displayTime}`,
           'UNDO',
           {
             duration: 5000
           }
         );
+
+        // UNDO clicked
+        snackBarRef.onAction().subscribe(() => {
+          console.log('Undo snooze clicked');
+
+        //  Create restored email
+        const restoredEmail: EmailInterface = {
+          ...originalEmail,
+          snoozed: false,
+          snoozedUntil: '',
+          selected: false
+        };
+         // Immediately put email back into UI
+        this.replaceEmail(restoredEmail);
+
+        //save restored email to db.json
+        this.emailService.updateEmail(restoredEmail).subscribe({
+          next: (response) => {
+             // Use server response
+            this.replaceEmail({
+              ...response,
+              selected: false
+            });
+            //show confirmation
+            this._snackBar.open(
+              'snooze undone',
+              'dismiss',
+              {
+                duration:3000,
+              }
+            );
+          },
+          error:() =>{
+              // If restore fails,
+            // put the email back into snoozed state
+            this.replaceEmail({
+              ...snoozedEmail,
+              snoozed: true,
+              selected: false
+            });
+            this._snackBar.open(
+              'could not undo snooze',
+              'Dismiss',
+              {
+                duration: 3000
+              }
+            );
+          }
+        });
+
+        });
       },
 
       error: () => {
 
-        // If API fails, bring the email back
+        // If API fails(snooze fails), bring the email back
         this.replaceEmail(originalEmail);
 
         this._snackBar.open(
@@ -702,8 +769,55 @@ deleteEmail(email: EmailInterface) {
     this.clearSelections();
   }
 
-  //test method for incoming mails
-  testIncomingEmails() {
+  //test method for Primary mails
+  testPrimaryEmail() {
+
+    const email: EmailInterface = {
+      sender: 'Keer',
+      senderEmail: 'keer@kmail.com',
+      to: this.currentUserEmail,
+      subject: 'meeting tomorrow',
+      message: 'Hi, pease join meeting at 10 am',
+      category: 'primary',
+      date: new Date().toISOString(),
+      read: false,
+      starred: false,
+      archived: false,
+      trashed: false,
+    };
+    this.emailService.addIncomingEmail(email).subscribe({
+      next: () => {
+        this.loadEmails();
+      },
+    });
+  }
+
+  //test method for Promotion mails
+  testPromotionEmail() {
+
+  const email: EmailInterface = {
+    sender: 'Amazon',
+    senderEmail: 'offers@amazon.com',
+    to: this.currentUserEmail,
+    subject: 'Special offer just for you!',
+    message: 'Get amazing discounts on selected products today.',
+    category: 'promotions',
+    date: new Date().toISOString(),
+    read: false,
+    starred: false,
+    archived: false,
+    trashed: false
+  };
+  this.emailService.addIncomingEmail(email).subscribe({
+    next: () => {
+      this.loadEmails();
+    },
+
+  });
+}
+
+//test method for Social mails
+  testSocialEmail() {
     const email: EmailInterface = {
       sender: 'Instagram',
       senderEmail: 'instagram@example.com',
@@ -720,18 +834,11 @@ deleteEmail(email: EmailInterface) {
     };
 
     this.emailService.addIncomingEmail(email).subscribe({
-      next: (response) => {
-        console.log('Incoming email added:', response);
-        console.log('Category:', response.category);
+      next: () => {
         this.loadEmails();
-
       },
 
-      error: (error) => {
-        console.error('Error adding incoming email:', error);
-      }
     });
-
   }
 
   openStarred() {
@@ -933,11 +1040,7 @@ deleteEmail(email: EmailInterface) {
         },
 
         error: (error) => {
-          console.error(
-            'Error archiving email:',
-            error
-          );
-
+          console.error('Error archiving email:', error);
         }
 
       });
