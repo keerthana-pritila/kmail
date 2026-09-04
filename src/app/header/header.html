@@ -78,18 +78,69 @@
       @if (userName) {
       <span class="username"> {{ userName }} </span>
       }
-      <!-- Account icon + dropdown -->
-      <button matIconButton type="button" [matMenuTriggerFor]="accountMenu">
-        <mat-icon>account_circle</mat-icon>
+
+      <!-- Account icon  -->
+
+      <!-- IF USER HAS PICTURE --DISPLAY IT 
+       NO PICTURE --will display the first letter-->
+
+      <button
+         matIconButton
+         type="button"
+        [matMenuTriggerFor]="accountMenu"
+        class="account-button">
+
+        @if (profilePicture) {
+
+      <img
+      [src]="profilePicture"
+      alt="Profile picture"
+      class="header-profile-picture">
+
+      } @else {   
+              <span class="account-letter">
+              {{ getFirstLetter() }}
+              </span>
+              }
+
       </button>
 
       <!-- dropdown menu -->
       <mat-menu #accountMenu="matMenu">
-        <!-- edit -->
+        <!-- Edit Profile-->
          <button mat-menu-item (click)="openProfile()">
            <mat-icon>person</mat-icon>
-          <span>Edit profile</span>
+          <span>Edit Email</span>
         </button>
+
+        <!-- PROFILE PICTURE -->
+
+        @if (profilePicture) {
+          <!-- UPDATE PROFILE PICTURE -->
+       <button
+         mat-menu-item
+        (click)="openProfilePicture()">
+        <mat-icon>photo_camera</mat-icon>
+        <span>Update profile picture</span>
+      </button>
+
+      <!-- REMOVE PROFILE PICTURE -->
+      <button
+        mat-menu-item
+        (click)="removeProfilePicture()"> 
+        <mat-icon>delete</mat-icon>
+        <span>Remove profile picture</span>
+     </button>
+
+      } @else {
+         <!-- ADD PROFILE PICTURE -->
+      <button
+        mat-menu-item
+        (click)="openProfilePicture()">
+        <mat-icon>add_a_photo</mat-icon>
+        <span>Add profile picture</span>
+        </button>
+      }
 
         <!-- ADD ACCOUNT -->
         <button mat-menu-item (click)="addAccount()">

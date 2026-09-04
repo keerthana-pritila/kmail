@@ -16,8 +16,8 @@ export interface EmailInterface {
   archived: boolean;
   trashed: boolean;
   selected?: boolean;
-  attachmentName?: string;
-  attachmentUrl?: string;
+  attachmentName?: string[];
+  attachmentUrl?: string[];
 
   //snooze
   snoozed?: boolean;

@@ -57,3 +57,30 @@
     cursor: pointer;
 }
 
+.account-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header-profile-picture {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.account-letter {
+  width: 25px;
+  height: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 16px;
+  font-weight: 500;
+  background-color: #006a6a;
+  color: white;
+}
+
+

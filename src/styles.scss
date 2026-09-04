@@ -50,40 +50,53 @@ body {
   color: rgb(248, 247, 194) !important;
 } 
 
-// email details improvement (add reply --again compose opens with re)7,8
+:root {
+  --sidenav-width: 240px;
+}
 
-//MISTAKES:
-//DONE 1.LEFT ARRORW --(after opening mail,click on drafts,all mail has to open without left arrow)
-//DONE 2.acount createtion -- back button -- step by step 
-//DONE 3.double click (trash,draft)
-//DONE 4.double click(create --> before password step)
-//DONE 5.forgot password make user friendly (to go where)
-//DONE 6.existing mail  only should send or after sending address not found
-//DONE 7.when already sign in -- sign in button has to hide
-//DONE 8 date display format
-//DONE 9.if exists -->mail id suggestions ->show below 
-//DONE 10. same phone number should not use for other mails..
-//DONE 11.password eyes
-//DONE 12.date of birth (202 year)
-//DONE 13.username cannot start with number
-//DONE 14.undo archieve
-// DONE 15. new mails at top
-//DONE 16.2scroll bars in trash ,all mails,sent
+/* MAXIMIZED COMPOSE */
+.compose-maximized {
+  width: calc(100vw - var(--sidenav-width) - 40px) !important;
+  max-width: calc(100vw - var(--sidenav-width) - 40px) !important;
 
-//DONE 17.reply,fwd
-//cannot go back left arrow 
-//snooze
-//trash delete forever
-//icons
+  height: 90vh !important;
+  max-height: 90vh !important;
+
+  /* Move it to the right of the sidebar */
+  margin-left: var(--sidenav-width) !important;
+
+  /* Do NOT manually set left/top/transform */
+}
+
+
+/* Material dialog surface */
+.compose-maximized .mat-mdc-dialog-surface {
+  width: 100% !important;
+  height: 100% !important;
+
+  max-width: none !important;
+  max-height: none !important;
+
+  padding: 0 !important;
+
+  border-radius: 8px !important;
+
+  overflow: hidden !important;
+}
 //----------
 //today
-//TEST primary,promo,social btns 
-//snooze styling,UNDO
-//quick tips
-//forgot accont ,passowrd chnages
-//snooze drop down 
 
-//---to do : compose ,show draft in all mails 
+//quick tips
+
+
+//---to do : 
+//DONE compose ,
+//DONE show draft in all mails 
+//DONE snoozed hoirs ago 
+//profile picture ,remove ,add
+//changed in  attachfiles 
+
+
 
 
 

@@ -1,0 +1,63 @@
+<h2 mat-dialog-title>Profile picture</h2>
+
+<mat-dialog-content>
+
+  <!-- IMAGE PREVIEW -->
+  <div class="profile-preview">
+
+    @if (previewUrl) {
+      <img
+        [src]="previewUrl"
+        alt="Profile picture"
+        class="profile-image">
+
+    } @else {
+      <mat-icon class="default-profile-icon">
+        account_circle
+      </mat-icon>
+    }
+
+  </div>
+
+
+  <!-- UPLOAD FROM DEVICE -->
+ <label class="upload-button">
+
+  <mat-icon>upload</mat-icon>
+  <span>Upload from device</span>
+  <input
+    type="file"
+    accept="image/*"
+    (change)="onFileSelected($event)"/>
+
+</label>
+
+  <!-- TAKE A PICTURE -->
+  <button
+    mat-stroked-button
+    type="button"
+    (click)="takePicture()">
+    <mat-icon>photo_camera</mat-icon>
+    Take a picture
+  </button>
+
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+
+  <button
+    mat-button
+    type="button"
+    (click)="closeDialog()">
+    Cancel
+  </button>
+
+  <button
+    matButton="filled"
+    type="button"
+    (click)="savePicture()"
+    [disabled]="!previewUrl">
+    Save
+  </button>
+
+</mat-dialog-actions>

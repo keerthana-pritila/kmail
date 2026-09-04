@@ -1,18 +1,12 @@
+
 .compose-container {
   width: 100%;
   height: 100%;
   background-color: white;
   box-sizing: border-box;
+  overflow: hidden;
   transition: all 0.2s ease;
-}
-
-
-.compose-container.minimized {
-  height: auto;
-}
-
-.compose-container.minimized form {
-  display: none;
+  
 }
 
 
@@ -20,7 +14,9 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px 15px;
+  height: 52px;
+  padding: 0 15px;
+  box-sizing: border-box;
   background-color: #f2f6f7;
   border-bottom: 1px solid #ddd;
 }
@@ -39,31 +35,37 @@
   background-color: #e0e0e0;
 }
 
-
 .header-buttons {
   display: flex;
   align-items: center;
 }
 
 
+
 form {
-  padding: 15px 20px;
+  width: 100%;
+  padding: 12px 20px;
   box-sizing: border-box;
+  overflow: hidden;
 }
 
+
 .compose-field {
+  display: block;
   width: 100%;
-  margin-bottom: 5px;
+  margin-bottom: 4px;
+  box-sizing: border-box;
 }
 
 
 textarea {
-  min-height: 160px;
+  min-height: 140px;
+  box-sizing: border-box;
+  resize: vertical;
 }
 
-
 .compose-container.maximized textarea {
-  min-height: 50vh;
+  min-height: 10vh;
 }
 
 
@@ -71,6 +73,9 @@ textarea {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
 }
 
 .selected-file {
@@ -79,33 +84,45 @@ textarea {
   gap: 6px;
   margin: 5px 0 10px;
   padding: 6px 10px;
-  width: fit-content;
+  max-width: 100%;
+  box-sizing: border-box;
   background-color: #f1f3f4;
   border-radius: 5px;
   font-size: 13px;
+}
+
+.selected-file span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .selected-file mat-icon {
   font-size: 18px;
   width: 18px;
   height: 18px;
+  flex-shrink: 0;
 }
+
 
 .compose-actions {
   display: flex;
   align-items: center;
   justify-content: flex-start;
   gap: 5px;
-  margin-top: 5px;
+  margin-top: 4px;
 }
 
 .compose-actions button[type="submit"] {
   padding: 8px 22px;
   border-radius: 20px;
+  margin-top: -22px;
+
 }
 
 .attach-button {
   color: #555;
+  margin-top: -25px;
 }
 
 .attach-button:hover {
@@ -113,20 +130,14 @@ textarea {
 }
 
 
-:host ::ng-deep .compose-maximized {
-  width: 85vw !important;
-  max-width: 85vw !important;
-
-  height: 85vh !important;
-  max-height: 85vh !important;
+.compose-container.minimized {
+  height: 52px;
 }
 
-:host ::ng-deep .compose-maximized .mat-mdc-dialog-surface {
-  width: 100%;
-  height: 100%;
-  max-width: 100%;
-  max-height: 100%;
-  padding: 0;
-  border-radius: 8px;
-  overflow: hidden;
+.compose-container.minimized form {
+  display: none;
+}
+
+mat-dialog-container#mat-mdc-dialog-1 {
+    margin-top: -25px;
 }

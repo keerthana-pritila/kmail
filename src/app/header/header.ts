@@ -10,6 +10,10 @@ import { Profile } from '../profile/profile';
 import { ForgotPassword } from '../forgot-password/forgot-password';
 import { Feedback } from '../feedback/feedback';
 import { QuickTips } from '../quick-tips/quick-tips';
+import { ProfilePicture } from '../profile-picture/profile-picture';
+import { AccountService } from '../account-service';
+import { ChangeDetectorRef } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-header',
@@ -26,7 +30,12 @@ import { QuickTips } from '../quick-tips/quick-tips';
 export class Header {
   router = inject(Router);
   dialog = inject(MatDialog);
-   userName = '';
+  accountService = inject(AccountService);
+  cdr = inject(ChangeDetectorRef);
+  toastr = inject(ToastrService);
+
+  userName = '';
+  profilePicture = '';
   menuClicked = output<void>();       // This event will notify KmailHome when menu button is clicked
   searchChanged = output<string>();
   goToInboxClicked = output<void>(); //event from Header to KmailHome.
@@ -36,7 +45,46 @@ export class Header {
   ngOnInit() {
   this.userName =
     sessionStorage.getItem('loggedInUserName') ||localStorage.getItem('loggedInUserName') || '';
+
+    this.loadProfilePicture();
 }
+
+//LOAD PROFILE PICTURE
+loadProfilePicture() {
+
+  const currentUsername =
+    sessionStorage.getItem('username') || localStorage.getItem('username') || '';
+
+  if (!currentUsername) {
+    return;
+  }
+
+  this.accountService.getAccounts().subscribe(
+    (accounts) => {
+
+      const account = accounts.find(
+        user => user.username === currentUsername
+      );
+
+      if (account) {
+        this.profilePicture = account.profilePicture || '';
+        console.log('Loaded profile picture:', account.profilePicture);
+      }
+
+    }
+  );
+}
+
+//get first letter in icon user profile
+getFirstLetter(): string {
+
+ if (!this.userName) {
+    return '?';  //if username empty displays ? in icon
+  }
+
+  return this.userName.charAt(0).toUpperCase();
+}
+
 
   // Called when the side 3 lines button is clicked
   onMenuClick() {
@@ -52,6 +100,116 @@ openProfile() {
 this.dialog.open(Profile, {
     width: '450px'
   });
+}
+
+openProfilePicture() {
+  const dialogRef = this.dialog.open(
+    ProfilePicture,
+    {
+      width: '450px',
+      data: {
+         profilePicture: this.profilePicture
+      }
+    }
+  );
+  dialogRef.afterClosed().subscribe(
+    (result) => {
+
+      //if user cancelled ,do nothing
+      if(!result) {
+        return;
+      }
+
+      //get currently logged-in username or mail
+      const currentUsername = 
+      sessionStorage.getItem('username') || localStorage.getItem('username') || '';
+
+      if(!currentUsername) {
+        return;
+      }
+
+      //get all accounts
+      this.accountService.getAccounts().subscribe(
+        (accounts) => {
+
+          //find logged-in account
+          const account = accounts.find(
+            user => user.username === currentUsername
+          );
+
+          if(!account || !account.id) {
+            return;
+          }
+
+          //add profile picture to account
+
+          const updatedAccount = {
+            ...account,
+            profilePicture: result
+          };
+
+          //save account to db.json
+          this.accountService.updateAccount(account.id, updatedAccount)
+          .subscribe(
+            (response) => {
+
+              //update picture in header 
+              this.profilePicture = response.profilePicture || result;
+              
+              this.cdr.detectChanges(); // Immediately refresh the Header
+
+              console.log("profile picture saved successfully");
+              this.toastr.success("profile picture saved ", "success");
+            }
+          );
+        }
+      );
+    }
+  );
+}
+
+removeProfilePicture() {
+
+  const currentUsername =
+    sessionStorage.getItem('username') || localStorage.getItem('username') || '';
+
+  if (!currentUsername) {
+    return;
+  }
+
+  this.accountService.getAccounts().subscribe(
+    (accounts) => {
+
+      const account = accounts.find(
+        user => user.username === currentUsername
+      );
+
+      if (!account || !account.id) {
+        return;
+      }
+
+      const updatedAccount = {
+        ...account,
+        profilePicture: ''
+      };
+
+      this.accountService
+        .updateAccount(account.id, updatedAccount)
+        .subscribe(
+          () => {
+
+            // Remove picture from Header immediately
+            this.profilePicture = '';
+
+            // Refresh Header immediately
+            this.cdr.detectChanges();
+
+            console.log('Profile picture removed successfully');
+            this.toastr.warning("Profile picture removed ");
+          }
+        );
+    }
+  );
 }
 
 openFeedback() {

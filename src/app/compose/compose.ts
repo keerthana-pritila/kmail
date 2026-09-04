@@ -269,8 +269,8 @@ saveDraft() {
     starred: false,
     archived: false,
     trashed:false,
-    attachmentName: this.selectedFiles.map(file => file.name).join(', ') ,
-    attachmentUrl: this.selectedFileUrls.join(', ')
+    attachmentName: this.selectedFiles.map(file => file.name) ,
+    attachmentUrl: this.selectedFileUrls
   };
  // EXISTING DRAFT
   if (this.data?.id) {
@@ -409,8 +409,8 @@ checkRecipientsExist(): void {
       starred: false,
       archived: false,
       trashed: false,
-      attachmentName: this.selectedFiles.map(file => file.name).join(', '),
-      attachmentUrl: this.selectedFileUrls.join(', ')
+      attachmentName: this.selectedFiles.map(file => file.name),
+      attachmentUrl: this.selectedFileUrls
 
     };
 
@@ -516,20 +516,51 @@ removeFile(index: number) {
 
 //minimize Compose
 minimizeCompose() {
+
   this.isMinimized = !this.isMinimized;
+
+  if (this.isMinimized) {
+
+    // If it was maximized, remove maximized mode
+    this.isMaximized = false;
+    this.dialogRef.removePanelClass('compose-maximized');
+
+    // Make dialog small
+    this.dialogRef.updateSize('500px', '52px');
+
+  } else {
+
+    // Restore normal compose size
+    this.dialogRef.updateSize('500px', '600px');
+
+  }
 }
 
 //maximize Compose
 maximizeCompose() {
+
   this.isMaximized = !this.isMaximized;
 
   if (this.isMaximized) {
-    this.dialogRef.updateSize('85vw', '85vh');  // Make the compose window large
-    this.dialogRef.addPanelClass('compose-maximized');  // Add special class
+
+    // If maximized, make sure it is not minimized
+    // Make sure form is visible
+    this.isMinimized = false;
+
+    this.dialogRef.updateSize(
+      'calc(100vw - var(--sidenav-width) - 40px)',
+      '90vh'
+    );
+
+    this.dialogRef.addPanelClass('compose-maximized');
 
   } else {
-    this.dialogRef.updateSize('500px', 'auto');  // Restore normal compose size
-    this.dialogRef.removePanelClass('compose-maximized'); // Remove special class
+
+    // Back to normal size
+    this.dialogRef.updateSize('500px', '600px');
+
+    this.dialogRef.removePanelClass('compose-maximized');
+
   }
 }
 }

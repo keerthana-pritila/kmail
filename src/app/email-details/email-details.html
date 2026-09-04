@@ -67,20 +67,25 @@
 
         <!-- ATTACHMENT -->
 
- @if (email().attachmentName) {
+ @if (email().attachmentName && email().attachmentUrl) {
 
  <div class="attachment-section">
-     <h3>Attachment</h3>
-     <a
+     <h3>Attachments</h3>
+
+     @for(fileName of email().attachmentName; track fileName; let i = $index) {
+
+            <a
          class="attachment"
-         [href]="email().attachmentUrl"
+         [href]="email().attachmentUrl?.[i]"
          target="_blank"
          rel="noopener">
 
          <mat-icon>attach_file</mat-icon>
-         <span>  {{ email().attachmentName }} </span>
+         <span>  {{ fileName }}</span>
          <mat-icon class="open-icon">  open_in_new </mat-icon>
      </a>
+     }
+     
  </div>
 
  }

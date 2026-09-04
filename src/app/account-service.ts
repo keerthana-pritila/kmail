@@ -17,12 +17,6 @@ export class AccountService {
     );
   }
 
-  // getAccounts() {
-  //   return this.http.get<AccountInterface[]>(
-  //     this.apiUrl
-  //   );
-
-  // }
   getAccounts(): Observable<AccountInterface[]> {
   return this.http.get<AccountInterface[]>(
     this.apiUrl

@@ -8,4 +8,5 @@ export interface AccountInterface {
     username: string;
     password: string;
     createdAt: string; //tells us when the account was created
+    profilePicture?: string;
 }

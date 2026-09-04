@@ -98,12 +98,12 @@ export class KmailHome {
     );
   }
 
-  // Get all emails except drafts
-  get allEmails(): EmailInterface[] {
-    return this.filteredEmails.filter(
-      email => email.category !== 'draft' && !email.trashed
-    );
-  }
+  // Get all emails
+get allEmails(): EmailInterface[] {
+  return this.filteredEmails.filter(
+    email => !email.trashed
+  );
+}
 
 
   // Get only sent emails
@@ -655,6 +655,34 @@ deleteEmail(email: EmailInterface) {
     });
   }
 
+  //Open compose from draft email row 
+  openDraftCompose(draft: EmailInterface) {
+  const dialogRef = this.dialog.open(
+    Compose,
+    {
+      width: '500px',
+
+      position: {
+        right: '25px',
+        bottom: '25px'
+      },
+
+      panelClass: 'compose-dialog',
+      disableClose: true,
+      data: draft
+    }
+  );
+
+  dialogRef.afterClosed().subscribe({
+    next: (result) => {
+      if (result) {
+        this.loadEmails();
+      }
+
+    }
+  });
+}
+
   replyEmail(email: EmailInterface) {
     const dialogRef = this.dialog.open(
       Compose,
@@ -866,6 +894,13 @@ deleteEmail(email: EmailInterface) {
   }
 
   openEmail(email: EmailInterface) {
+
+      // If this is a draft, open Compose dialog
+  if (email.category === 'draft') {
+    this.openDraftCompose(email);
+    return;
+  }
+
     this.selectedEmail = email;
 
     // Mark email as read

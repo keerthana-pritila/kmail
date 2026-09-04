@@ -120,15 +120,69 @@ displayDate(date: string): string {
 }
 
 //to show snooze in email row
-getSnoozeTime(snoozedUntil: string | undefined): string {
-if(!snoozedUntil) {
-  return '';
-}
-const snoozeDate = new Date(snoozedUntil);
-return  snoozeDate.toLocaleTimeString([], {
-  hour:'numeric',
-  minute:'2-digit'
-});
+// getSnoozeTime(snoozedUntil: string | undefined): string {
+// if(!snoozedUntil) {
+//   return '';
+// }
+// const snoozeDate = new Date(snoozedUntil);
+// return  snoozeDate.toLocaleTimeString([], {
+//   hour:'numeric',
+//   minute:'2-digit'
+// });
+// }
+
+getSnoozeMessage(snoozedUntil: string | undefined): string {
+
+  //It uses a Union Type (string | undefined),
+  //  meaning it accepts either a date/time string (e.g., an ISO timestamp like "2026-09-04T12:00:00Z")
+  //  or undefined if the item is not currently snoozed.
+
+  //: string: This defines the return type. The function is guaranteed to return a text string.
+
+
+   // If there is no snooze time
+  if(!snoozedUntil) {
+    return '';
+  }
+
+  const snoozeDate = new Date(snoozedUntil);
+   const now = new Date();
+
+    // Find the difference between snooze time and now
+  const difference = now.getTime() - snoozeDate.getTime();
+
+  //before snooze expires
+  if(difference < 0 ) {
+    return 'until' + snoozeDate.toLocaleTimeString([] , {
+      hour: 'numeric',
+      minute: '2-digit'
+    });
+  }
+
+  //After snooze expires
+
+ // Convert milliseconds into hours
+  const hours = Math.floor( difference / (1000 * 60 * 60));
+
+  //Math.floor() -- It always rounds downwards, toward the next lowest whole number
+  //ex:Math.floor(4.9) returns 4
+   
+  // Less than 24 hours
+  if (hours < 24) {
+    const displayHours = Math.max(1, hours);
+
+    return `Snoozed ${displayHours} ${
+      displayHours == 1 ? 'hour' : 'hours'
+    }ago`;
+  }
+
+  //24 hours or more 
+  const days = Math.floor(difference / (1000 *60 * 60 * 24));
+   const displayDays = Math.max(1, days);
+
+  return `Snoozed ${displayDays} ${
+    displayDays === 1 ? 'day' : 'days'
+  } ago`;
 }
 
 //select snooze time 
