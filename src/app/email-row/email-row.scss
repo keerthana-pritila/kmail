@@ -54,3 +54,18 @@
 .email-row.unread .email-date {
   font-weight: 700;
 }
+
+.email-open-button {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  align-items: center;
+  gap: 12px;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}

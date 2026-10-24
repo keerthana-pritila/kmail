@@ -74,3 +74,11 @@ a:hover {
 .forgot-email button:hover {
   color: red;
 }
+
+#email-help,
+#password-help {
+  font-size:14px;
+  line-height: 1.5;
+  color: #5a1ec9;
+  margin: 4px 0 12px;
+}

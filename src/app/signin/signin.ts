@@ -30,6 +30,7 @@ export class Signin {
   accountService = inject(AccountService);
   router = inject(Router);
   toastr = inject(ToastrService); //Inject Toastr
+  loginErrorMessage = '';  // Stores the message announced to screen readers
 
   signinForm = new FormGroup({
 
@@ -64,7 +65,8 @@ export class Signin {
   }
 
   signIn() {
-
+    this.loginErrorMessage = '';
+    
     if (this.signinForm.invalid) {
       this.signinForm.markAllAsTouched();
       return;
@@ -92,6 +94,7 @@ export class Signin {
           this.router.navigate(['/kmail-home']);
 
         } else {
+           this.loginErrorMessage = 'Invalid email or password. Check your details and try again';
           this.toastr.error('Invalid email or password', 'Sign in failed');
         }
 

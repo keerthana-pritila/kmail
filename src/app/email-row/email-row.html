@@ -22,6 +22,13 @@
   <mat-icon>archive</mat-icon>
 </button>
 
+ <!-- key accessible  -->
+  <button
+    type="button"
+    class="email-open-button"
+    (click)="onEmailClick()"
+    [attr.aria-label]="'Open email from ' + email().sender + ': ' + email().subject">
+
   <!-- Sender -->
   <span class="sender">{{ email().sender }}</span>
 
@@ -36,5 +43,7 @@
   <span class="date">
     {{ email().date }}
   </span>
+  
+  </button>
 
 </div>
